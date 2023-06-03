@@ -1,52 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    body {
-      background-color: #F5F5DC; /* beige color */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-    }
-
-    .logo {
-      position: relative;
-      width: 200px;
-      height: 200px;
-    }
-
-    .square {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 5px solid #000;
-    }
-
-    .square-1 {
-      animation: spin 5s infinite linear;
-    }
-
-    .square-2 {
-      animation: spin 5s infinite linear reverse;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="logo">
-    <div class="square square-1"></div>
-    <div class="square square-2"></div>
-  </div>
+  <div class="content">
+    <div class="logo">
+      <div class="square square-1"></div>
+      <div class="square square-2"></div>
+    </div>
+    <div class="navigation">
+      <a href="#about-me" class="nav-link">about me</a>
+      <a href="https://github.com/roshbhatia" class="nav-link" target="_blank">github</a>
+      <a href="https://www.linkedin.com/in/roshan-bhatia-2b1970a7/" class="nav-link" target="_blank">linkedin</a>
+    </div>
+    </div>
+    <script src="js/animation.js"></script>
 </body>
 </html>
