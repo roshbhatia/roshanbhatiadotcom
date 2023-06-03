@@ -69,7 +69,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 .navigation .nav-link {
   text-decoration: none;
@@ -78,7 +78,7 @@ body {
   position: relative;
   overflow: hidden;
   opacity: 1;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 .navigation .nav-link:hover {
   color: black;
@@ -94,7 +94,7 @@ body {
   width: 0;
   height: 2px;
   background: black;
-  transition: width 1s;
+  transition: width 0.3s;
 }
 
 .hidden {
