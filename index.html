@@ -8,20 +8,26 @@
 </head>
 <body>
   <div class="content">
-    <div class="logo">
-      <div class="square square-1"></div>
-      <div class="square square-2"></div>
+    <div id="main-section">
+      <div class="logo">
+        <div class="square square-1"></div>
+        <div class="square square-2"></div>
+      </div>
+      <div class="navigation">
+        <a href="javascript:void(0)" id="about-link" class="nav-link">about me</a>
+        <a href="https://github.com/roshbhatia" class="nav-link" target="_blank">github</a>
+        <a href="https://www.linkedin.com/in/roshan-bhatia-2b1970a7/" class="nav-link" target="_blank">linkedin</a>
+        </div>
     </div>
-    <div class="navigation">
-      <a href="#about-me" class="nav-link">about me</a>
-      <a href="https://github.com/roshbhatia" class="nav-link" target="_blank">github</a>
-      <a href="https://www.linkedin.com/in/roshan-bhatia-2b1970a7/" class="nav-link" target="_blank">linkedin</a>
+    <div id="about-me" class="hidden">
+      <h1>About Me</h1>
+      <p>Hello! I'm Roshan Bhatia, a software engineer...</p>
     </div>
     </div>
-    <script src="js/animation.js"></script>
-</body>
-<footer>
-  <a target="_blank" href="https://icons8.com/icon/2939/opened-folder">Opened Folder</a> icon by <a target="_blank"
-    href="https://icons8.com">Icons8</a>
-</footer>
+    <footer>
+      <a target="_blank" href="https://icons8.com/icon/2939/opened-folder">Opened Folder</a> icon by <a target="_blank"
+        href="https://icons8.com">Icons8</a>
+    </footer>
+  <script src="src/about-me-transition.js"></script>
+  </body>
 </html>

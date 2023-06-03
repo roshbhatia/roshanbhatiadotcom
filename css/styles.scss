@@ -1,0 +1,127 @@
+// Variables
+$body-color: #F5F5DC; // beige color
+$font-stack: 'Montserrat', sans-serif;
+$nav-link-size: 30px;
+
+// Reset
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: $body-color;
+  overflow: hidden;
+  font-family: $font-stack;
+}
+
+// Content Container
+.content {
+  position: relative;
+  min-height: 100vh;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide-out-left {
+  transform: translateX(-100%);
+}
+
+// Logo Animation
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+
+  .square {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 5px solid #000;
+  }
+
+  .square-1 {
+    animation: spin 5s infinite linear;
+  }
+
+  .square-2 {
+    animation: spin 5s infinite linear reverse;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Navigation Links
+.navigation {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: $nav-link-size;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  .nav-link {
+    text-decoration: none;
+    color: black;
+    margin-bottom: 10px;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      color: black;
+
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: black;
+      transition: width .3s;
+    }
+  }
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px 0;
+  background-color: $body-color;
+  font-size: 10px;
+}
