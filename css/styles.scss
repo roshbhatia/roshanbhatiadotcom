@@ -94,7 +94,7 @@ body {
     position: relative;
     overflow: hidden;
     opacity: 1;
-    transition: opacity 1s ease-in-out; // Adjust the transition duration here
+    transition: opacity .3s ease-in-out; // Adjust the transition duration here
 
     &:hover {
       color: black;
