@@ -1,8 +1,7 @@
 document.getElementById('about-link').addEventListener('click', function () {
     var mainSection = document.getElementById('main-section');
     var aboutMe = document.getElementById('about-me');
-    var navLinks = document.getElementsByClassName('nav-link');
-    var footer = document.querySelector('footer');
+  var navLinks = document.getElementsByClassName('nav-link');
     var logo = document.querySelector('.logo');
     var navigation = document.querySelector('.navigation');
   
@@ -18,10 +17,7 @@ document.getElementById('about-link').addEventListener('click', function () {
       navLinks[i].style.opacity = '0';
       navLinks[i].style.pointerEvents = 'none'; // disable pointer events
     }
-  
-    // Hide footer with fade-out animation
-    footer.style.opacity = '0';
-  
+
     // Fetch the Markdown file
     fetch('https://raw.githubusercontent.com/roshbhatia/roshbhatia/main/README.md')
       .then(response => response.text())
@@ -43,7 +39,6 @@ document.getElementById('about-link').addEventListener('click', function () {
     // Listen for transition end event
     mainSection.addEventListener('transitionend', function () {
       mainSection.style.display = 'none'; // hide the main section
-      footer.style.display = 'none'; // hide the footer
     }, { once: true });
   });
   
