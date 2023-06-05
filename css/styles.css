@@ -5,7 +5,7 @@ html, body {
 }
 
 body {
-  background-color: #F5F5DC;
+  background-color: #ffffff;
   overflow: hidden;
   font-family: "DM Sans", sans-serif;
 }
@@ -131,7 +131,7 @@ footer {
   width: 100%;
   text-align: center;
   padding: 10px 0;
-  background-color: #F5F5DC;
+  background-color: #ffffff;
   font-size: 10px;
   opacity: 1;
   transition: opacity 1s ease-in-out;
