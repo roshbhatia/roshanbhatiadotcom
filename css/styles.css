@@ -60,7 +60,44 @@ body {
     opacity: 0;
   }
 }
-.navigation {
+.life-nav {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: opacity 0.3s ease-in-out;
+}
+.life-nav .nav-link {
+  text-decoration: none;
+  color: black;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+.life-nav .nav-link:hover {
+  color: black;
+}
+.life-nav .nav-link:hover::after {
+  width: 100%;
+}
+.life-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: black;
+  transition: width 0.3s;
+}
+
+.work-nav {
   position: absolute;
   top: 50%;
   right: 20px;
@@ -71,7 +108,7 @@ body {
   align-items: flex-end;
   transition: opacity 0.3s ease-in-out;
 }
-.navigation .nav-link {
+.work-nav .nav-link {
   text-decoration: none;
   color: black;
   margin-bottom: 10px;
@@ -80,13 +117,13 @@ body {
   opacity: 1;
   transition: opacity 0.3s ease-in-out;
 }
-.navigation .nav-link:hover {
+.work-nav .nav-link:hover {
   color: black;
 }
-.navigation .nav-link:hover::after {
+.work-nav .nav-link:hover::after {
   width: 100%;
 }
-.navigation .nav-link::after {
+.work-nav .nav-link::after {
   content: "";
   position: absolute;
   bottom: 0;
