@@ -1,5 +1,13 @@
 {
-  "dependencies": {
-    "scss": "^0.2.4"
-  }
+  "name": "roshanbhatiadotcom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "npx http-server -p 3000 -c-1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
