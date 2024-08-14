@@ -20,5 +20,8 @@ RUN echo 'export TERM="xterm-256color"' >> ~/.zshrc && \
 # Set the working directory
 WORKDIR /root
 
+# Copy the sysinit submodule to the specified folder
+COPY deps/sysinit /root/github/roshbhatia/sysinit
+
 # Start Zsh interactively when the container launches
 CMD ["zsh", "-i"]
