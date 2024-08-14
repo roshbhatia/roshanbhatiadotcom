@@ -20,5 +20,5 @@ RUN echo 'export TERM="xterm-256color"' >> ~/.zshrc && \
 # Set the working directory
 WORKDIR /root
 
-# Start Zsh when the container launches
-CMD ["zsh"]
+# Start Zsh interactively when the container launches
+CMD ["zsh", "-i"]

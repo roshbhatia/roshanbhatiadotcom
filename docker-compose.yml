@@ -1,12 +1,9 @@
-version: '3.8'
-
 services:
   devenv:
     build:
       context: .
       dockerfile: docker/devenv/Dockerfile
-    ports:
-      - "3000:3000"
+    platform: linux/amd64
     profiles:
       - build
       - run

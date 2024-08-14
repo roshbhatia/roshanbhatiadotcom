@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "docker:devenv:build": "docker-compose --profile build build devenv",
-    "docker:devenv:run": "docker-compose --profile run up devenv",
+    "docker:devenv:run": "docker-compose run --rm devenv",
     "docker:devenv:build:linux:amd64": "docker build --platform linux/amd64 -t roshanbhatiadotcom-devenv-amd64 -f docker/devenv/Dockerfile .",
     "c2w:devenv:convert": "c2w roshanbhatiadotcom-devenv-amd64:latest ./out/htdocs/out.wasm",
     "serve": "docker-compose --profile serve up serve"
