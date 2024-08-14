@@ -1,27 +1,39 @@
-FROM amd64/alpine:latest
+FROM debian:stable-slim
 
 # Install required packages
-RUN apk add --no-cache zsh git curl wget nodejs npm
+RUN apt-get update && apt-get install -y \
+    zsh git curl wget neovim bash python3 python3-pip rustc cargo make unzip protobuf-compiler
 
-# Install Oh My Zsh
-RUN sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+# Install Starship
+RUN curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
+
+# Install Macchina
+RUN cargo install macchina --locked
+
+# Install Atuin
+RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
 # Set Zsh as the default shell
-RUN sed -i -e "s/bin\/ash/bin\/zsh/" /etc/passwd
+RUN chsh -s /bin/zsh
 
-# Install necessary fonts for the agnoster theme
-RUN apk add --no-cache font-noto-emoji
-
-# Set up Zsh configuration
-RUN echo 'export TERM="xterm-256color"' >> ~/.zshrc && \
-    echo 'ZSH_THEME="agnoster"' >> ~/.zshrc && \
-    echo 'plugins=(git)' >> ~/.zshrc
-
-# Set the working directory
-WORKDIR /root
+# Set up configuration directories
+RUN mkdir -p /root/.config/atuin /root/.config/macchina /root/.config/macchina/themes /root/.config/nvim
 
 # Copy the sysinit submodule to the specified folder
 COPY deps/sysinit /root/github/roshbhatia/sysinit
+
+# Copy configuration files
+COPY deps/sysinit/atuin/config.toml /root/.config/atuin/config.toml
+COPY deps/sysinit/zsh/.zshrc.alpine /root/.zshrc
+COPY deps/sysinit/starship/starship.toml /root/.config/starship.toml
+COPY deps/sysinit/macchina/themes/nike.ascii /root/.config/macchina/themes/nike.ascii
+COPY deps/sysinit/macchina/themes/nike.toml /root/.config/macchina/themes/nike.toml
+COPY deps/sysinit/macchina/themes/rosh.ascii /root/.config/macchina/themes/rosh.ascii
+COPY deps/sysinit/macchina/themes/rosh.toml /root/.config/macchina/themes/rosh.toml
+COPY deps/sysinit/grugnvim /root/.config/nvim
+
+# Set the working directory
+WORKDIR /root
 
 # Start Zsh interactively when the container launches
 CMD ["zsh", "-i"]
