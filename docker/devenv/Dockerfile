@@ -36,4 +36,4 @@ COPY deps/sysinit/grugnvim /root/.config/nvim
 WORKDIR /root
 
 # Start Zsh interactively when the container launches
-CMD ["zsh", "-i"]
+CMD ["zsh"]

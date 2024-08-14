@@ -1,22 +1,5 @@
 # roshanbhatiadotcom
 
-My personal (simple) website. This website is deployed via GitHub Pages.
+My personal website.
 
-## Prerequisites
-
-Before getting started, ensure that you have the following dependencies installed on your system:
-
-- Python3
-- SCSS
-
-## Getting Started
-
-1. Process scss -> css.
-```bash
-make css
-```
-
-2. Serve content locally via python3's http.server.
-```bash
-make serve
-```
+The site is a `debian` Docker image converted to WASM/WASI using [container2json](https://github.com/ktock/container2wasm.git), bundled with many of my own personal configurations I use in my devenv day-to-day.
