@@ -1,5 +1,4 @@
-# Start with Alpine Linux
-FROM alpine:latest
+FROM amd64/alpine:latest
 
 # Install required packages
 RUN apk add --no-cache zsh git curl wget nodejs npm

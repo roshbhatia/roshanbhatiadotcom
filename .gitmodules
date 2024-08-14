@@ -1,0 +1,3 @@
+[submodule "container2wasm"]
+	path = container2wasm
+	url = https://github.com/ktock/container2wasm.git

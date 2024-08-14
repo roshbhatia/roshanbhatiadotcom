@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  devenv:
+    build:
+      context: .
+      dockerfile: docker/devenv/Dockerfile
+    ports:
+      - "3000:3000"
+    profiles:
+      - build
+      - run
+
+  serve:
+    image: caddy:2
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/srv:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    profiles:
+      - serve
