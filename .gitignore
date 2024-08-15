@@ -129,8 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Custom
-src/out.wasm
-
 # Os
 .DS_Store
