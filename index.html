@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Web Terminal -- roshanbhatiadotcom</title>
-    <link rel="icon" href="./src/assets/icons8-subwoofer-16.png" type="image/png">
+    <link rel="icon" href="./assets/icons8-subwoofer-16.png" type="image/png">
     <style>
       body {
         background-color: #1e1e1e;
@@ -163,8 +163,8 @@
     <script src="https://cdn.jsdelivr.net/npm/xterm@4.17.0/lib/xterm.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.4.0/lib/xterm-addon-fit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xterm-pty@0.9.4/index.js"></script>
-    <script src="./src/stack.js"></script>
-    <script src="./src/ws-delegate.js"></script>
+    <script src="https://raw.githubusercontent.com/ktock/container2wasm/main/examples/wasi-browser/htdocs/stack.js"></script>
+    <script src="https://raw.githubusercontent.com/ktock/container2wasm/main/examples/wasi-browser/htdocs/ws-delegate.js"></script>
     <script>
       function showTerminal() {
         const xterm = new Terminal();
@@ -180,20 +180,20 @@
         termios.lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
         slave.ioctl("TCSETS", new Termios(termios.iflag, termios.oflag, termios.cflag, termios.lflag, termios.cc));
         xterm.loadAddon(master);
-        const worker = new Worker("./src/worker.js"+location.search);
+        const worker = new Worker("https://raw.githubusercontent.com/ktock/container2wasm/main/examples/wasi-browser/htdocs/worker.js" + location.search);
 
         var nwStack;
         var netParam = getNetParam();
         var workerImage = "https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm";
         if (netParam) {
-            if (netParam.mode == 'delegate') {
-                nwStack = delegate(worker, workerImage, netParam.param);
-            } else if (netParam.mode == 'browser') {
-                nwStack = newStack(worker, workerImage, new Worker("./src/stack-worker.js"+location.search), location.origin + "/c2w-net-proxy.wasm");
-            }
+          if (netParam.mode == 'delegate') {
+            nwStack = delegate(worker, workerImage, netParam.param);
+          } else if (netParam.mode == 'browser') {
+            nwStack = newStack(worker, workerImage, new Worker("https://raw.githubusercontent.com/ktock/container2wasm/main/examples/wasi-browser/htdocs/stack-worker.js" + location.search), location.origin + "/c2w-net-proxy.wasm");
+          }
         }
         if (!nwStack) {
-            worker.postMessage({type: "init", imagename: workerImage});
+          worker.postMessage({ type: "init", imagename: workerImage });
         }
         new TtyServer(slave).start(worker, nwStack);
 
@@ -214,42 +214,7 @@
           clearInterval(loadingInterval);
           xterm.clear();
         }
-
-        startLoadingMessage();
-
-        xterm.onData(() => {
-          console.log('Terminal received data');
-          stopLoadingMessage();
-        });
-
-        function getNetParam() {
-            var vars = location.search.substring(1).split('&');
-            for (var i = 0; i < vars.length; i++) {
-                var kv = vars[i].split('=');
-                if (decodeURIComponent(kv[0]) == 'net') {
-                    return {
-                        mode: kv[1],
-                        param: kv[2],
-                    };
-                }
-            }
-            return null;
-        }
-
-        function resizeTerminal() {
-          const terminalElement = document.getElementById('terminal');
-          const width = terminalElement.clientWidth;
-          const height = terminalElement.clientHeight;
-          const fontSize = Math.max(Math.min(width, height) / 50, 15);
-          xterm.setOption('fontSize', fontSize);
-          fitAddon.fit();
-        }
-
-        window.addEventListener('resize', resizeTerminal);
-        resizeTerminal();
       }
-
-      showTerminal();
     </script>
   </body>
 </html>
