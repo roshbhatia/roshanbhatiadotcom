@@ -1,36 +1,25 @@
-FROM debian:sid-slim
+FROM bitnami/minideb:latest
 
-# Install required packages
-RUN apt-get update && apt-get install -y \
-    zsh git curl wget neovim bash python3 python3-pip rustc cargo make unzip protobuf-compiler
+# Copy the sysinit directory to a temporary location
+COPY deps/sysinit /tmp/sysinit
 
-# Install Starship
-RUN curl -fsSL https://starship.rs/install.sh | sh -s -- --yes
-
-# Install Macchina
-RUN cargo install macchina --locked
-
-# Install Atuin
-RUN curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-
-# Set Zsh as the default shell
-RUN chsh -s /bin/zsh
-
-# Set up configuration directories
-RUN mkdir -p /root/.config/atuin /root/.config/macchina /root/.config/macchina/themes /root/.config/nvim
-
-# Copy the sysinit submodule to the specified folder
-COPY deps/sysinit /root/github/roshbhatia/sysinit
-
-# Copy configuration files
-COPY deps/sysinit/atuin/config.toml /root/.config/atuin/config.toml
-COPY deps/sysinit/zsh/.zshrc.alpine /root/.zshrc
-COPY deps/sysinit/starship/starship.toml /root/.config/starship.toml
-COPY deps/sysinit/macchina/themes/nike.ascii /root/.config/macchina/themes/nike.ascii
-COPY deps/sysinit/macchina/themes/nike.toml /root/.config/macchina/themes/nike.toml
-COPY deps/sysinit/macchina/themes/rosh.ascii /root/.config/macchina/themes/rosh.ascii
-COPY deps/sysinit/macchina/themes/rosh.toml /root/.config/macchina/themes/rosh.toml
-COPY deps/sysinit/grugnvim /root/.config/nvim
+# Install required packages, set up the environment, copy configuration files, and clean up
+RUN install_packages ca-certificates zsh git curl neovim bash rustc cargo protobuf-compiler && \
+    (curl -fsSL https://starship.rs/install.sh | sh -s -- --yes) && \
+    cargo install macchina --locked && \
+    (curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh) && \
+    chsh -s /bin/zsh && \
+    mkdir -p /root/.config/atuin /root/.config/macchina /root/.config/macchina/themes /root/.config/nvim && \
+    cp /tmp/sysinit/atuin/config.toml /root/.config/atuin/config.toml && \
+    cp /tmp/sysinit/zsh/.zshrc.alpine /root/.zshrc && \
+    cp /tmp/sysinit/starship/starship.toml /root/.config/starship.toml && \
+    cp /tmp/sysinit/macchina/themes/rosh.ascii /root/.config/macchina/themes/rosh.ascii && \
+    cp /tmp/sysinit/macchina/themes/rosh.toml /root/.config/macchina/themes/rosh.toml && \
+    cp -r /tmp/sysinit/grugnvim /root/.config/nvim && \
+    rm -rf /tmp/sysinit && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    rm -rf /root/.cargo/registry && \
+    rm -rf /root/.cargo/git
 
 # Set the working directory
 WORKDIR /root
