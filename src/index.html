@@ -1,7 +1,8 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Web Terminal -- roshanbhatiadotcom</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.17.0/css/xterm.css">
+    <link rel="icon" href="./assets/icons8-subwoofer-16.png" type="image/png">
     <style>
       body {
         background-color: #1e1e1e;
@@ -14,90 +15,169 @@
         margin: 0;
       }
 
-      #loading {
-        font-size: 24px;
-        white-space: nowrap;
-        overflow: hidden;
-        border-right: 0.15em solid orange;
-        animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-      }
-
-      @keyframes typing {
-        from { width: 0 }
-        to { width: 100% }
-      }
-
-      @keyframes blink-caret {
-        from, to { border-color: transparent }
-        50% { border-color: orange }
-      }
-
       #terminal {
         width: 100%;
         height: 100%;
-        border: 2px solid #4caf50;
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         background-color: #000000;
+        position: relative;
+        overflow: hidden;
       }
 
       .xterm {
-        font-family: 'Fira Code', monospace;
-        font-size: 1rem; /* Default font size */
-        color: #ffffff;
+        position: relative;
+        user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
         width: 100%;
         height: 100%;
+        overflow: hidden;
       }
 
-      .xterm .xterm-viewport {
-        background-color: #000000;
-      }
-
-      .xterm .xterm-screen {
-        background-color: #000000;
-      }
-
-      .xterm .xterm-cursor {
-        border-left: 2px solid #4caf50;
+      .xterm.focus,
+      .xterm:focus {
+        outline: none;
       }
 
       .xterm .xterm-helpers {
+        position: absolute;
+        top: 0;
         z-index: 5;
       }
 
       .xterm .xterm-helper-textarea {
+        padding: 0;
+        border: 0;
+        margin: 0;
+        position: absolute;
         opacity: 0;
+        left: -9999em;
+        top: 0;
+        width: 0;
+        height: 0;
+        z-index: -5;
+        white-space: nowrap;
+        overflow: hidden;
+        resize: none;
       }
 
       .xterm .composition-view {
         background: #000;
         color: #FFF;
+        display: none;
+        position: absolute;
+        white-space: nowrap;
+        z-index: 1;
+      }
+
+      .xterm .composition-view.active {
+        display: block;
+      }
+
+      .xterm .xterm-viewport {
+        background-color: #000;
+        overflow-y: scroll;
+        cursor: default;
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+      }
+
+      .xterm .xterm-screen {
+        position: relative;
+      }
+
+      .xterm .xterm-screen canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      .xterm .xterm-scroll-area {
+        visibility: hidden;
+      }
+
+      .xterm-char-measure-element {
+        display: inline-block;
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: -9999em;
+        line-height: normal;
+      }
+
+      .xterm {
+        cursor: text;
+      }
+
+      .xterm.enable-mouse-events {
+        cursor: default;
+      }
+
+      .xterm.xterm-cursor-pointer,
+      .xterm .xterm-cursor-pointer {
+        cursor: pointer;
+      }
+
+      .xterm.column-select.focus {
+        cursor: crosshair;
+      }
+
+      .xterm .xterm-accessibility,
+      .xterm .xterm-message {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        color: transparent;
+      }
+
+      .xterm .live-region {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .xterm-dim {
+        opacity: 0.5;
+      }
+
+      .xterm-underline {
+        text-decoration: underline;
+      }
+
+      .xterm-strikethrough {
+        text-decoration: line-through;
       }
     </style>
   </head>
   <body>
-    <div id="loading">Web Terminal Loading...</div>
     <div id="terminal"></div>
     <script src="https://cdn.jsdelivr.net/npm/xterm@4.17.0/lib/xterm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.4.0/lib/xterm-addon-fit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/xterm-pty@0.9.4/index.js"></script>
     <script src="./stack.js"></script>
     <script src="./ws-delegate.js"></script>
     <script>
       function showTerminal() {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('terminal').style.display = 'block';
-
         const xterm = new Terminal();
+        const fitAddon = new FitAddon.FitAddon();
+        xterm.loadAddon(fitAddon);
         xterm.open(document.getElementById("terminal"));
 
         const { master, slave } = openpty();
 
         termios = slave.ioctl("TCGETS");
-        termios.iflag &= ~(/*IGNBRK | BRKINT | PARMRK |*/ ISTRIP | INLCR | IGNCR | ICRNL | IXON);
+        termios.iflag &= ~(ISTRIP | INLCR | IGNCR | ICRNL | IXON);
         termios.oflag &= ~(OPOST);
         termios.lflag &= ~(ECHO | ECHONL | ICANON | ISIG | IEXTEN);
-        //termios.cflag &= ~(CSIZE | PARENB);
-        //termios.cflag |= CS8;
         slave.ioctl("TCSETS", new Termios(termios.iflag, termios.oflag, termios.cflag, termios.lflag, termios.cc));
         xterm.loadAddon(master);
         const worker = new Worker("./worker.js"+location.search);
@@ -117,6 +197,31 @@
         }
         new TtyServer(slave).start(worker, nwStack);
 
+        let loadingIndex = 0;
+        let loadingInterval;
+
+        function updateEllipses() {
+          const ellipses = '.'.repeat(loadingIndex);
+          xterm.write(`\rweb terminal loading (this will take a second)${ellipses}`);
+          loadingIndex++;
+        }
+
+        function startLoadingMessage() {
+          loadingInterval = setInterval(updateEllipses, 1000);
+        }
+
+        function stopLoadingMessage() {
+          clearInterval(loadingInterval);
+          xterm.clear();
+        }
+
+        startLoadingMessage();
+
+        xterm.onData(() => {
+          console.log('Terminal received data');
+          stopLoadingMessage();
+        });
+
         function getNetParam() {
             var vars = location.search.substring(1).split('&');
             for (var i = 0; i < vars.length; i++) {
@@ -131,22 +236,20 @@
             return null;
         }
 
-        // Adjust terminal size and font size on window resize
         function resizeTerminal() {
           const terminalElement = document.getElementById('terminal');
           const width = terminalElement.clientWidth;
           const height = terminalElement.clientHeight;
-          const fontSize = Math.max(Math.min(width, height) / 50, 10); // Adjust the divisor for font size scaling
+          const fontSize = Math.max(Math.min(width, height) / 50, 15);
           xterm.setOption('fontSize', fontSize);
-          xterm.fit();
+          fitAddon.fit();
         }
 
         window.addEventListener('resize', resizeTerminal);
-        resizeTerminal(); // Initial resize
+        resizeTerminal();
       }
 
-      // Simulate loading time
-      setTimeout(showTerminal, 3500);
+      showTerminal();
     </script>
   </body>
 </html>
