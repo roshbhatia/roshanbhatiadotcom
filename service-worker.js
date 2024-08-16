@@ -11,7 +11,7 @@ self.addEventListener('fetch', (event) => {
 
     // List of URL patterns to bypass the service worker
     const bypassPatterns = [
-        /^https:\/\/github\.com\/roshbhatia\/roshanbhatiadotcom\/releases\/download\/2\.0\.0\/devenv\.wasm$/
+        /^https:\/\/raw\.githubusercontent\.com\//
     ];
 
     // Check if the request URL matches any bypass pattern
