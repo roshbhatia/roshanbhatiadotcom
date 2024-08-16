@@ -1,4 +1,4 @@
-const WASM_URL = 'https://crossorigin.me/https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm';
+const WASM_URL = 'https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -18,6 +18,13 @@ self.addEventListener('fetch', (event) => {
                 mode: 'cors',
                 credentials: 'include' // Include credentials in the request
             }).then((response) => {
+                if (response.status === 302) {
+                    const redirectUrl = response.headers.get('location');
+                    return fetch(redirectUrl, {
+                        mode: 'cors',
+                        credentials: 'include'
+                    });
+                }
                 if (!response.ok) {
                     throw new Error(`Failed to fetch ${WASM_URL}: ${response.statusText}`);
                 }
