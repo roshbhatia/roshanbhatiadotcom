@@ -20,6 +20,7 @@ self.addEventListener('fetch', (event) => {
             }).then((response) => {
                 if (response.status === 302) {
                     const redirectUrl = response.headers.get('location');
+                    console.log(`Redirecting to: ${redirectUrl}`);
                     return fetch(redirectUrl, {
                         mode: 'cors',
                         credentials: 'include'
