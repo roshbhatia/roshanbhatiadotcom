@@ -40,6 +40,11 @@ self.addEventListener('fetch', (event) => {
             newHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
             newHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
 
+            // Handle CORP headers
+            if (!newHeaders.has('Cross-Origin-Resource-Policy')) {
+                newHeaders.set('Cross-Origin-Resource-Policy', 'cross-origin');
+            }
+
             const modifiedResponse = new Response(response.body, {
                 status: response.status,
                 statusText: response.statusText,
