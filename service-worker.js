@@ -1,23 +1,28 @@
 const WASM_URL = 'https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm';
 
 self.addEventListener('install', (event) => {
+    console.log('Service Worker: Install event');
     self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
+    console.log('Service Worker: Activate event');
     event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (event) => {
+    console.log('Service Worker: Fetch event for', event.request.url);
     const url = new URL(event.request.url);
 
     // Check if the request URL matches the WASM URL
     if (event.request.url === WASM_URL) {
+        console.log('Service Worker: Fetching WASM URL');
         event.respondWith(
             fetch(WASM_URL, {
                 mode: 'cors',
                 credentials: 'include' // Include credentials in the request
             }).then((response) => {
+                console.log('Service Worker: Response received', response);
                 if (response.status === 302) {
                     const redirectUrl = response.headers.get('location');
                     console.log(`Redirecting to: ${redirectUrl}`);
@@ -40,6 +45,7 @@ self.addEventListener('fetch', (event) => {
 
     // Only modify responses from the same origin
     if (url.origin === location.origin) {
+        console.log('Service Worker: Modifying response headers for same origin');
         event.respondWith(
             (async function () {
                 const response = await fetch(event.request);
@@ -58,6 +64,7 @@ self.addEventListener('fetch', (event) => {
         );
     } else {
         // For other origins, just fetch the request normally
+        console.log('Service Worker: Fetching normally for other origin');
         event.respondWith(fetch(event.request));
     }
 });
