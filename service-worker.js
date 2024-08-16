@@ -1,5 +1,14 @@
+const CACHE_NAME = 'wasm-cache';
+const WASM_URL = 'https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm';
+
 self.addEventListener('install', (event) => {
-    self.skipWaiting();
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.add(WASM_URL);
+        }).then(() => {
+            self.skipWaiting();
+        })
+    );
 });
 
 self.addEventListener('activate', (event) => {
@@ -9,16 +18,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
-    // List of URL patterns to bypass the service worker
-    const bypassPatterns = [
-        /^https:\/\/raw\.githubusercontent\.com\//
-    ];
-
-    // Check if the request URL matches any bypass pattern
-    const shouldBypass = bypassPatterns.some(pattern => pattern.test(url.href));
-
-    if (shouldBypass) {
-        event.respondWith(fetch(event.request));
+    // Serve the cached WASM file
+    if (url.href === WASM_URL) {
+        event.respondWith(
+            caches.match(WASM_URL).then((response) => {
+                if (response) {
+                    return response;
+                }
+                return fetch(event.request);
+            })
+        );
         return;
     }
 
