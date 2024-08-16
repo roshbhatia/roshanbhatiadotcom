@@ -11,8 +11,8 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
-    // Rewrite the URL for the WASM file
-    if (url.pathname.endsWith('devenv.wasm')) {
+    // Serve the WASM file directly
+    if (url.href === WASM_URL) {
         event.respondWith(
             fetch(WASM_URL, {
                 mode: 'cors'

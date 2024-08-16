@@ -184,7 +184,7 @@
 
         var nwStack;
         var netParam = getNetParam();
-        var workerImage = "https://roshanbhatia.com/devenv.wasm"; // HACK: This gets intercepted by the service-worker, in order to avoid CORS errs.
+        var workerImage = "https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm";
         if (netParam) {
             if (netParam.mode == 'delegate') {
                 nwStack = delegate(worker, workerImage, netParam.param);
