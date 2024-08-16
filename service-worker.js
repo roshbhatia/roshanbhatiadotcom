@@ -37,8 +37,6 @@ self.addEventListener('fetch', (event) => {
             }
             const newHeaders = new Headers(response.headers);
             newHeaders.set('Access-Control-Allow-Origin', '*');
-            newHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            newHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             newHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
             newHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
 
