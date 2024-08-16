@@ -15,7 +15,8 @@ self.addEventListener('fetch', (event) => {
     if (url.pathname.endsWith('devenv.wasm')) {
         event.respondWith(
             fetch(WASM_URL, {
-                mode: 'cors'
+                mode: 'cors',
+                credentials: 'include' // Include credentials in the request
             }).then((response) => {
                 if (!response.ok) {
                     throw new Error(`Failed to fetch ${WASM_URL}: ${response.statusText}`);
