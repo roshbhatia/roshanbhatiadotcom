@@ -1,4 +1,4 @@
-const WASM_URL = 'https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm';
+const WASM_URL = 'https://crossorigin.me/https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
