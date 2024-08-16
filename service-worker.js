@@ -7,20 +7,28 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        (async function () {
-            const response = await fetch(event.request);
-            const newHeaders = new Headers(response.headers);
-            newHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
-            newHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
+    const url = new URL(event.request.url);
 
-            const moddedResponse = new Response(response.body, {
-                status: response.status,
-                statusText: response.statusText,
-                headers: newHeaders
-            });
+    // Only modify responses from the same origin
+    if (url.origin === location.origin) {
+        event.respondWith(
+            (async function () {
+                const response = await fetch(event.request);
+                const newHeaders = new Headers(response.headers);
+                newHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
+                newHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
 
-            return moddedResponse;
-        })()
-    );
+                const moddedResponse = new Response(response.body, {
+                    status: response.status,
+                    statusText: response.statusText,
+                    headers: newHeaders
+                });
+
+                return moddedResponse;
+            })()
+        );
+    } else {
+        // For other origins, just fetch the request normally
+        event.respondWith(fetch(event.request));
+    }
 });
