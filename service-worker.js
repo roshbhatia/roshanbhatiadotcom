@@ -18,27 +18,38 @@ self.addEventListener('fetch', (event) => {
     if (event.request.url === WASM_URL) {
         console.log('Service Worker: Fetching WASM URL');
         event.respondWith(
-            fetch(WASM_URL, {
-                mode: 'cors',
-                credentials: 'include' // Include credentials in the request
-            }).then((response) => {
-                console.log('Service Worker: Response received', response);
-                if (response.status === 302) {
-                    const redirectUrl = response.headers.get('location');
-                    console.log(`Redirecting to: ${redirectUrl}`);
-                    return fetch(redirectUrl, {
+            (async () => {
+                try {
+                    const response = await fetch(WASM_URL, {
                         mode: 'cors',
-                        credentials: 'include'
+                        credentials: 'include' // Include credentials in the request
                     });
+
+                    console.log('Service Worker: Response received', response);
+
+                    if (response.status === 302) {
+                        const redirectUrl = response.headers.get('location');
+                        console.log(`Redirecting to: ${redirectUrl}`);
+                        const redirectResponse = await fetch(redirectUrl, {
+                            mode: 'cors',
+                            credentials: 'include'
+                        });
+                        if (!redirectResponse.ok) {
+                            throw new Error(`Failed to fetch redirected URL: ${redirectResponse.statusText}`);
+                        }
+                        return redirectResponse;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch ${WASM_URL}: ${response.statusText}`);
+                    }
+
+                    return response;
+                } catch (error) {
+                    console.error('Error fetching WASM file:', error);
+                    return new Response('Failed to fetch WASM file', { status: 500 });
                 }
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch ${WASM_URL}: ${response.statusText}`);
-                }
-                return response;
-            }).catch((error) => {
-                console.error('Error fetching WASM file:', error);
-                return new Response('Failed to fetch WASM file', { status: 500 });
-            })
+            })()
         );
         return;
     }
