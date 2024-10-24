@@ -184,7 +184,7 @@
 
         var nwStack;
         var netParam = getNetParam();
-        var workerImage = "https://github.com/roshbhatia/roshanbhatiadotcom/releases/download/2.0.0/devenv.wasm";
+        var workerImage = "https://objects.githubusercontent.com/github-production-release-asset-2e65be/648902575/5449b67a-f83f-40c6-b1bb-e5b6daa9c295?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=releaseassetproduction%2F20241024%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241024T200635Z&X-Amz-Expires=300&X-Amz-Signature=42a5a0f2b2168f390320e582c24c242dc53b162dea2f96fa950fb1291578c322&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Ddevenv.wasm&response-content-type=application%2Foctet-stream";
         if (netParam) {
             if (netParam.mode == 'delegate') {
                 nwStack = delegate(worker, workerImage, netParam.param);
