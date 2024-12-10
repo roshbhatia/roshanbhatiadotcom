@@ -1,9 +1,0 @@
-:80 {
-	root * /srv
-	file_server
-
-	header {
-		Cross-Origin-Opener-Policy "same-origin"
-		Cross-Origin-Embedder-Policy "require-corp"
-	}
-}
