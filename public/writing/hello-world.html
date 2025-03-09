@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello World - Roshan Bhatia</title>
+  <link rel="stylesheet" href="https://fx.hot.page/style">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
+  <style>
+    .fx-article {
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .fx-article h1 {
+      margin-top: 0;
+      color: var(--fx-primary);
+    }
+    
+    .fx-article h2 {
+      color: var(--fx-secondary);
+      margin-top: 2rem;
+    }
+    
+    .fx-article-meta {
+      color: var(--fx-text-secondary);
+      margin-bottom: 2rem;
+    }
+    
+    .fx-article pre {
+      background: var(--fx-card-background);
+      padding: 1rem;
+      border-radius: var(--fx-radius);
+      overflow-x: auto;
+    }
+    
+    .fx-article-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--fx-border);
+    }
+    
+    .fx-back-to-articles {
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="fx-content page-transition">
+    <div class="fx-back-to-articles">
+      <a href="index.html" hx-get="index.html" hx-target="#content" hx-push-url="true">
+        ← Back to Articles
+      </a>
+    </div>
+    
+    <article class="fx-article">
+      <h1>Hello World</h1>
+      <div class="fx-article-meta">
+        <span>March 8, 2025</span>
+      </div>
+      
+      <div class="fx-article-content">
+        <h1 id="hello-world">Hello World</h1>
+<p>This is a sample article to demonstrate the writing section of the website. You can add more articles in the data/articles directory.</p>
+<h2 id="why-static-websites">Why Static Websites?</h2>
+<p>Static websites have several advantages:</p>
+<ol>
+<li><strong>Fast Performance</strong>: No server-side processing needed for each request</li>
+<li><strong>Improved Security</strong>: Fewer attack vectors compared to dynamic sites</li>
+<li><strong>Lower Cost</strong>: Hosting static sites is often cheaper or free</li>
+<li><strong>Simplicity</strong>: Easy to develop, deploy, and maintain</li>
+</ol>
+<h2 id="using-htmx-and-fxhotpage">Using htmx and fx.hot.page</h2>
+<p>This site uses a combination of htmx for interactivity and fx.hot.page for styling. This allows for a clean, modern interface without heavy JavaScript frameworks.</p>
+<pre><code class="language-javascript">// Sample code
+document.addEventListener(&#39;DOMContentLoaded&#39;, () =&gt; {
+  console.log(&#39;Hello, world!&#39;);
+});
+</code></pre>
+<p>Stay tuned for more articles!</p>
+
+      </div>
+      
+      <div class="fx-article-nav">
+        <div></div>
+        <div></div>
+      </div>
+    </article>
+  </div>
+</body>
+</html>

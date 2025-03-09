@@ -1,0 +1,138 @@
+/* Custom styles */
+:root {
+  --fx-primary: #3572DB;
+  --fx-secondary: #4d5caa;
+  --fx-accent: #eff8ff;
+  --fx-text-primary: #1a1a1a;
+  --fx-text-secondary: #555;
+  --fx-background: #ffffff;
+  --fx-card-background: #f7f9fc;
+  --fx-border: #e5e7eb;
+  --fx-radius: 8px;
+  --fx-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fx-primary: #6d93e0;
+    --fx-secondary: #7e8cc6;
+    --fx-accent: #1e293b;
+    --fx-text-primary: #f3f4f6;
+    --fx-text-secondary: #d1d5db;
+    --fx-background: #0f172a;
+    --fx-card-background: #1e293b;
+    --fx-border: #334155;
+  }
+}
+
+/* Custom component styles */
+.fx-project-card {
+  display: block;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--fx-card-background);
+  border: 1px solid var(--fx-border);
+  border-radius: var(--fx-radius);
+  box-shadow: var(--fx-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.fx-project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.fx-project-card h3 {
+  margin-top: 0;
+  color: var(--fx-primary);
+}
+
+.fx-project-card .language {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  background: var(--fx-accent);
+  margin-right: 0.5rem;
+}
+
+.fx-project-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+  color: var(--fx-text-secondary);
+  font-size: 0.875rem;
+}
+
+.fx-project-meta span {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.fx-project-meta svg {
+  margin-right: 0.25rem;
+}
+
+.fx-article-card {
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  background: var(--fx-card-background);
+  border: 1px solid var(--fx-border);
+  border-radius: var(--fx-radius);
+  transition: transform 0.2s ease;
+}
+
+.fx-article-card:hover {
+  transform: translateY(-3px);
+}
+
+.fx-article-card h3 {
+  margin-top: 0;
+  color: var(--fx-primary);
+}
+
+.fx-article-date {
+  color: var(--fx-text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .fx-hero h1 {
+    font-size: 2rem;
+  }
+  
+  .fx-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* GitHub data loading indicator */
+.htmx-indicator {
+  opacity: 0;
+  transition: opacity 200ms ease-in;
+}
+.htmx-request .htmx-indicator {
+  opacity: 1;
+}
+.htmx-request.htmx-indicator {
+  opacity: 1;
+}
+
+/* Animation for page transitions */
+.page-transition {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
