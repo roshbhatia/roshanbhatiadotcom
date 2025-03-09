@@ -456,6 +456,7 @@ body {
   overflow-y: auto; /* Allow scrolling within the content area */
   max-height: calc(100vh - 104px); /* Adjust based on header + footer height */
   top: -50px;
+  z-index: 96; /* Higher than the moss-window-container (z-index: 95) */
 }
 
 .fx-content h2 {
@@ -628,7 +629,7 @@ body {
 /* Goblin animations */
 #goblin-container {
   position: fixed;
-  bottom: 45px; /* Position above footer */
+  bottom: 49px; /* Position above footer, moved up 4px */
   left: 0;
   width: 100%;
   height: 64px; /* Height for goblin sprites */
