@@ -155,7 +155,7 @@ body {
 /* Win95 menubar */
 .win95-menubar {
   background-color: var(--win95-bg);
-  border-top: none;
+  border-top: 0;
   border-left: 2px solid var(--win95-border-light);
   border-right: 2px solid var(--win95-border-darker);
   border-bottom: 2px solid var(--win95-border-darker);
@@ -163,12 +163,13 @@ body {
   display: flex;
   height: 24px;
   position: fixed;
-  top: 24px; /* Aligned exactly with titlebar height */
+  top: 20px; /* Exact height of titlebar */
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 99; /* Lower than titlebar */
   width: 100%;
   box-sizing: border-box;
+  margin-top: 0;
 }
 
 .win95-menuitem {
@@ -203,6 +204,8 @@ body {
   z-index: 100;
   width: 100%;
   box-sizing: border-box;
+  margin: 0;
+  border-bottom: 0;
 }
 
 .win95-titlebar-text {
@@ -519,13 +522,14 @@ body {
   width: 85%;
   max-width: 1100px;
   margin: 0 auto;
-  margin-top: 55px; /* Space for the menu bars */
+  margin-top: 45px; /* Reduced space for the menu bars to move it up */
   margin-bottom: 80px; /* Space for the footer */
   position: relative;
   background-image: url('/assets/img/scroll.png');
   background-size: 100% 100%;
   border: none; /* Removed border to see background */
   padding: 40px;
+  min-height: 900px;
   box-sizing: border-box;
   font-family: 'Times New Roman', serif;
 }
@@ -585,10 +589,10 @@ body {
 
 .fx-hero {
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 1rem 2rem;
   background-color: rgba(0, 0, 0, 0.5);
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   box-shadow: 0 0 30px rgba(255, 180, 0, 0.3);
   border: 8px ridge #8B4513;
 }
@@ -600,7 +604,7 @@ body {
 
 .fx-hero h1 {
   margin: 0;
-  font-size: 56px;
+  font-size: 48px;
   color: #8B0000;
   text-shadow: 
     1px 1px 0 rgba(0,0,0,0.3),
@@ -636,8 +640,9 @@ body {
 
 .fx-hero p {
   color: #330000;
-  margin-top: 1rem;
-  font-size: 20px;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 16px;
   text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
 }
 
