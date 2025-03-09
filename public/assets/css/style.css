@@ -59,6 +59,9 @@ body {
   z-index: 9999;
   transform-origin: center;
   image-rendering: pixelated;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 /* Daggerfall mossy wall background with parallax effect */
@@ -522,7 +525,7 @@ body {
   width: 85%;
   max-width: 1100px;
   margin: 0 auto;
-  margin-top: 45px; /* Reduced space for the menu bars to move it up */
+  margin-top: 5px; /* Only 5px from the header */
   margin-bottom: 80px; /* Space for the footer */
   position: relative;
   background-image: url('/assets/img/scroll.png');
