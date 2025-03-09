@@ -44,7 +44,7 @@ body {
   cursor: none; /* Hide the default cursor */
   line-height: 1.5;
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden; /* Disable scrolling */
 }
 
 /* Custom skeleton cursor */
@@ -95,13 +95,13 @@ body {
 /* Daggerfall windows */
 .moss-window-container {
   position: fixed;
-  top: 66.6vh; /* 2/3 of the way up from the bottom */
+  top: 50%; /* Center vertically */
   left: 0;
   width: 100%;
   height: 150px;
   display: flex;
   justify-content: space-between;
-  padding: 0 15%;
+  padding: 0;
   z-index: 2;
   pointer-events: none;
   transform: translateZ(0);
@@ -117,9 +117,24 @@ body {
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
   transform: translateZ(0);
+  position: absolute;
 }
 
-/* Flickering torch light overlay */
+.moss-window:nth-child(1) {
+  left: calc(20px + 70px); /* Position to right of left torch */
+  top: 0;
+}
+
+.moss-window:nth-child(2) {
+  right: calc(20px + 70px); /* Position to left of right torch */
+  top: 0;
+}
+
+.moss-window:nth-child(3) {
+  display: none; /* Hide the third window */
+}
+
+/* Torch light overlay - flickering removed */
 .torch-overlay {
   position: fixed;
   top: 0;
@@ -130,19 +145,8 @@ body {
   background-attachment: fixed;
   pointer-events: none;
   z-index: 3;
-  animation: flicker 5s infinite alternate;
+  opacity: 0.95;
   transform: translateZ(0);
-}
-
-/* Flickering torch overlay - now included in the cobblestone background */
-
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    opacity: 0.95;
-  }
-  20%, 24%, 55% {
-    opacity: 0.2;
-  }
 }
 
 .fx-root {
@@ -235,35 +239,31 @@ body {
   cursor: pointer;
 }
 
-/* Torches on the sides */
-.torch {
+/* Floor torches above the footer */
+.floor-torch {
   position: fixed;
   width: 64px;  /* Adjusted size to match torch.gif dimensions */
   height: 128px;
-  z-index: 20;
+  z-index: 91; /* Above footer */
   pointer-events: none;
-  background-image: url('/assets/img/torch.gif'); /* New animated torch */
+  background-image: url('/assets/img/torch.gif'); /* Animated torch */
   background-repeat: no-repeat;
   background-size: contain;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+  bottom: 30px; /* Position 6px higher above footer (27+3) */
 }
 
-/* Base torch positioning */
-
-.torch-left {
+/* Floor torch positioning */
+.floor-torch-left {
   left: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  animation-delay: 0.5s;
+  transform: scale(0.8);
 }
 
-.torch-right {
+.floor-torch-right {
   right: 20px;
-  top: 50%;
-  transform: translateY(-50%) scaleX(-1); /* Flip the right torch */
-  animation-delay: 1.2s;
+  transform: scale(0.8) scaleX(-1); /* Flip the right torch */
 }
 
 @keyframes torch-sway-left {
@@ -276,106 +276,23 @@ body {
   50% { transform: translateY(-50%) scaleX(-1) rotate(-2deg); }
 }
 
-.torch-left {
-  animation: torch-sway-left 6s ease-in-out infinite alternate;
-}
+/* Animation removed from torches as requested */
 
-.torch-right {
-  animation: torch-sway-right 6s ease-in-out infinite alternate;
-}
+/* Removed top and bottom torches as requested */
 
-.torch-top-left {
-  left: 15%;
-  top: 120px;
-  transform: scale(0.7);
-  animation-delay: 0.8s;
-}
-
-.torch-top-right {
-  right: 15%;
-  top: 120px;
-  transform: scale(0.7) scaleX(-1);
-  animation-delay: 1.5s;
-}
-
-.torch-bottom-left {
-  left: 15%;
-  bottom: 50px;
-  top: auto;
-  transform: scale(0.7);
-  animation-delay: 0.3s;
-}
-
-.torch-bottom-right {
-  right: 15%;
-  bottom: 50px;
-  top: auto;
-  transform: scale(0.7) scaleX(-1);
-  animation-delay: 1.7s;
-}
-
-@keyframes torch-sway-top-left {
-  0%, 100% { transform: scale(0.7) rotate(-2deg); }
-  50% { transform: scale(0.7) rotate(2deg); }
-}
-
-@keyframes torch-sway-top-right {
-  0%, 100% { transform: scale(0.7) scaleX(-1) rotate(2deg); }
-  50% { transform: scale(0.7) scaleX(-1) rotate(-2deg); }
-}
-
-@keyframes torch-sway-bottom-left {
-  0%, 100% { transform: scale(0.7) rotate(-2deg); }
-  50% { transform: scale(0.7) rotate(2deg); }
-}
-
-@keyframes torch-sway-bottom-right {
-  0%, 100% { transform: scale(0.7) scaleX(-1) rotate(2deg); }
-  50% { transform: scale(0.7) scaleX(-1) rotate(-2deg); }
-}
-
-.torch-top-left {
-  animation: torch-sway-top-left 6s ease-in-out infinite alternate;
-}
-
-.torch-top-right {
-  animation: torch-sway-top-right 6s ease-in-out infinite alternate;
-}
-
-.torch-bottom-left {
-  animation: torch-sway-bottom-left 6s ease-in-out infinite alternate;
-}
-
-.torch-bottom-right {
-  animation: torch-sway-bottom-right 6s ease-in-out infinite alternate;
-}
-
-/* Add fire light effect to torches */
-.torch::after {
+/* Add static fire light effect to floor torches */
+.floor-torch::after {
   content: "";
   position: absolute;
-  top: 0;
+  top: -10px;
   left: 15px;
   width: 80px;
   height: 80px;
   background: radial-gradient(circle, rgba(255,165,0,0.5) 0%, rgba(255,69,0,0.2) 40%, rgba(255,165,0,0) 70%);
   border-radius: 50%;
-  animation: fire-glow 3s infinite alternate;
   filter: blur(8px);
   z-index: 1;
-}
-
-.torch-top-left::after, .torch-top-right::after, .torch-bottom-left::after, .torch-bottom-right::after {
-  width: 60px;
-  height: 60px;
-  top: 0;
-  left: 15px;
-}
-
-@keyframes fire-glow {
-  0% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.95); }
-  100% { opacity: 0.7; transform: scale(1.05); }
+  opacity: 0.6;
 }
 
 /* Custom component styles */
@@ -525,16 +442,19 @@ body {
   width: 85%;
   max-width: 1100px;
   margin: 0 auto;
-  margin-top: 5px; /* Only 5px from the header */
-  margin-bottom: 80px; /* Space for the footer */
+  margin-top: 0; /* No gap between header and scroll */
+  margin-bottom: 100px; /* Space for the footer */
   position: relative;
   background-image: url('/assets/img/scroll.png');
   background-size: 100% 100%;
   border: none; /* Removed border to see background */
-  padding: 40px;
+  padding: 85px;
   min-height: 900px;
   box-sizing: border-box;
   font-family: 'Times New Roman', serif;
+  overflow-y: auto; /* Allow scrolling within the content area */
+  max-height: calc(100vh - 104px); /* Adjust based on header + footer height */
+  top: -50px;
 }
 
 .fx-content h2 {
@@ -684,56 +604,7 @@ body {
   pointer-events: none;
 }
 
-.cobweb {
-  width: 150px;
-  height: 150px;
-  background-image: url('/assets/img/daggerfall-mosswall-128x128.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.7;
-}
-
-.cobweb-top-left {
-  top: 50px;
-  left: 0;
-}
-
-.cobweb-top-right {
-  top: 50px;
-  right: 0;
-  transform: scaleX(-1);
-}
-
-.chains {
-  width: 40px;
-  height: 300px;
-  background-image: url('/assets/img/daggerfall-bedrock-128x64.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.9;
-}
-
-.chains-left {
-  top: 200px;
-  left: 20px;
-}
-
-.chains-right {
-  top: 300px;
-  right: 30px;
-  transform: scaleX(-1);
-}
-
-.skeleton {
-  width: 80px;
-  height: 150px;
-  background-image: url('/assets/img/daggerfall-mosswall-128x128.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  opacity: 0.8;
-  bottom: 5px;
-  left: 20px;
-}
+/* Cobwebs and skeleton removed as requested */
 
 /* Fog effect */
 .fog {
@@ -750,25 +621,9 @@ body {
   mix-blend-mode: screen;
 }
 
-/* Torch animation */
-@keyframes torch-flicker {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.8; }
-}
+/* Water drops effect removed as requested */
 
-.torch::after {
-  content: "";
-  position: absolute;
-  top: -40px;
-  left: -20px;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(circle, rgba(255,165,0,0.4) 0%, rgba(255,165,0,0) 70%);
-  border-radius: 50%;
-  animation: torch-flicker 3s infinite alternate;
-  opacity: 0.7;
-  z-index: -1;
-}
+/* Static torch glow - animation removed */
 
 /* Animated text */
 .blink {
@@ -784,15 +639,148 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .fx-hero h1 {
-    font-size: 24px;
+    font-size: 36px;
+    margin-top: 5px;
+    padding-top: 2px;
+  }
+  
+  .fx-hero p {
+    font-size: 14px;
   }
   
   .win95-menubar {
     overflow-x: auto;
+    height: auto;
+    padding: 3px;
   }
   
-  .flame {
+  .win95-menuitem {
+    padding: 0 10px;
+    white-space: nowrap;
+  }
+  
+  .torch-left, .torch-right {
+    transform: scale(0.7);
+  }
+  
+  .fx-content {
+    width: 95%;
+    padding: 30px 20px;
+    margin-top: 5px;
+  }
+  
+  .fx-content h2 {
+    font-size: 32px;
+  }
+  
+  .fx-content div {
+    padding-top: 40px;
+  }
+  
+  .moss-window-container {
     display: none;
+  }
+}
+
+/* Smaller mobile devices */
+@media (max-width: 480px) {
+  .fx-hero h1 {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+  
+  .fx-content {
+    width: 98%;
+    padding: 25px 15px;
+    background-size: cover; /* Ensure scroll background adjusts properly */
+  }
+  
+  .fx-content h2 {
+    font-size: 24px;
+    letter-spacing: 1px;
+  }
+  
+  .fx-content div {
+    padding-top: 30px;
+  }
+  
+  .torch-left, .torch-right {
+    display: none;
+  }
+  
+  .win95-menubar {
+    position: relative;
+    top: 0;
+    margin-top: 20px;
+  }
+  
+  .win95-titlebar {
+    position: relative;
+  }
+  
+  .fx-hero {
+    margin-top: 10px;
+    border-width: 4px;
+  }
+  
+  main {
+    margin-top: 0;
+  }
+  
+  footer {
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  /* Stack the menu items vertically */
+  .win95-menubar {
+    flex-direction: column;
+    align-items: stretch;
+    height: auto;
+  }
+  
+  .win95-menuitem {
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--win95-border-darker);
+  }
+  
+  /* Make counter text smaller */
+  footer div {
+    font-size: 14px;
+  }
+  
+  .counter-digits {
+    letter-spacing: 1px;
+  }
+  
+  /* Better tap targets for mobile */
+  .win95-button {
+    width: 20px;
+    height: 18px;
+  }
+  
+  /* Better scroll on mobile */
+  body {
+    overflow-y: auto;
+  }
+}
+
+/* Very small devices */
+@media (max-width: 320px) {
+  .fx-hero h1 {
+    font-size: 20px;
+  }
+  
+  .fx-hero p {
+    font-size: 12px;
+  }
+  
+  .fx-content h2 {
+    font-size: 20px;
+  }
+  
+  .win95-titlebar-text {
+    font-size: 12px;
   }
 }
 
