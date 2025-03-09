@@ -1,29 +1,106 @@
-/* Custom styles */
+/* 90s GeoCities Dungeon Theme */
 :root {
-  --fx-primary: #3572DB;
-  --fx-secondary: #4d5caa;
-  --fx-accent: #eff8ff;
-  --fx-text-primary: #1a1a1a;
-  --fx-text-secondary: #555;
-  --fx-background: #ffffff;
-  --fx-card-background: #f7f9fc;
-  --fx-border: #e5e7eb;
-  --fx-radius: 8px;
-  --fx-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --fx-primary: #8B0000;
+  --fx-secondary: #A52A2A;
+  --fx-accent: #FFD700;
+  --fx-text-primary: #000000;
+  --fx-text-secondary: #555555;
+  --fx-background: #000000;
+  --fx-card-background: #181818;
+  --fx-border: #8B4513;
+  --fx-radius: 0px;
+  --fx-shadow: 5px 5px 0px #8B4513;
+  
+  /* Windows 95 colors */
+  --win95-bg: #C0C0C0;
+  --win95-text: #000000;
+  --win95-border-light: #FFFFFF;
+  --win95-border-dark: #808080;
+  --win95-border-darker: #404040;
+  --win95-blue: #000080;
 }
 
-/* Dark mode overrides */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --fx-primary: #6d93e0;
-    --fx-secondary: #7e8cc6;
-    --fx-accent: #1e293b;
-    --fx-text-primary: #f3f4f6;
-    --fx-text-secondary: #d1d5db;
-    --fx-background: #0f172a;
-    --fx-card-background: #1e293b;
-    --fx-border: #334155;
-  }
+body {
+  font-family: 'MS Sans Serif', 'Pixelated MS Sans Serif', 'MS UI Gothic', Arial, sans-serif;
+  background-color: var(--fx-background);
+  background-image: url('https://web.archive.org/web/20090830111546/http://geocities.com/TimesSquare/Fortress/9999/images/tiledbackground.gif');
+  color: #FFD700;
+  cursor: url('https://cur.cursors-4u.net/games/gam-4/gam307.cur'), auto;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.fx-root {
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: rgba(0, 0, 0, 0.85);
+  border: 2px solid var(--fx-border);
+  box-shadow: 10px 10px 0 #8B4513;
+  padding: 0;
+}
+
+/* Win95 menubar */
+.win95-menubar {
+  background-color: var(--win95-bg);
+  border-top: 2px solid var(--win95-border-light);
+  border-left: 2px solid var(--win95-border-light);
+  border-right: 2px solid var(--win95-border-darker);
+  border-bottom: 2px solid var(--win95-border-darker);
+  padding: 2px;
+  display: flex;
+  height: 24px;
+}
+
+.win95-menuitem {
+  color: var(--win95-text);
+  padding: 0 10px;
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.win95-menuitem:hover {
+  background-color: var(--win95-blue);
+  color: white;
+}
+
+/* Win95 title bar */
+.win95-titlebar {
+  background-color: var(--win95-blue);
+  color: white;
+  font-weight: bold;
+  padding: 2px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+  font-size: 14px;
+}
+
+.win95-titlebar-text {
+  margin-left: 4px;
+}
+
+.win95-buttons {
+  display: flex;
+}
+
+.win95-button {
+  width: 16px;
+  height: 14px;
+  margin-left: 2px;
+  background-color: var(--win95-bg);
+  border-top: 2px solid var(--win95-border-light);
+  border-left: 2px solid var(--win95-border-light);
+  border-right: 2px solid var(--win95-border-darker);
+  border-bottom: 2px solid var(--win95-border-darker);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  cursor: pointer;
 }
 
 /* Custom component styles */
@@ -31,37 +108,60 @@
   display: block;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  background: var(--fx-card-background);
-  border: 1px solid var(--fx-border);
-  border-radius: var(--fx-radius);
-  box-shadow: var(--fx-shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #000000;
+  border-top: 2px solid var(--win95-border-light);
+  border-left: 2px solid var(--win95-border-light);
+  border-right: 2px solid var(--win95-border-darker);
+  border-bottom: 2px solid var(--win95-border-darker);
+  transition: none;
+  position: relative;
+  color: #FFD700;
+}
+
+.fx-project-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/stonebkg.jpg');
+  opacity: 0.2;
+  z-index: -1;
 }
 
 .fx-project-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  background-color: #181818;
 }
 
 .fx-project-card h3 {
   margin-top: 0;
-  color: var(--fx-primary);
+  color: #FF0000;
+  text-shadow: 2px 2px 0 #000;
+  font-family: 'Times New Roman', serif;
+  font-size: 24px;
+  border-bottom: 2px ridge #8B4513;
+  padding-bottom: 10px;
 }
 
 .fx-project-card .language {
   display: inline-block;
   padding: 0.25rem 0.5rem;
-  border-radius: 12px;
   font-size: 0.75rem;
-  background: var(--fx-accent);
+  background: #8B4513;
+  color: #FFD700;
   margin-right: 0.5rem;
+  border-top: 1px solid var(--win95-border-light);
+  border-left: 1px solid var(--win95-border-light);
+  border-right: 1px solid var(--win95-border-darker);
+  border-bottom: 1px solid var(--win95-border-darker);
 }
 
 .fx-project-meta {
   display: flex;
   align-items: center;
   margin-top: 1rem;
-  color: var(--fx-text-secondary);
+  color: #B8860B;
   font-size: 0.875rem;
 }
 
@@ -73,41 +173,183 @@
 
 .fx-project-meta svg {
   margin-right: 0.25rem;
+  filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(20deg);
 }
 
 .fx-article-card {
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  background: var(--fx-card-background);
-  border: 1px solid var(--fx-border);
-  border-radius: var(--fx-radius);
-  transition: transform 0.2s ease;
+  background: #000000;
+  border-top: 2px solid var(--win95-border-light);
+  border-left: 2px solid var(--win95-border-light);
+  border-right: 2px solid var(--win95-border-darker);
+  border-bottom: 2px solid var(--win95-border-darker);
+  transition: none;
+  position: relative;
+  color: #FFD700;
+}
+
+.fx-article-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/parchment.jpg');
+  opacity: 0.2;
+  z-index: -1;
 }
 
 .fx-article-card:hover {
-  transform: translateY(-3px);
+  background-color: #181818;
 }
 
 .fx-article-card h3 {
   margin-top: 0;
-  color: var(--fx-primary);
+  color: #FF0000;
+  text-shadow: 2px 2px 0 #000;
+  font-family: 'Times New Roman', serif;
+  font-size: 24px;
+  border-bottom: 2px ridge #8B4513;
+  padding-bottom: 10px;
 }
 
 .fx-article-date {
-  color: var(--fx-text-secondary);
+  color: #B8860B;
   font-size: 0.875rem;
   margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+/* Main content */
+.fx-content {
+  padding: 1.5rem;
+  color: #FFD700;
+}
+
+.fx-content h2 {
+  color: #FF0000;
+  text-shadow: 2px 2px 0 #000;
+  font-family: 'Times New Roman', serif;
+  font-size: 30px;
+  text-align: center;
+  border-bottom: 2px ridge #8B4513;
+  padding-bottom: 10px;
+  margin-top: 0;
+}
+
+.fx-hero {
+  text-align: center;
+  padding: 2rem 1rem;
+  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/banner.jpg');
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  border-bottom: 4px ridge #8B4513;
+}
+
+.fx-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 0;
+}
+
+.fx-hero h1, .fx-hero p {
+  position: relative;
+  z-index: 1;
+}
+
+.fx-hero h1 {
+  margin: 0;
+  font-size: 36px;
+  color: #FF0000;
+  text-shadow: 2px 2px 0 #000;
+  font-family: 'Times New Roman', serif;
+}
+
+.fx-hero p {
+  color: #FFD700;
+  margin-top: 0.5rem;
+}
+
+.fx-cta {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.fx-button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--win95-bg);
+  color: var(--win95-text);
+  text-decoration: none;
+  font-weight: bold;
+  border-top: 2px solid var(--win95-border-light);
+  border-left: 2px solid var(--win95-border-light);
+  border-right: 2px solid var(--win95-border-darker);
+  border-bottom: 2px solid var(--win95-border-darker);
+  text-align: center;
+}
+
+.fx-button:active {
+  border-top: 2px solid var(--win95-border-darker);
+  border-left: 2px solid var(--win95-border-darker);
+  border-right: 2px solid var(--win95-border-light);
+  border-bottom: 2px solid var(--win95-border-light);
+}
+
+/* 90s Decorations */
+.flame {
+  position: fixed;
+  width: 30px;
+  height: 60px;
+  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/torch.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+  z-index: 100;
+}
+
+.flame-left {
+  left: 20px;
+  top: 50%;
+}
+
+.flame-right {
+  right: 20px;
+  top: 50%;
+}
+
+/* Animated text */
+.blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .fx-hero h1 {
-    font-size: 2rem;
+    font-size: 24px;
   }
   
-  .fx-links {
-    flex-direction: column;
-    gap: 0.5rem;
+  .win95-menubar {
+    overflow-x: auto;
+  }
+  
+  .flame {
+    display: none;
   }
 }
 
@@ -126,13 +368,49 @@
 /* Animation for page transitions */
 .page-transition {
   opacity: 0;
-  transform: translateY(10px);
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 @keyframes fadeIn {
   to {
     opacity: 1;
-    transform: translateY(0);
   }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--win95-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--win95-bg);
+  border-top: 1px solid var(--win95-border-light);
+  border-left: 1px solid var(--win95-border-light);
+  border-right: 1px solid var(--win95-border-darker);
+  border-bottom: 1px solid var(--win95-border-darker);
+}
+
+/* Visitor counter */
+.visitor-counter {
+  font-family: 'Courier New', monospace;
+  text-align: center;
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #000;
+  border: 2px inset #8B4513;
+}
+
+.counter-digits {
+  display: inline-block;
+  background: #000;
+  color: #0F0;
+  padding: 2px 5px;
+  border: 1px inset #8B4513;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
