@@ -57,7 +57,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/assets/daggerfall-mosswall-128x128.png');
+  background-image: url('/assets/img/daggerfall-mosswall-128x128.png');
   background-repeat: repeat;
   background-size: 128px 128px;
   transform: translateZ(0);
@@ -85,7 +85,7 @@ body {
 .moss-window {
   width: 128px;
   height: 128px;
-  background-image: url('/assets/daggerfall-mosswindow-128x128.png');
+  background-image: url('/assets/img/daggerfall-mosswindow-128x128.png');
   background-repeat: no-repeat;
   background-size: contain;
   image-rendering: pixelated;
@@ -210,13 +210,16 @@ body {
 /* Torches on the sides */
 .torch {
   position: fixed;
-  width: 90px;
-  height: 200px;
+  width: 64px;  /* Adjusted size to match torch.gif dimensions */
+  height: 128px;
   z-index: 20;
   pointer-events: none;
-  background-image: url('https://i.imgur.com/9eYfILx.gif'); /* Better animated torch */
+  background-image: url('/assets/img/torch.gif'); /* New animated torch */
   background-repeat: no-repeat;
   background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 /* Base torch positioning */
@@ -323,28 +326,28 @@ body {
 .torch::after {
   content: "";
   position: absolute;
-  top: 10px;
-  left: 25px;
-  width: 130px;
-  height: 130px;
-  background: radial-gradient(circle, rgba(255,165,0,0.7) 0%, rgba(255,69,0,0.3) 40%, rgba(255,165,0,0) 70%);
+  top: 0;
+  left: 15px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(255,165,0,0.5) 0%, rgba(255,69,0,0.2) 40%, rgba(255,165,0,0) 70%);
   border-radius: 50%;
   animation: fire-glow 3s infinite alternate;
-  filter: blur(10px);
+  filter: blur(8px);
   z-index: 1;
 }
 
 .torch-top-left::after, .torch-top-right::after, .torch-bottom-left::after, .torch-bottom-right::after {
-  width: 100px;
-  height: 100px;
-  top: 5px;
-  left: 20px;
+  width: 60px;
+  height: 60px;
+  top: 0;
+  left: 15px;
 }
 
 @keyframes fire-glow {
-  0% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.95); }
-  100% { opacity: 0.8; transform: scale(1.05); }
+  0% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.95); }
+  100% { opacity: 0.7; transform: scale(1.05); }
 }
 
 /* Custom component styles */
@@ -431,7 +434,7 @@ body {
 .fx-article-card {
   padding: 1.8rem;
   margin-bottom: 2.5rem;
-  background-image: url('https://i.imgur.com/qltGPyb.jpg');
+  background-image: url('/assets/img/scroll.png');
   background-size: cover;
   position: relative;
   color: #FFD700;
