@@ -1,0 +1,16 @@
+{
+  "name": "roshanbhatiadotcom",
+  "version": "0.0.0",
+  "description": "roshanbhatiadotcom - Personal Website",
+  "main": "index.js",
+  "author": "roshbhatia",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "serve public -s",
+    "start": "serve public -s"
+  },
+  "dependencies": {
+    "serve": "^14.2.4"
+  }
+}
