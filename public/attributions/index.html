@@ -3,52 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World - Roshan Bhatia</title>
+  <title>**: Attributions **: ~ Credits & Thanks ~</title>
   <link rel="stylesheet" href="https://fx.hot.page/style">
   <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="icon" href="../../assets/icons8-subwoofer-16.png" type="image/png">
   <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
-  <style>
-    .fx-article {
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.6;
-    }
-    
-    .fx-article h1 {
-      margin-top: 0;
-      color: var(--fx-primary);
-    }
-    
-    .fx-article h2 {
-      color: var(--fx-secondary);
-      margin-top: 2rem;
-    }
-    
-    .fx-article-meta {
-      color: var(--fx-text-secondary);
-      margin-bottom: 2rem;
-    }
-    
-    .fx-article pre {
-      background: var(--fx-card-background);
-      padding: 1rem;
-      border-radius: var(--fx-radius);
-      overflow-x: auto;
-    }
-    
-    .fx-article-nav {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 3rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--fx-border);
-    }
-    
-    .fx-back-to-articles {
-      margin-bottom: 2rem;
-    }
-  </style>
+  <script src="https://unpkg.com/alpinejs@3.13.3" defer></script>
+  <!-- NetScape 4.0 Compatible -->
 </head>
 <body>
   <!-- Dungeon decorations -->
@@ -60,10 +20,10 @@
   <div class="dungeon-element chains chains-right"></div>
   <div class="dungeon-element skeleton"></div>
   <div class="fog"></div>
-
+  
   <div class="fx-root">
     <div class="win95-titlebar">
-      <div class="win95-titlebar-text">Hello World</div>
+      <div class="win95-titlebar-text">Attributions</div>
       <div class="win95-buttons">
         <div class="win95-button">_</div>
         <div class="win95-button">□</div>
@@ -76,53 +36,55 @@
       <nav class="win95-menubar">
         <a href="/" class="win95-menuitem">Home</a>
         <a href="/#projects" hx-get="/projects/index.html" hx-target="#content" hx-push-url="true" class="win95-menuitem">Projects</a>
-        <a href="#writing" class="win95-menuitem active">Writing</a>
+        <a href="/#writing" hx-get="/writing/index.html" hx-target="#content" hx-push-url="true" class="win95-menuitem">Writing</a>
         <a href="https://github.com/roshbhatia" target="_blank" class="win95-menuitem">GitHub</a>
-        <a href="/attributions" class="win95-menuitem">Attributions</a>
+        <a href="/attributions" class="win95-menuitem active">Attributions</a>
       </nav>
     </header>
 
-  <div class="fx-content page-transition">
-    <div class="fx-back-to-articles">
-      <a href="index.html" hx-get="index.html" hx-target="#content" hx-push-url="true">
-        ← Back to Articles
-      </a>
-    </div>
-    
-    <article class="fx-article">
-      <h1>Hello World</h1>
-      <div class="fx-article-meta">
-        <span>March 8, 2025</span>
-      </div>
-      
-      <div class="fx-article-content">
-        <h1 id="hello-world">Hello World</h1>
-<p>This is a sample article to demonstrate the writing section of the website. You can add more articles in the data/articles directory.</p>
-<h2 id="why-static-websites">Why Static Websites?</h2>
-<p>Static websites have several advantages:</p>
-<ol>
-<li><strong>Fast Performance</strong>: No server-side processing needed for each request</li>
-<li><strong>Improved Security</strong>: Fewer attack vectors compared to dynamic sites</li>
-<li><strong>Lower Cost</strong>: Hosting static sites is often cheaper or free</li>
-<li><strong>Simplicity</strong>: Easy to develop, deploy, and maintain</li>
-</ol>
-<h2 id="using-htmx-and-fxhotpage">Using htmx and fx.hot.page</h2>
-<p>This site uses a combination of htmx for interactivity and fx.hot.page for styling. This allows for a clean, modern interface without heavy JavaScript frameworks.</p>
-<pre><code class="language-javascript">// Sample code
-document.addEventListener(&#39;DOMContentLoaded&#39;, () =&gt; {
-  console.log(&#39;Hello, world!&#39;);
-});
-</code></pre>
-<p>Stay tuned for more articles!</p>
+    <main>
+      <section id="content" class="fx-content">
+        <h2>Attributions & Credits</h2>
+        
+        <div class="attribution-section">
+          <h3>Icons & Images</h3>
+          <ul>
+            <li>
+              <a target="_blank" href="https://icons8.com/icon/RPeRUFuJ2Fow/wizard">Wizard</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a> - Used as favicon
+            </li>
+            <li>
+              Wizard GIF from Geocities archives - Used on homepage
+            </li>
+            <li>
+              Various nostalgic badges and icons from Geocities archives
+            </li>
+          </ul>
+        </div>
 
+        <div class="attribution-section">
+          <h3>Technologies</h3>
+          <ul>
+            <li><a href="https://htmx.org" target="_blank">htmx</a> - For dynamic content without JavaScript</li>
+            <li><a href="https://alpinejs.dev" target="_blank">Alpine.js</a> - Minimal JavaScript framework</li>
+            <li><a href="https://fx.hot.page" target="_blank">FX</a> - Retro styling</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513;">
+      <div style="margin-bottom: 10px;">
+        <img src="https://web.archive.org/web/20090901195815/http://geocities.com/TimesSquare/Fortress/9999/images/email.gif" alt="Email" width="30">
+        <a href="mailto:your.email@example.com" style="color: #FFD700;">Send a Magical Message</a>
       </div>
-      
-      <div class="fx-article-nav">
-        <div></div>
-        <div></div>
+      <p style="color: #B8860B; font-size: 12px; margin-top: 5px;">
+        &copy; 2025 Roshan Bhatia's Dungeon - No Rights Reserved - Steal At Will
+      </p>
+      <div style="margin-top: 10px;">
+        <a href="https://htmx.org" target="_blank"><img src="https://web.archive.org/web/20090822030255/http://geocities.com/TimesSquare/Fortress/9999/images/valid-html.png" alt="Valid HTML" width="88" height="31"></a>
+        <a href="https://fx.hot.page" target="_blank"><img src="https://web.archive.org/web/20090830111545/http://geocities.com/TimesSquare/Fortress/9999/images/madewithmac.gif" alt="Made with Mac" width="88" height="31"></a>
       </div>
-    </article>
-  </div>
+    </footer>
   </div>
 
   <script>
