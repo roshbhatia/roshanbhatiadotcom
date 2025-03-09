@@ -28,5 +28,3 @@ yarn dev
 #### Projects
 
 About me section is pulled from the top level `README.md` in GitHub.
-
-Projects are automatically fetched from my GitHub. To include a project, I just add the "internal" topic to the repositories.
