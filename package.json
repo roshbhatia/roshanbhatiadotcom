@@ -8,8 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "serve public -s",
-    "start": "serve public -s",
-    "build": "echo 'No build required for static site'"
+    "start": "serve public -s"
   },
   "dependencies": {
     "serve": "^14.2.4"

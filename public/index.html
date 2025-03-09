@@ -6,16 +6,32 @@
   <title>**: roshanbhatiadotcom **: ~ Enter at your own Risk ~</title>
   <link rel="stylesheet" href="https://fx.hot.page/style">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="icon" href="../assets/icons8-subwoofer-16.png" type="image/png">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
   <script src="https://unpkg.com/htmx.org@1.9.10" defer></script>
   <script src="https://unpkg.com/alpinejs@3.13.3" defer></script>
   <!-- NetScape 4.0 Compatible -->
   <meta name="keywords" content="roshan bhatia, dungeon, coding, fantasy, win95, 90s, retro, geocities">
 </head>
 <body>
+  <!-- Daggerfall background with parallax effect -->
+  <div class="parallax-bg">
+    <div class="moss-wall" id="moss-wall"></div>
+    <div class="torch-overlay"></div>
+  </div>
+
+  <div class="moss-window-container">
+    <div class="moss-window"></div>
+    <div class="moss-window"></div>
+    <div class="moss-window"></div>
+  </div>
+  
   <!-- Dungeon decorations -->
   <div class="torch torch-left"></div>
   <div class="torch torch-right"></div>
+  <div class="torch torch-top-left"></div>
+  <div class="torch torch-top-right"></div>
+  <div class="torch torch-bottom-left"></div>
+  <div class="torch torch-bottom-right"></div>
   <div class="dungeon-element cobweb cobweb-top-left"></div>
   <div class="dungeon-element cobweb cobweb-top-right"></div>
   <div class="dungeon-element chains chains-left"></div>
@@ -195,6 +211,28 @@
         createParticle(container);
       }, (duration + delay) * 1000);
     }
+    
+    // Parallax effect for the Daggerfall background
+    document.addEventListener('mousemove', function(e) {
+      const mossWall = document.getElementById('moss-wall');
+      const windowContainer = document.querySelector('.moss-window-container');
+      
+      if (mossWall && windowContainer) {
+        // Calculate mouse position percentages (0-100)
+        const mouseX = (e.clientX / window.innerWidth) * 100;
+        const mouseY = (e.clientY / window.innerHeight) * 100;
+        
+        // Calculate offsets for parallax effect
+        const offsetX = (50 - mouseX) * 0.1; // Slow movement
+        const offsetY = (50 - mouseY) * 0.05;
+        
+        // Apply transform to moss wall (slow movement)
+        mossWall.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        
+        // Apply transform to windows (slightly faster movement for depth)
+        windowContainer.style.transform = `translate(${offsetX * 1.5}px, ${offsetY * 1.5}px)`;
+      }
+    });
   </script>
 </body>
 </html>

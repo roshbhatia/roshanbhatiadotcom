@@ -30,29 +30,86 @@ html, body {
 
 body {
   font-family: 'MS Sans Serif', 'Pixelated MS Sans Serif', 'MS UI Gothic', Arial, sans-serif;
-  background-color: #1a1209;
-  background-image: url('https://i.imgur.com/0qCIxsJ.jpg');
-  background-size: cover;
-  background-attachment: fixed;
+  --cobblestone-bg: #1a1209;
+  background-color: var(--cobblestone-bg);
   color: #FFD700;
   cursor: url('https://cur.cursors-4u.net/games/gam-4/gam307.cur'), auto;
   line-height: 1.5;
   position: relative;
+  overflow-x: hidden;
 }
 
-/* Flickering torch overlay */
-body::before {
-  content: "";
+/* Daggerfall mossy wall background with parallax effect */
+.parallax-bg {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at center, rgba(255, 187, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+  z-index: 0;
   pointer-events: none;
-  animation: flicker 5s infinite alternate;
+  transform: translateZ(0);
+}
+
+.moss-wall {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/daggerfall-mosswall-128x128.png');
+  background-repeat: repeat;
+  background-size: 128px 128px;
+  transform: translateZ(0);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
   z-index: 1;
 }
+
+/* Daggerfall windows */
+.moss-window-container {
+  position: fixed;
+  top: 66.6vh; /* 2/3 of the way up from the bottom */
+  left: 0;
+  width: 100%;
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15%;
+  z-index: 2;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.moss-window {
+  width: 128px;
+  height: 128px;
+  background-image: url('/assets/daggerfall-mosswindow-128x128.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+}
+
+/* Flickering torch light overlay */
+.torch-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(ellipse at center, rgba(255, 187, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+  background-attachment: fixed;
+  pointer-events: none;
+  z-index: 3;
+  animation: flicker 5s infinite alternate;
+  transform: translateZ(0);
+}
+
+/* Flickering torch overlay - now included in the cobblestone background */
 
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
@@ -153,25 +210,141 @@ body::before {
 /* Torches on the sides */
 .torch {
   position: fixed;
-  width: 60px;
-  height: 150px;
+  width: 90px;
+  height: 200px;
   z-index: 20;
   pointer-events: none;
-  background-image: url('https://i.imgur.com/sUvRd2r.gif');
+  background-image: url('https://i.imgur.com/9eYfILx.gif'); /* Better animated torch */
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+/* Base torch positioning */
 
 .torch-left {
   left: 20px;
   top: 50%;
   transform: translateY(-50%);
+  animation-delay: 0.5s;
 }
 
 .torch-right {
   right: 20px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) scaleX(-1); /* Flip the right torch */
+  animation-delay: 1.2s;
+}
+
+@keyframes torch-sway-left {
+  0%, 100% { transform: translateY(-50%) rotate(-2deg); }
+  50% { transform: translateY(-50%) rotate(2deg); }
+}
+
+@keyframes torch-sway-right {
+  0%, 100% { transform: translateY(-50%) scaleX(-1) rotate(2deg); }
+  50% { transform: translateY(-50%) scaleX(-1) rotate(-2deg); }
+}
+
+.torch-left {
+  animation: torch-sway-left 6s ease-in-out infinite alternate;
+}
+
+.torch-right {
+  animation: torch-sway-right 6s ease-in-out infinite alternate;
+}
+
+.torch-top-left {
+  left: 15%;
+  top: 120px;
+  transform: scale(0.7);
+  animation-delay: 0.8s;
+}
+
+.torch-top-right {
+  right: 15%;
+  top: 120px;
+  transform: scale(0.7) scaleX(-1);
+  animation-delay: 1.5s;
+}
+
+.torch-bottom-left {
+  left: 15%;
+  bottom: 50px;
+  top: auto;
+  transform: scale(0.7);
+  animation-delay: 0.3s;
+}
+
+.torch-bottom-right {
+  right: 15%;
+  bottom: 50px;
+  top: auto;
+  transform: scale(0.7) scaleX(-1);
+  animation-delay: 1.7s;
+}
+
+@keyframes torch-sway-top-left {
+  0%, 100% { transform: scale(0.7) rotate(-2deg); }
+  50% { transform: scale(0.7) rotate(2deg); }
+}
+
+@keyframes torch-sway-top-right {
+  0%, 100% { transform: scale(0.7) scaleX(-1) rotate(2deg); }
+  50% { transform: scale(0.7) scaleX(-1) rotate(-2deg); }
+}
+
+@keyframes torch-sway-bottom-left {
+  0%, 100% { transform: scale(0.7) rotate(-2deg); }
+  50% { transform: scale(0.7) rotate(2deg); }
+}
+
+@keyframes torch-sway-bottom-right {
+  0%, 100% { transform: scale(0.7) scaleX(-1) rotate(2deg); }
+  50% { transform: scale(0.7) scaleX(-1) rotate(-2deg); }
+}
+
+.torch-top-left {
+  animation: torch-sway-top-left 6s ease-in-out infinite alternate;
+}
+
+.torch-top-right {
+  animation: torch-sway-top-right 6s ease-in-out infinite alternate;
+}
+
+.torch-bottom-left {
+  animation: torch-sway-bottom-left 6s ease-in-out infinite alternate;
+}
+
+.torch-bottom-right {
+  animation: torch-sway-bottom-right 6s ease-in-out infinite alternate;
+}
+
+/* Add fire light effect to torches */
+.torch::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 25px;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle, rgba(255,165,0,0.7) 0%, rgba(255,69,0,0.3) 40%, rgba(255,165,0,0) 70%);
+  border-radius: 50%;
+  animation: fire-glow 3s infinite alternate;
+  filter: blur(10px);
+  z-index: 1;
+}
+
+.torch-top-left::after, .torch-top-right::after, .torch-bottom-left::after, .torch-bottom-right::after {
+  width: 100px;
+  height: 100px;
+  top: 5px;
+  left: 20px;
+}
+
+@keyframes fire-glow {
+  0% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.95); }
+  100% { opacity: 0.8; transform: scale(1.05); }
 }
 
 /* Custom component styles */
