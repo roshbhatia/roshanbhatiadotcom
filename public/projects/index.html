@@ -10,6 +10,15 @@
   <script src="https://unpkg.com/alpinejs@3.13.3" defer></script>
 </head>
 <body>
+  <!-- Dungeon decorations -->
+  <div class="torch torch-left"></div>
+  <div class="torch torch-right"></div>
+  <div class="dungeon-element cobweb cobweb-top-left"></div>
+  <div class="dungeon-element cobweb cobweb-top-right"></div>
+  <div class="dungeon-element chains chains-left"></div>
+  <div class="dungeon-element chains chains-right"></div>
+  <div class="dungeon-element skeleton"></div>
+  <div class="fog"></div>
   <div class="fx-content page-transition">
     <img src="https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/skulldivider.gif" alt="Divider" width="100%">
     
@@ -164,6 +173,83 @@
         });
       });
     });
+  </script>
+  
+  <script>
+    // Create floating dust particles for dungeon atmosphere
+    document.addEventListener('DOMContentLoaded', function() {
+      const particleContainer = document.createElement('div');
+      particleContainer.style.position = 'fixed';
+      particleContainer.style.top = '0';
+      particleContainer.style.left = '0';
+      particleContainer.style.width = '100%';
+      particleContainer.style.height = '100%';
+      particleContainer.style.overflow = 'hidden';
+      particleContainer.style.pointerEvents = 'none';
+      particleContainer.style.zIndex = '50';
+      document.body.appendChild(particleContainer);
+      
+      const particleCount = 50;
+      
+      for (let i = 0; i < particleCount; i++) {
+        createParticle(particleContainer);
+      }
+    });
+    
+    function createParticle(container) {
+      const particle = document.createElement('div');
+      
+      // Style the particle
+      particle.style.position = 'absolute';
+      particle.style.width = Math.random() * 3 + 1 + 'px';
+      particle.style.height = particle.style.width;
+      particle.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+      particle.style.borderRadius = '50%';
+      particle.style.boxShadow = '0 0 2px rgba(255, 215, 0, 0.5)';
+      
+      // Set random initial position
+      particle.style.left = Math.random() * 100 + 'vw';
+      particle.style.top = Math.random() * 100 + 'vh';
+      
+      // Set animation properties
+      const duration = Math.random() * 60 + 30; // 30-90 seconds
+      const delay = Math.random() * 15; // 0-15 seconds delay
+      
+      particle.style.animation = `float ${duration}s linear ${-delay}s infinite`;
+      
+      // Add CSS for floating animation
+      if (!document.getElementById('particle-styles')) {
+        const styleSheet = document.createElement('style');
+        styleSheet.id = 'particle-styles';
+        styleSheet.textContent = `
+          @keyframes float {
+            0% {
+              transform: translateY(100vh) translateX(0);
+              opacity: 0;
+            }
+            10% {
+              opacity: 0.3;
+            }
+            90% {
+              opacity: 0.3;
+            }
+            100% {
+              transform: translateY(-10vh) translateX(${Math.random() * 40 - 20}px);
+              opacity: 0;
+            }
+          }
+        `;
+        document.head.appendChild(styleSheet);
+      }
+      
+      container.appendChild(particle);
+      
+      // Remove and recreate after animation ends
+      setTimeout(() => {
+        container.removeChild(particle);
+        createParticle(container);
+      }, (duration + delay) * 1000);
+    }
   </script>
 </body>
 </html>

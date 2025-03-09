@@ -20,24 +20,57 @@
   --win95-blue: #000080;
 }
 
-body {
-  font-family: 'MS Sans Serif', 'Pixelated MS Sans Serif', 'MS UI Gothic', Arial, sans-serif;
-  background-color: var(--fx-background);
-  background-image: url('https://web.archive.org/web/20090830111546/http://geocities.com/TimesSquare/Fortress/9999/images/tiledbackground.gif');
-  color: #FFD700;
-  cursor: url('https://cur.cursors-4u.net/games/gam-4/gam307.cur'), auto;
+html, body {
+  width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'MS Sans Serif', 'Pixelated MS Sans Serif', 'MS UI Gothic', Arial, sans-serif;
+  background-color: #1a1209;
+  background-image: url('https://i.imgur.com/0qCIxsJ.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  color: #FFD700;
+  cursor: url('https://cur.cursors-4u.net/games/gam-4/gam307.cur'), auto;
   line-height: 1.5;
+  position: relative;
+}
+
+/* Flickering torch overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center, rgba(255, 187, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+  pointer-events: none;
+  animation: flicker 5s infinite alternate;
+  z-index: 1;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 0.95;
+  }
+  20%, 24%, 55% {
+    opacity: 0.2;
+  }
 }
 
 .fx-root {
-  max-width: 800px;
-  margin: 20px auto;
-  background-color: rgba(0, 0, 0, 0.85);
-  border: 2px solid var(--fx-border);
-  box-shadow: 10px 10px 0 #8B4513;
+  width: 100%;
+  min-height: 100vh;
   padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
 }
 
 /* Win95 menubar */
@@ -50,11 +83,18 @@ body {
   padding: 2px;
   display: flex;
   height: 24px;
+  position: fixed;
+  top: 25px;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .win95-menuitem {
   color: var(--win95-text);
-  padding: 0 10px;
+  padding: 0 15px;
   line-height: 20px;
   font-size: 14px;
   font-weight: bold;
@@ -77,6 +117,13 @@ body {
   align-items: center;
   height: 20px;
   font-size: 14px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .win95-titlebar-text {
@@ -103,19 +150,44 @@ body {
   cursor: pointer;
 }
 
+/* Torches on the sides */
+.torch {
+  position: fixed;
+  width: 60px;
+  height: 150px;
+  z-index: 20;
+  pointer-events: none;
+  background-image: url('https://i.imgur.com/sUvRd2r.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.torch-left {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.torch-right {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 /* Custom component styles */
 .fx-project-card {
   display: block;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  background: #000000;
-  border-top: 2px solid var(--win95-border-light);
-  border-left: 2px solid var(--win95-border-light);
-  border-right: 2px solid var(--win95-border-darker);
-  border-bottom: 2px solid var(--win95-border-darker);
-  transition: none;
+  padding: 1.8rem;
+  margin-bottom: 2.5rem;
+  background-image: url('https://i.imgur.com/k5L6MXh.jpg');
+  background-size: cover;
   position: relative;
   color: #FFD700;
+  border: 8px solid transparent;
+  border-image: url('https://i.imgur.com/SpdvKNa.png') 20 round;
+  transition: transform 0.3s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  text-decoration: none;
 }
 
 .fx-project-card::before {
@@ -125,13 +197,18 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/stonebkg.jpg');
-  opacity: 0.2;
-  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 0;
 }
 
 .fx-project-card:hover {
-  background-color: #181818;
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(139, 69, 19, 0.3), 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.fx-project-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .fx-project-card h3 {
@@ -139,54 +216,58 @@ body {
   color: #FF0000;
   text-shadow: 2px 2px 0 #000;
   font-family: 'Times New Roman', serif;
-  font-size: 24px;
+  font-size: 28px;
   border-bottom: 2px ridge #8B4513;
   padding-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .fx-project-card .language {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
   background: #8B4513;
   color: #FFD700;
   margin-right: 0.5rem;
-  border-top: 1px solid var(--win95-border-light);
-  border-left: 1px solid var(--win95-border-light);
-  border-right: 1px solid var(--win95-border-darker);
-  border-bottom: 1px solid var(--win95-border-darker);
+  border-radius: 3px;
+  font-family: 'Times New Roman', serif;
+  letter-spacing: 1px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .fx-project-meta {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  margin-top: 1.2rem;
   color: #B8860B;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  font-family: 'Times New Roman', serif;
 }
 
 .fx-project-meta span {
-  margin-right: 1rem;
+  margin-right: 1.5rem;
   display: flex;
   align-items: center;
 }
 
-.fx-project-meta svg {
-  margin-right: 0.25rem;
-  filter: sepia(100%) saturate(300%) brightness(70%) hue-rotate(20deg);
+.fx-project-meta img {
+  margin-right: 0.5rem;
+  filter: drop-shadow(0 0 3px rgba(255, 215, 0, 0.7));
 }
 
 .fx-article-card {
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  background: #000000;
-  border-top: 2px solid var(--win95-border-light);
-  border-left: 2px solid var(--win95-border-light);
-  border-right: 2px solid var(--win95-border-darker);
-  border-bottom: 2px solid var(--win95-border-darker);
-  transition: none;
+  padding: 1.8rem;
+  margin-bottom: 2.5rem;
+  background-image: url('https://i.imgur.com/qltGPyb.jpg');
+  background-size: cover;
   position: relative;
   color: #FFD700;
+  border: 8px solid transparent;
+  border-image: url('https://i.imgur.com/XQbYSS2.png') 20 round;
+  transition: transform 0.3s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  text-decoration: none;
 }
 
 .fx-article-card::before {
@@ -196,13 +277,18 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/parchment.jpg');
-  opacity: 0.2;
-  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 0;
 }
 
 .fx-article-card:hover {
-  background-color: #181818;
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(139, 69, 19, 0.3), 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.fx-article-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .fx-article-card h3 {
@@ -210,43 +296,60 @@ body {
   color: #FF0000;
   text-shadow: 2px 2px 0 #000;
   font-family: 'Times New Roman', serif;
-  font-size: 24px;
+  font-size: 28px;
   border-bottom: 2px ridge #8B4513;
   padding-bottom: 10px;
+  letter-spacing: 1px;
 }
 
 .fx-article-date {
   color: #B8860B;
-  font-size: 0.875rem;
-  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
   font-style: italic;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7);
 }
 
 /* Main content */
 .fx-content {
   padding: 1.5rem;
   color: #FFD700;
+  width: 85%;
+  max-width: 1100px;
+  margin: 0 auto;
+  margin-top: 55px; /* Space for the menu bars */
+  position: relative;
+  background-image: url('https://i.imgur.com/isTxcWb.png');
+  background-size: 100% 100%;
+  border: 15px solid transparent;
+  border-image: url('https://i.imgur.com/XQbYSS2.png') 30 round;
+  padding: 40px;
+  box-sizing: border-box;
+  font-family: 'Times New Roman', serif;
 }
 
 .fx-content h2 {
-  color: #FF0000;
-  text-shadow: 2px 2px 0 #000;
+  color: #8B0000;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.5);
   font-family: 'Times New Roman', serif;
-  font-size: 30px;
+  font-size: 42px;
   text-align: center;
   border-bottom: 2px ridge #8B4513;
   padding-bottom: 10px;
-  margin-top: 0;
+  margin-top: 10px;
+  letter-spacing: 2px;
 }
 
 .fx-hero {
   text-align: center;
-  padding: 2rem 1rem;
-  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/banner.jpg');
+  padding: 3rem 2rem;
+  background-image: url('https://i.imgur.com/5kDHFSl.jpg');
   background-position: center;
   background-size: cover;
   position: relative;
-  border-bottom: 4px ridge #8B4513;
+  margin-bottom: 30px;
+  box-shadow: 0 0 30px rgba(255, 180, 0, 0.3);
+  border: 8px ridge #8B4513;
 }
 
 .fx-hero::before {
@@ -256,7 +359,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 0;
 }
 
@@ -267,15 +370,48 @@ body {
 
 .fx-hero h1 {
   margin: 0;
-  font-size: 36px;
+  font-size: 56px;
   color: #FF0000;
-  text-shadow: 2px 2px 0 #000;
+  text-shadow: 
+    2px 2px 0 #000,
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    0 0 10px #FF8C00,
+    0 0 20px #FF8C00;
   font-family: 'Times New Roman', serif;
+  letter-spacing: 3px;
+  font-weight: bold;
+  animation: shine 3s infinite alternate;
+}
+
+@keyframes shine {
+  from {
+    text-shadow: 
+      2px 2px 0 #000,
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      0 0 10px #FF8C00,
+      0 0 20px #FF8C00;
+  }
+  to {
+    text-shadow: 
+      2px 2px 0 #000,
+      -2px -2px 0 #000,
+      2px -2px 0 #000,
+      -2px 2px 0 #000,
+      0 0 15px #FF8C00,
+      0 0 30px #FF8C00,
+      0 0 40px #FF8C00;
+  }
 }
 
 .fx-hero p {
   color: #FFD700;
-  margin-top: 0.5rem;
+  margin-top: 1rem;
+  font-size: 20px;
+  text-shadow: 2px 2px 0 #000;
 }
 
 .fx-cta {
@@ -306,25 +442,97 @@ body {
   border-bottom: 2px solid var(--win95-border-light);
 }
 
-/* 90s Decorations */
-.flame {
+/* Dungeon Decorations */
+.dungeon-element {
   position: fixed;
-  width: 30px;
-  height: 60px;
-  background-image: url('https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/torch.gif');
-  background-repeat: no-repeat;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.cobweb {
+  width: 150px;
+  height: 150px;
+  background-image: url('https://i.imgur.com/vfGUWNh.png');
   background-size: contain;
-  z-index: 100;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 
-.flame-left {
+.cobweb-top-left {
+  top: 50px;
+  left: 0;
+}
+
+.cobweb-top-right {
+  top: 50px;
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.chains {
+  width: 40px;
+  height: 300px;
+  background-image: url('https://i.imgur.com/vLEdvmx.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+}
+
+.chains-left {
+  top: 200px;
   left: 20px;
-  top: 50%;
 }
 
-.flame-right {
-  right: 20px;
-  top: 50%;
+.chains-right {
+  top: 300px;
+  right: 30px;
+  transform: scaleX(-1);
+}
+
+.skeleton {
+  width: 80px;
+  height: 150px;
+  background-image: url('https://i.imgur.com/Ny2NIV0.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+  bottom: 5px;
+  left: 20px;
+}
+
+/* Fog effect */
+.fog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://i.imgur.com/0yIKbop.png');
+  background-size: cover;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 100;
+  mix-blend-mode: screen;
+}
+
+/* Torch animation */
+@keyframes torch-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+.torch::after {
+  content: "";
+  position: absolute;
+  top: -40px;
+  left: -20px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255,165,0,0.4) 0%, rgba(255,165,0,0) 70%);
+  border-radius: 50%;
+  animation: torch-flicker 3s infinite alternate;
+  opacity: 0.7;
+  z-index: -1;
 }
 
 /* Animated text */
