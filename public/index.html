@@ -49,32 +49,23 @@
       <nav class="win95-menubar">
         <a href="/" class="win95-menuitem">Home</a>
         <a href="#projects" hx-get="projects/index.html" hx-target="#content" hx-push-url="true" class="win95-menuitem">Projects</a>
-        <a href="#writing" hx-get="writing/index.html" hx-target="#content" hx-push-url="true" class="win95-menuitem">Writing</a>
         <a href="https://github.com/roshbhatia" target="_blank" class="win95-menuitem">GitHub</a>
-        <a href="/attributions" class="win95-menuitem">Attributions</a>
       </nav>
     </header>
 
     <main>
       <section id="hero" class="fx-hero">
-        <h1 style="font-family: 'Maskdown One', serif; font-size: 64px; letter-spacing: 2px; margin-top: 6px; padding-top: 35px;">Roshan Bhatia</h1>
-        <p style="margin-top: 22px; color: white;">~*~ Senior Software Engineer (Controller of the Plane) ~*~</p>
-        <p class="blink" style="color: white;">** BEST VIEWED WITH NETSCAPE NAVIGATOR 4.0 **</p>
+        <h1 style="font-family: 'Maskdown One', serif; font-size: 48px; letter-spacing: 2px; margin-top: 50px; padding-top: 0; color: #8B0000;">Roshan Bhatia</h1>
+        <p style="margin-top: 10px; color: #FFD700;">~*~ Senior Software Engineer (Controller of the Plane) ~*~</p>
+        <p class="blink" style="color: #FFD700; margin-top: 5px;">** BEST VIEWED WITH NETSCAPE NAVIGATOR 4.0 **</p>
       </section>
 
       <section id="content" class="fx-content">
         <div style="padding-top: 30px;">
-          <h2 style="margin-top: 15;">Platform and Infrastructure</h2>
-          <center><img src="https://web.archive.org/web/20090902192244/http://geocities.com/TimesSquare/Fortress/9999/images/wizard.gif" alt="Wizard" width="150"></center>
-          
-          <div id="readme-content" style="max-width: 800px; margin: 0 auto;">
-            <div class="loading-text">
-              <p style="text-align: center;">
-                <img src="https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/spinner.gif" alt="Loading" width="50">
-                <br>
-                Summoning README from the GitHub realm...
-              </p>
-            </div>
+          <h2 style="margin-top: 15;">Platform and Infrastructure</h2>          
+          <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p>This section will be populated with content soon.</p>
+            <img src="https://web.archive.org/web/20090830075929/http://geocities.com/TimesSquare/Fortress/9999/images/construction.gif" alt="Under Construction" width="300">
           </div>
         </div>
       </section>
@@ -88,10 +79,13 @@
     <!-- Goblin container for animations -->
     <div id="goblin-container"></div>
     
-    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513; position: fixed; bottom: 0; left: 0; right: 0; background-image: url('/assets/img/daggerfall-bedrock-128x64.png'); background-repeat: repeat; background-size: 128px 64px; z-index: 90;">
-      <div style="color: #FFD700; font-size: 16px; margin: 0;">
-        <span>Brave Adventurers Who Have Entered: </span>
-        <span class="counter-digits">00001337</span>
+    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513; position: fixed; bottom: 0; left: 0; right: 0; background-image: url('/assets/img/daggerfall-bedrock-128x64.png'); background-repeat: repeat; background-size: 128px 64px; z-index: 90; display: flex; justify-content: space-between;">
+      <div style="color: #FFD700; font-size: 16px; margin: 0; text-align: left; padding-left: 20px;">
+        <span>Brave Adventurers: </span>
+        <span class="counter-digits">1337</span>
+      </div>
+      <div style="color: #FFD700; font-size: 16px; margin: 0; text-align: right; padding-right: 20px;">
+        <a href="/attributions" style="color: #FFD700; text-decoration: none;">Attributions</a>
       </div>
     </footer>
   </div>
@@ -318,21 +312,32 @@
       }
       
       // Add win95 button functionality
+      const minimizeButton = document.querySelector('.win95-button:nth-child(1)');
+      const maximizeButton = document.querySelector('.win95-button:nth-child(2)');
       const closeButton = document.querySelector('.win95-button:nth-child(3)');
+      
+      if (minimizeButton) {
+        minimizeButton.addEventListener('click', function() {
+          alert('The dungeon refuses to be minimized!');
+        });
+      }
+      
+      if (maximizeButton) {
+        maximizeButton.addEventListener('click', function() {
+          alert('Dungeon expansion was halted due to budget cuts!');
+        });
+      }
+      
       if (closeButton) {
         closeButton.addEventListener('click', function() {
           alert('Sorry! You cannot escape the dungeon so easily!');
         });
       }
       
-      // Make counter increment randomly
+      // Set counter to fixed 1337
       const counterEl = document.querySelector('.counter-digits');
       if (counterEl) {
-        setInterval(() => {
-          let count = parseInt(counterEl.textContent, 10);
-          count += Math.floor(Math.random() * 3) + 1;
-          counterEl.textContent = count.toString().padStart(8, '0');
-        }, 30000);
+        counterEl.textContent = '1337';
       }
       
       // Create floating dust particles
@@ -367,133 +372,68 @@
       const goblinContainer = document.getElementById('goblin-container');
       if (!goblinContainer) return;
       
-      // Start the goblin spawning cycle
-      spawnGoblins();
+      // Create a static idling goblin to the left of the left torch
+      createStaticGoblin();
       
-      function spawnGoblins() {
-        // Determine how many goblins to spawn (1-3)
-        const goblinCount = Math.floor(Math.random() * 3) + 1;
+      // Start running goblins cycle - first goblin after 2 seconds
+      setTimeout(spawnRunningGoblin, 2000);
+      
+      // Create a permanent idle goblin
+      function createStaticGoblin() {
+        const staticGoblin = document.createElement('div');
+        staticGoblin.className = 'goblin static-goblin';
+        staticGoblin.classList.add('goblin-idle-left');
         
-        // Clear any existing goblins
-        goblinContainer.innerHTML = '';
+        // Position to the left of the left torch
+        staticGoblin.style.position = 'fixed';
+        staticGoblin.style.left = '100px'; // To the right of the left torch
+        staticGoblin.style.bottom = '25px'; // Just above the floor
+        staticGoblin.style.zIndex = '999'; // Make sure it's on top
         
-        // Spawn the goblins
-        for (let i = 0; i < goblinCount; i++) {
-          setTimeout(() => {
-            spawnGoblin();
-          }, i * 800); // Stagger their appearance
-        }
-        
-        // Schedule next spawn cycle (5-6 seconds)
-        const nextSpawnTime = 5000 + Math.random() * 1000;
-        setTimeout(spawnGoblins, nextSpawnTime);
+        // Add to the container
+        goblinContainer.appendChild(staticGoblin);
       }
       
-      function spawnGoblin() {
-        // Create goblin element
+      // Spawn a running goblin
+      function spawnRunningGoblin() {
+        // Create new goblin element
         const goblin = document.createElement('div');
-        goblin.className = 'goblin';
+        goblin.className = 'goblin running-goblin';
+        
+        // Position at random height within the container
+        goblin.style.bottom = Math.floor(Math.random() * 5) + 'px';
+        goblin.style.zIndex = '999'; // Make sure it's on top
         
         // Randomly decide direction (left-to-right or right-to-left)
         const isLeftToRight = Math.random() > 0.5;
         
-        // Randomly decide if the goblin will stop in the middle (1 in 4 chance)
-        const willStopInMiddle = Math.random() < 0.25;
+        // Set animation duration
+        const duration = 15; // 15 seconds to cross the screen
         
-        // Set initial position and direction
         if (isLeftToRight) {
+          // Left to right movement
           goblin.classList.add('goblin-left-to-right');
-          
-          if (willStopInMiddle) {
-            // Position to stop at (center)
-            const stopPosition = (window.innerWidth / 2) - 32; // center - half goblin width
-            
-            // Calculate time to reach center (based on total animation duration)
-            const totalDistance = window.innerWidth + 140; // total screen width + offsets
-            const timeToCenter = (stopPosition + 70) / totalDistance * 10; // 10s is total animation time
-            
-            // Animate to middle only
-            goblin.style.animationDuration = timeToCenter + 's';
-            
-            // When it reaches middle, change to idle animation
-            setTimeout(() => {
-              goblin.className = 'goblin goblin-idle-left';
-              goblin.style.left = stopPosition + 'px';
-              
-              // After idle animation, turn and run back
-              setTimeout(() => {
-                goblin.className = 'goblin goblin-idle-right';
-                
-                // After looking right, run back left
-                setTimeout(() => {
-                  goblin.className = 'goblin goblin-right-to-left';
-                  goblin.style.right = 'auto';
-                  goblin.style.left = stopPosition + 'px';
-                  goblin.style.animationDuration = timeToCenter + 's';
-                  
-                  // Remove after animation completes
-                  setTimeout(() => {
-                    goblinContainer.removeChild(goblin);
-                  }, timeToCenter * 1000);
-                }, 1500);
-              }, 1500);
-            }, timeToCenter * 1000);
-          } else {
-            // Remove after animation completes
-            setTimeout(() => {
-              goblinContainer.removeChild(goblin);
-            }, 10000);
-          }
+          goblin.style.animation = `goblin-run-left-to-right ${duration}s linear forwards`;
+          goblin.style.left = '-70px'; // Start off-screen
         } else {
+          // Right to left movement
           goblin.classList.add('goblin-right-to-left');
-          
-          if (willStopInMiddle) {
-            // Position to stop at (center)
-            const stopPosition = (window.innerWidth / 2) - 32; // center - half goblin width
-            
-            // Calculate time to reach center (based on total animation duration)
-            const totalDistance = window.innerWidth + 140; // total screen width + offsets
-            const timeToCenter = (stopPosition + 70) / totalDistance * 10; // 10s is total animation time
-            
-            // Animate to middle only
-            goblin.style.animationDuration = timeToCenter + 's';
-            
-            // When it reaches middle, change to idle animation
-            setTimeout(() => {
-              goblin.className = 'goblin goblin-idle-right';
-              goblin.style.right = stopPosition + 'px';
-              
-              // After idle animation, turn and run back
-              setTimeout(() => {
-                goblin.className = 'goblin goblin-idle-left';
-                
-                // After looking left, run back right
-                setTimeout(() => {
-                  goblin.className = 'goblin goblin-left-to-right';
-                  goblin.style.left = 'auto';
-                  goblin.style.right = stopPosition + 'px';
-                  goblin.style.animationDuration = timeToCenter + 's';
-                  
-                  // Remove after animation completes
-                  setTimeout(() => {
-                    goblinContainer.removeChild(goblin);
-                  }, timeToCenter * 1000);
-                }, 1500);
-              }, 1500);
-            }, timeToCenter * 1000);
-          } else {
-            // Remove after animation completes
-            setTimeout(() => {
-              goblinContainer.removeChild(goblin);
-            }, 10000);
-          }
+          goblin.style.animation = `goblin-run-right-to-left ${duration}s linear forwards`;
+          goblin.style.right = '-70px'; // Start off-screen
         }
-        
-        // Position at random height within the container
-        goblin.style.bottom = Math.floor(Math.random() * 5) + 'px';
         
         // Add to container
         goblinContainer.appendChild(goblin);
+        
+        // Remove after animation completes
+        setTimeout(() => {
+          if (goblin.parentNode === goblinContainer) {
+            goblinContainer.removeChild(goblin);
+          }
+        }, duration * 1000 + 500); // Add a small buffer
+        
+        // Schedule next goblin to run exactly every 10 seconds
+        setTimeout(spawnRunningGoblin, 10000); // Every 10 seconds exactly
       }
     }
     

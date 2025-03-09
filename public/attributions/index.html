@@ -18,6 +18,9 @@
   <!-- Daggerfall background with parallax effect -->
   <div class="parallax-bg">
     <div class="moss-wall" id="moss-wall"></div>
+    <!-- Torches pinned to background -->
+    <div class="torch torch-left"></div>
+    <div class="torch torch-right"></div>
     <div class="torch-overlay"></div>
   </div>
 
@@ -27,18 +30,6 @@
     <div class="moss-window"></div>
   </div>
   
-  <!-- Dungeon decorations -->
-  <div class="torch torch-left"></div>
-  <div class="torch torch-right"></div>
-  <div class="torch torch-top-left"></div>
-  <div class="torch torch-top-right"></div>
-  <div class="torch torch-bottom-left"></div>
-  <div class="torch torch-bottom-right"></div>
-  <div class="dungeon-element cobweb cobweb-top-left"></div>
-  <div class="dungeon-element cobweb cobweb-top-right"></div>
-  <div class="dungeon-element chains chains-left"></div>
-  <div class="dungeon-element chains chains-right"></div>
-  <div class="dungeon-element skeleton"></div>
   <div class="fog"></div>
   
   <div class="fx-root">
@@ -56,13 +47,17 @@
       <nav class="win95-menubar">
         <a href="/" class="win95-menuitem">Home</a>
         <a href="/#projects" hx-get="/projects/index.html" hx-target="#content" hx-push-url="true" class="win95-menuitem">Projects</a>
-        <a href="/#writing" hx-get="/writing/index.html" hx-target="#content" hx-push-url="true" class="win95-menuitem">Writing</a>
         <a href="https://github.com/roshbhatia" target="_blank" class="win95-menuitem">GitHub</a>
         <a href="/attributions" class="win95-menuitem active">Attributions</a>
       </nav>
     </header>
 
     <main>
+      <section id="hero" class="fx-hero">
+        <h1 style="font-family: 'Maskdown One', serif; font-size: 48px; letter-spacing: 2px; margin-top: 70px; padding-top: 0; color: #8B0000;">Attributions</h1>
+        <p style="margin-top: 10px; color: #FFD700;">~*~ Credits & Resources ~*~</p>
+      </section>
+
       <section id="content" class="fx-content">
         <h2>Attributions & Credits</h2>
         
@@ -104,20 +99,26 @@
       </section>
     </main>
 
-    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513; position: fixed; bottom: 0; left: 0; right: 0; background-image: url('/assets/img/daggerfall-bedrock-128x64.png'); background-repeat: repeat; background-size: 128px 64px;">
-      <div style="color: #FFD700; font-size: 16px; margin: 0;">
-        <span>Brave Adventurers Who Have Entered: </span>
-        <span class="counter-digits">00001337</span>
+    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513; position: fixed; bottom: 0; left: 0; right: 0; background-image: url('/assets/img/daggerfall-bedrock-128x64.png'); background-repeat: repeat; background-size: 128px 64px; z-index: 90; display: flex; justify-content: space-between;">
+      <div style="color: #FFD700; font-size: 16px; margin: 0; text-align: left; padding-left: 20px;">
+        <span>Brave Adventurers: </span>
+        <span class="counter-digits">1337</span>
       </div>
-      <div style="margin-top: 10px;">
-        <a href="https://htmx.org" target="_blank"><img src="https://web.archive.org/web/20090822030255/http://geocities.com/TimesSquare/Fortress/9999/images/valid-html.png" alt="Valid HTML" width="88" height="31"></a>
-        <a href="https://fx.hot.page" target="_blank"><img src="https://web.archive.org/web/20090830111545/http://geocities.com/TimesSquare/Fortress/9999/images/madewithmac.gif" alt="Made with HotFX" width="88" height="31"></a>
+      <div style="color: #FFD700; font-size: 16px; margin: 0; text-align: right; padding-right: 20px;">
+        <a href="/attributions" style="color: #FFD700; text-decoration: none;">Attributions</a>
       </div>
     </footer>
   </div>
 
   <!-- Skeleton cursor element -->
   <div class="skeleton-cursor" id="skeleton-cursor"></div>
+  
+  <!-- Goblin container for animations -->
+  <div id="goblin-container"></div>
+  
+  <!-- Floor torches -->
+  <div class="floor-torch floor-torch-left"></div>
+  <div class="floor-torch floor-torch-right"></div>
 
   <script>
     // Skeleton cursor behavior
@@ -185,15 +186,39 @@
     
     // Add win95 button functionality
     document.addEventListener('DOMContentLoaded', function() {
+      const minimizeButton = document.querySelector('.win95-button:nth-child(1)');
+      const maximizeButton = document.querySelector('.win95-button:nth-child(2)');
       const closeButton = document.querySelector('.win95-button:nth-child(3)');
+      
+      if (minimizeButton) {
+        minimizeButton.addEventListener('click', function() {
+          alert('The dungeon refuses to be minimized!');
+        });
+      }
+      
+      if (maximizeButton) {
+        maximizeButton.addEventListener('click', function() {
+          alert('Dungeon expansion was halted due to budget cuts!');
+        });
+      }
+      
       if (closeButton) {
         closeButton.addEventListener('click', function() {
           alert('Sorry! You cannot escape the dungeon so easily!');
         });
       }
       
+      // Set counter to fixed 1337
+      const counterEl = document.querySelector('.counter-digits');
+      if (counterEl) {
+        counterEl.textContent = '1337';
+      }
+      
       // Create floating dust particles
       createDustParticles();
+      
+      // Initialize goblins
+      initGoblins();
     });
     
     // Create floating dust particles for dungeon atmosphere
@@ -292,6 +317,144 @@
         windowContainer.style.transform = `translate(${offsetX * 1.5}px, ${offsetY * 1.5}px)`;
       }
     });
+    
+    // Create goblins that run across the screen
+    function initGoblins() {
+      const goblinContainer = document.getElementById('goblin-container');
+      if (!goblinContainer) return;
+      
+      // Start the goblin spawning cycle
+      spawnGoblins();
+      
+      function spawnGoblins() {
+        // Only spawn one goblin at a time
+        spawnGoblin();
+        
+        // Schedule next spawn cycle (5-6 seconds)
+        const nextSpawnTime = 5000 + Math.random() * 1000;
+        setTimeout(spawnGoblins, nextSpawnTime);
+      }
+      
+      function spawnGoblin() {
+        // First remove any existing goblins
+        goblinContainer.innerHTML = '';
+        
+        // Create new goblin element
+        const goblin = document.createElement('div');
+        goblin.className = 'goblin';
+        
+        // Position at random height within the container
+        goblin.style.bottom = Math.floor(Math.random() * 5) + 'px';
+        
+        // Add to container
+        goblinContainer.appendChild(goblin);
+        
+        // Randomly decide direction (left-to-right or right-to-left)
+        const isLeftToRight = Math.random() > 0.5;
+        
+        // Always make the goblin stop in the middle and then return
+        const willStopInMiddle = true; // Now always true
+        
+        // Set speed and timings based on the new 20s duration
+        const baseDuration = 20; // Base animation duration in seconds
+        
+        // Calculate center position and times
+        const centerX = Math.floor(window.innerWidth / 2) - 32; // Center position
+        const totalWidth = window.innerWidth + 140; // Total animation distance
+        const timeToCenter = ((centerX + 70) / totalWidth) * baseDuration; // Time to reach center
+        
+        // Set initial position and movement
+        if (isLeftToRight) {
+          // Left to right movement
+          goblin.classList.add('goblin-left-to-right');
+          
+          // Stop animation when goblin reaches center
+          setTimeout(() => {
+            // Stop the animation and fix position
+            goblin.style.animation = 'none';
+            goblin.style.left = centerX + 'px';
+            
+            // Clean up animation properties
+            goblin.style.animationName = '';
+            goblin.style.animationDuration = '';
+            
+            // Remove running class, add idle (facing original direction)
+            goblin.classList.remove('goblin-left-to-right');
+            goblin.classList.add('goblin-idle-left');
+            
+            // After 1 second, switch to opposite direction
+            setTimeout(() => {
+              goblin.classList.remove('goblin-idle-left');
+              goblin.classList.add('goblin-idle-right');
+              
+              // After 2 seconds, switch back to original direction
+              setTimeout(() => {
+                goblin.classList.remove('goblin-idle-right');
+                goblin.classList.add('goblin-idle-left');
+                
+                // After 1 second, run back the way it came
+                setTimeout(() => {
+                  goblin.classList.remove('goblin-idle-left');
+                  
+                  // Fix position for return journey
+                  goblin.style.left = centerX + 'px';
+                  
+                  // Add running animation back
+                  setTimeout(() => {
+                    goblin.classList.add('goblin-right-to-left');
+                    goblin.style.animation = 'goblin-run-right-to-left ' + timeToCenter + 's linear forwards';
+                  }, 50);
+                }, 1000);
+              }, 2000);
+            }, 1000);
+          }, timeToCenter * 1000);
+        } else {
+          // Right to left movement
+          goblin.classList.add('goblin-right-to-left');
+          
+          // Stop animation when goblin reaches center
+          setTimeout(() => {
+            // Stop the animation and fix position
+            goblin.style.animation = 'none';
+            goblin.style.right = centerX + 'px';
+            
+            // Clean up animation properties
+            goblin.style.animationName = '';
+            goblin.style.animationDuration = '';
+            
+            // Remove running class, add idle (facing original direction)
+            goblin.classList.remove('goblin-right-to-left');
+            goblin.classList.add('goblin-idle-right');
+            
+            // After 1 second, switch to opposite direction
+            setTimeout(() => {
+              goblin.classList.remove('goblin-idle-right');
+              goblin.classList.add('goblin-idle-left');
+              
+              // After 2 seconds, switch back to original direction
+              setTimeout(() => {
+                goblin.classList.remove('goblin-idle-left');
+                goblin.classList.add('goblin-idle-right');
+                
+                // After 1 second, run back the way it came
+                setTimeout(() => {
+                  goblin.classList.remove('goblin-idle-right');
+                  
+                  // Fix position for return journey
+                  goblin.style.right = centerX + 'px';
+                  
+                  // Add running animation back
+                  setTimeout(() => {
+                    goblin.classList.add('goblin-left-to-right');
+                    goblin.style.animation = 'goblin-run-left-to-right ' + timeToCenter + 's linear forwards';
+                  }, 50);
+                }, 1000);
+              }, 2000);
+            }, 1000);
+          }, timeToCenter * 1000);
+        }
+      }
+    }
   </script>
 </body>
 </html>
