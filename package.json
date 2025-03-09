@@ -1,9 +1,9 @@
 {
   "name": "roshanbhatiadotcom",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "roshanbhatiadotcom - Personal Website",
   "main": "index.js",
-  "author": "Roshan Bhatia",
+  "author": "roshbhatia",
   "license": "MIT",
   "private": true,
   "scripts": {
