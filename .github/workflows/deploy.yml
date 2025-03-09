@@ -15,18 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'yarn'
-          
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-        
-      - name: Build site (if needed)
-        run: yarn build
-        
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: JamesIves/github-pages-deploy-action@v4
