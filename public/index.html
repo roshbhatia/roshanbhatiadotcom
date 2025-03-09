@@ -63,9 +63,7 @@
       <section id="content" class="fx-content">
         <div style="padding-top: 30px;">
           <h2 style="margin-top: 15;">Platform and Infrastructure</h2>          
-          <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-            <p>This section will be populated with content soon.</p>
-            <img src="https://web.archive.org/web/20090830075929/http://geocities.com/TimesSquare/Fortress/9999/images/construction.gif" alt="Under Construction" width="300">
+          <div id="readme-content" style="max-width: 800px; margin: 0 auto; text-align: left;">
           </div>
         </div>
       </section>
@@ -214,22 +212,34 @@
       const readmeUrl = 'https://raw.githubusercontent.com/roshbhatia/roshbhatia/main/README.md';
       const readmeContainer = document.getElementById('readme-content');
       
+      console.log('Fetching README from:', readmeUrl);
+      console.log('README container:', readmeContainer);
+      
+      if (!readmeContainer) {
+        console.error('README container not found in the DOM!');
+        return;
+      }
+      
       fetch(readmeUrl)
         .then(response => {
+          console.log('README fetch response:', response);
           if (!response.ok) {
             throw new Error('Failed to fetch README');
           }
           return response.text();
         })
         .then(markdownText => {
+          console.log('README content fetched, length:', markdownText.length);
           // Extract content between <body> and </body> tags
           const bodyContent = extractBodyContent(markdownText);
           
           if (bodyContent) {
+            console.log('Body content found in README');
             // Simple Markdown to HTML conversion for the body content only
             let htmlContent = parseMarkdown(bodyContent);
             readmeContainer.innerHTML = htmlContent;
           } else {
+            console.log('No body tags found, using whole content');
             // If no body tags found, use the whole content
             let htmlContent = parseMarkdown(markdownText);
             readmeContainer.innerHTML = htmlContent;
@@ -239,11 +249,17 @@
           console.error('Error fetching README:', error);
           readmeContainer.innerHTML = `
             <div class="error-message">
-              <p style="text-align: center; color: #FF0000;">
-                <img src="https://web.archive.org/web/20090902192244/http://geocities.com/TimesSquare/Fortress/9999/images/error.gif" alt="Error" width="50">
+              <p style="text-align: center; color: #8B0000;">
+                <img src="/assets/img/pondering-orb.gif" alt="Pondering Orb" width="100">
                 <br>
                 Failed to summon the README scroll. The GitHub realm is not responding to our incantations!
               </p>
+              <div style="margin-top: 20px; text-align: left; padding: 20px; border: 2px dashed #8B4513; background-color: rgba(255, 255, 255, 0.2);">
+                <h3>About Me</h3>
+                <p>Senior Software Engineer with expertise in cloud infrastructure and backend development.</p>
+                <p>Currently focused on building scalable cloud architecture, distributed systems, and developer tooling.</p>
+                <p><em>* This is a fallback display since the GitHub README couldn't be loaded</em></p>
+              </div>
             </div>
           `;
         });
@@ -372,7 +388,7 @@
       const goblinContainer = document.getElementById('goblin-container');
       if (!goblinContainer) return;
       
-      // Create a static idling goblin to the left of the left torch
+      // Create a static idling goblin to the left of the right torch
       createStaticGoblin();
       
       // Start running goblins cycle - first goblin after 2 seconds
@@ -384,10 +400,10 @@
         staticGoblin.className = 'goblin static-goblin';
         staticGoblin.classList.add('goblin-idle-left');
         
-        // Position to the left of the left torch
+        // Position to the left of the right torch
         staticGoblin.style.position = 'fixed';
-        staticGoblin.style.left = '100px'; // To the right of the left torch
-        staticGoblin.style.bottom = '25px'; // Just above the floor
+        staticGoblin.style.right = '80px'; // Additional 10px to the right
+        staticGoblin.style.bottom = '50px'; // Additional 25px up from the footer
         staticGoblin.style.zIndex = '999'; // Make sure it's on top
         
         // Add to the container

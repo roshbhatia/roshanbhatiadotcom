@@ -670,12 +670,6 @@ body {
   transform: scaleX(-1); /* Flip horizontally to face left */
 }
 
-.goblin-idle-right {
-  animation: goblin-idle 1.5s ease-in-out forwards;
-  background-image: url('/assets/img/goblin-idle.gif');
-  transform: scaleX(1); /* Default direction (facing right) */
-}
-
 @keyframes goblin-run-left-to-right {
   0% { left: -70px; }
   100% { left: calc(100% + 70px); }
