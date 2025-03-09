@@ -1,47 +1,51 @@
-# Roshan Bhatia's Personal Website
+# roshanbhatiadotcom 🧙‍♂️🔮
 
-This is the source code for my personal website, built with htmx and fx.hot.page for a lightweight, modern web experience.
+This is the source code for my personal website - a retro 90s GeoCities-inspired dungeon fantasy theme built with htmx and fx.hot.page.
 
-## Features
+## 🔥 Features
 
-- Simple static site - can be hosted on GitHub Pages or any static hosting
+- Retro 90s GeoCities-inspired dungeon fantasy theme
+- Windows 95-style menubar
 - Projects section that automatically fetches and displays repos with the "internal" topic from GitHub
-- Writing section for blog posts and articles
-- Built with htmx for dynamic content loading without a heavy JavaScript framework
-- Styled with fx.hot.page for a clean, minimal design
+- Writing section for blog posts and articles styled as ancient scrolls
+- Built with htmx for dynamic content loading
+- Styled with fx.hot.page and custom CSS
+- Interactive dungeon decorations (torches, cobwebs, chains, floating dust particles)
 
-## Development
+## 🚀 Development
 
 ### Prerequisites
 
-- Node.js (v14 or later)
-- npm (v6 or later)
+- [Node.js](https://nodejs.org/) (latest LTS version)
+- [Yarn](https://yarnpkg.com/) package manager
 
-### Getting Started
-
-1. Clone the repository:
+### Installation
 
 ```bash
+# Clone the repository
 git clone https://github.com/roshbhatia/roshanbhatiadotcom.git
 cd roshanbhatiadotcom
+
+# Install dependencies
+yarn install
 ```
 
-2. Install dependencies:
+### Running Locally
 
 ```bash
-npm install
+# Start the development server
+yarn dev
 ```
 
-3. Run the development server:
+This will start a static file server and make your site available at http://localhost:3000.
 
-```bash
-npm run dev
-```
+### How It Works
 
-This will:
-- Build the site
-- Start a local development server at http://localhost:8080
-- Watch for changes to rebuild automatically
+This is a fully static site with dynamic content loading:
+- The main structure is in `/public/index.html`
+- Styling is in `/public/assets/css/style.css`
+- Projects are fetched client-side via the GitHub API
+- Articles are stored as Markdown files in `/data/articles/`
 
 ### Adding Content
 
@@ -60,11 +64,11 @@ draft: false
 Your article content in Markdown format.
 ```
 
-The `draft: true` property can be used to prevent an article from being published.
+Then add a corresponding HTML file to the `/public/writing/` directory.
 
 #### Projects
 
-Projects are automatically fetched from your GitHub account. To include a project:
+Projects are automatically fetched from your GitHub account via the GitHub API. To include a project:
 
 1. Add the "internal" topic to the repository on GitHub:
    - Go to your repo on GitHub
@@ -74,25 +78,15 @@ Projects are automatically fetched from your GitHub account. To include a projec
 
 The site will automatically display these projects on the Projects page.
 
-### Building for Production
-
-To build the site for production:
-
-```bash
-npm run build
-```
-
-This generates the static site in the `public` directory, which you can deploy to any static hosting service.
-
-## Deployment
+## 📦 Deployment
 
 This site is designed to be deployed on GitHub Pages:
 
-1. Push your changes to the main branch
-2. GitHub Actions will automatically build and deploy the site
+1. Push the `/public` directory to GitHub Pages
+2. That's it! No build process needed.
 
-You can also deploy to other static hosting providers by uploading the contents of the `public` directory.
+Alternatively, you can deploy to any static site hosting service.
 
-## License
+## 📝 License
 
 MIT License

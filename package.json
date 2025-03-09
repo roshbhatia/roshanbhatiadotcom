@@ -1,28 +1,17 @@
 {
   "name": "roshanbhatiadotcom",
   "version": "1.0.0",
-  "description": "Personal website for Roshan Bhatia",
-  "main": "build.js",
-  "scripts": {
-    "build": "node build.js",
-    "serve": "npx http-server public",
-    "dev": "npx http-server public & npm run watch",
-    "watch": "nodemon --watch data --watch build.js --ext js,md --exec 'npm run build'"
-  },
-  "keywords": [
-    "personal-website",
-    "htmx",
-    "fx.hot.page",
-    "static-site"
-  ],
+  "description": "roshanbhatiadotcom - Personal Website",
+  "main": "index.js",
   "author": "Roshan Bhatia",
   "license": "MIT",
-  "dependencies": {
-    "gray-matter": "^4.0.3",
-    "marked": "^5.0.2"
+  "private": true,
+  "scripts": {
+    "dev": "serve public -s",
+    "start": "serve public -s",
+    "build": "echo 'No build required for static site'"
   },
-  "devDependencies": {
-    "http-server": "^14.1.1",
-    "nodemon": "^2.0.22"
+  "dependencies": {
+    "serve": "^14.2.4"
   }
 }
