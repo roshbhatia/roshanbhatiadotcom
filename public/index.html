@@ -73,17 +73,15 @@
       <section id="content" class="fx-content">
         <h2>Welcome to my Magical Realm</h2>
         <center><img src="https://web.archive.org/web/20090902192244/http://geocities.com/TimesSquare/Fortress/9999/images/wizard.gif" alt="Wizard" width="150"></center>
-        <p>
-          Greetings, brave traveler! I am a software engineer casting spells on computers to build magical tools and applications.
-          You have stumbled upon my personal dungeon where I showcase my projects and scrolls of knowledge.
-        </p>
-        <p>
-          <marquee scrollamount="3" behavior="alternate"><font color="#FF0000">*** UNDER CONSTRUCTION ***</font></marquee>
-        </p>
         
-        <div class="fx-cta">
-          <a href="#projects" hx-get="projects/index.html" hx-target="#content" hx-push-url="true" class="fx-button">Enter the Project Chamber</a>
-          <a href="#writing" hx-get="writing/index.html" hx-target="#content" hx-push-url="true" class="fx-button">Read Ancient Scrolls</a>
+        <div id="readme-content" style="max-width: 800px; margin: 0 auto;">
+          <div class="loading-text">
+            <p style="text-align: center;">
+              <img src="https://web.archive.org/web/20090830111547/http://geocities.com/TimesSquare/Fortress/9999/images/spinner.gif" alt="Loading" width="50">
+              <br>
+              Summoning README from the GitHub realm...
+            </p>
+          </div>
         </div>
       </section>
       
@@ -164,8 +162,101 @@
       }, 100);
     });
     
+    // Fetch and parse GitHub README
+    function fetchReadmeContent() {
+      const readmeUrl = 'https://raw.githubusercontent.com/roshbhatia/roshbhatia/main/README.md';
+      const readmeContainer = document.getElementById('readme-content');
+      
+      fetch(readmeUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch README');
+          }
+          return response.text();
+        })
+        .then(markdownText => {
+          // Extract content between <body> and </body> tags
+          const bodyContent = extractBodyContent(markdownText);
+          
+          if (bodyContent) {
+            // Simple Markdown to HTML conversion for the body content only
+            let htmlContent = parseMarkdown(bodyContent);
+            readmeContainer.innerHTML = htmlContent;
+          } else {
+            // If no body tags found, use the whole content
+            let htmlContent = parseMarkdown(markdownText);
+            readmeContainer.innerHTML = htmlContent;
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching README:', error);
+          readmeContainer.innerHTML = `
+            <div class="error-message">
+              <p style="text-align: center; color: #FF0000;">
+                <img src="https://web.archive.org/web/20090902192244/http://geocities.com/TimesSquare/Fortress/9999/images/error.gif" alt="Error" width="50">
+                <br>
+                Failed to summon the README scroll. The GitHub realm is not responding to our incantations!
+              </p>
+            </div>
+          `;
+        });
+    }
+    
+    // Extract content between <body> and </body> tags
+    function extractBodyContent(text) {
+      const bodyRegex = /<body>([\s\S]*?)<\/body>/;
+      const match = text.match(bodyRegex);
+      
+      if (match && match[1]) {
+        return match[1].trim();
+      }
+      
+      return null;
+    }
+    
+    // Simple Markdown parser
+    function parseMarkdown(markdown) {
+      // Convert headers
+      markdown = markdown.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+      markdown = markdown.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+      markdown = markdown.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+      
+      // Convert lists
+      markdown = markdown.replace(/^\* (.*$)/gm, '<li>$1</li>');
+      markdown = markdown.replace(/^- (.*$)/gm, '<li>$1</li>');
+      
+      // Wrap lists
+      markdown = markdown.replace(/<\/li>\n<li>/g, '</li><li>');
+      markdown = markdown.replace(/<li>(.+?)<\/li>/gs, function(match) {
+        return '<ul>' + match + '</ul>';
+      });
+      
+      // Fix nested lists
+      markdown = markdown.replace(/<\/ul>\n<ul>/g, '');
+      
+      // Convert bold
+      markdown = markdown.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      
+      // Convert italics
+      markdown = markdown.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      
+      // Convert links
+      markdown = markdown.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>');
+      
+      // Convert paragraphs - match any line that doesn't start with < and isn't blank
+      markdown = markdown.replace(/^([^<\n][^\n]*?)$/gm, '<p>$1</p>');
+      
+      // Clean up multiple consecutive paragraph breaks
+      markdown = markdown.replace(/<\/p>\n<p>/g, '</p><p>');
+      
+      return markdown;
+    }
+    
     // Simple client-side routing for direct URL access
     document.addEventListener('DOMContentLoaded', function() {
+      // Fetch GitHub README
+      fetchReadmeContent();
+      
       const hash = window.location.hash;
       if (hash === '#projects') {
         document.querySelector('a[href="#projects"]').click();

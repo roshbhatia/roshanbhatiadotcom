@@ -544,6 +544,45 @@ body {
   letter-spacing: 2px;
 }
 
+.fx-content h3 {
+  color: #8B0000;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
+  font-family: "Metal Mania", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 28px;
+  margin-top: 20px;
+  letter-spacing: 1px;
+}
+
+.fx-content ul {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.fx-content li {
+  margin-bottom: 8px;
+  position: relative;
+  color: #4B0082;
+}
+
+.fx-content li:before {
+  content: "✦";
+  color: #8B0000;
+  position: absolute;
+  left: -20px;
+}
+
+.fx-content strong {
+  color: #8B0000;
+}
+
+.fx-content p {
+  color: #4B0082;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
 .fx-hero {
   text-align: center;
   padding: 3rem 2rem;
