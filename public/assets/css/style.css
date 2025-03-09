@@ -621,7 +621,71 @@ body {
   mix-blend-mode: screen;
 }
 
-/* Water drops effect removed as requested */
+/* Goblin animations */
+#goblin-container {
+  position: fixed;
+  bottom: 45px; /* Position above footer */
+  left: 0;
+  width: 100%;
+  height: 64px; /* Height for goblin sprites */
+  z-index: 92; /* Above torches */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.goblin {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  bottom: 0;
+}
+
+.goblin-left-to-right {
+  left: -70px; /* Start off-screen */
+  animation: goblin-run-left-to-right 10s linear forwards;
+  background-image: url('/assets/img/goblin-run.gif');
+  transform: scaleX(1); /* Default direction (facing right) */
+}
+
+.goblin-right-to-left {
+  right: -70px; /* Start off-screen */
+  animation: goblin-run-right-to-left 10s linear forwards;
+  background-image: url('/assets/img/goblin-run.gif');
+  transform: scaleX(-1); /* Flip horizontally to face left */
+}
+
+.goblin-idle-left {
+  animation: goblin-idle 1.5s ease-in-out forwards;
+  background-image: url('/assets/img/goblin-idle.gif');
+  transform: scaleX(-1); /* Flip horizontally to face left */
+}
+
+.goblin-idle-right {
+  animation: goblin-idle 1.5s ease-in-out forwards;
+  background-image: url('/assets/img/goblin-idle.gif');
+  transform: scaleX(1); /* Default direction (facing right) */
+}
+
+@keyframes goblin-run-left-to-right {
+  0% { left: -70px; }
+  100% { left: calc(100% + 70px); }
+}
+
+@keyframes goblin-run-right-to-left {
+  0% { right: -70px; }
+  100% { right: calc(100% + 70px); }
+}
+
+@keyframes goblin-idle {
+  0% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 1; }
+}
 
 /* Static torch glow - animation removed */
 
