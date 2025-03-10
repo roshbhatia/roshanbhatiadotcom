@@ -14,7 +14,7 @@
   <script src="https://unpkg.com/alpinejs@3.13.3" defer></script>
   <!-- Ensure proper mobile rendering -->
   <meta name="theme-color" content="#1a1209">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="no">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <!-- NetScape 4.0 Compatible -->
   <meta name="keywords" content="roshan bhatia, dungeon, coding, fantasy, win95, 90s, retro, geocities">
@@ -86,7 +86,7 @@
   
   <div class="fx-root">
     <div class="win95-titlebar">
-      <div class="win95-titlebar-text">BrokenWindows95 HTML Client || roshanbhatia.com || </div>
+      <div class="win95-titlebar-text">🔮 roshanbhatia.com </div>
       <div class="win95-buttons">
         <div class="win95-button">_</div>
         <div class="win95-button">□</div>
@@ -117,7 +117,7 @@
     <main>
       <section id="hero" class="fx-hero">
         <h1 style="font-family: 'Maskdown One', serif; font-size: 48px; letter-spacing: 2px; margin-top: 50px; padding-top: 0; color: #8B0000;">Roshan Bhatia</h1>
-        <p style="margin-top: 10px; color: #FFD700;">~*~ Senior Software Engineer (Controller of the Plane) ~*~</p>
+        <p id="role-text" style="margin-top: 10px; color: #FFD700;">~*~ Senior Software Engineer (Controller of the Plane) ~*~</p>
         <p class="blink" style="color: #FFD700; margin-top: 5px;">** BEST VIEWED WITH NETSCAPE NAVIGATOR 4.0 **</p>
       </section>
 
@@ -130,6 +130,55 @@
       </section>
       
     </main>
+
+    <script>
+      // Media query to check if device is mobile
+      function isMobileDevice() {
+        return window.matchMedia("(max-width: 768px)").matches;
+      }
+      
+      // Function to hide scroll and text on mobile
+      function adjustForMobile() {
+        if (isMobileDevice()) {
+          // Hide Windows menu bar on mobile
+          const menubar = document.querySelector('.win95-menubar');
+          if (menubar) {
+            menubar.style.display = 'none';
+          }
+          
+          // Hide the scroll/readme content on mobile
+          const contentSection = document.querySelector('.fx-content');
+          if (contentSection) {
+            contentSection.style.display = 'none';
+          }
+          
+          // Hide the hanging sign background but keep the text
+          const heroSection = document.querySelector('.fx-hero');
+          if (heroSection) {
+            heroSection.style.backgroundImage = 'none';
+            heroSection.style.height = 'auto';
+            heroSection.style.paddingTop = '15px';
+          }
+          
+          // Make the role text a clickable link to LinkedIn on mobile
+          const roleText = document.getElementById('role-text');
+          if (roleText) {
+            const linkedInLink = document.createElement('a');
+            linkedInLink.href = 'https://www.linkedin.com/in/roshan-bhatia-2b1970a7/';
+            linkedInLink.style.color = '#0000FF';
+            linkedInLink.style.textDecoration = 'none';
+            linkedInLink.innerHTML = roleText.innerHTML;
+            linkedInLink.target = '_blank';
+            roleText.innerHTML = '';
+            roleText.appendChild(linkedInLink);
+          }
+        }
+      }
+      
+      // Run on page load and resize
+      document.addEventListener('DOMContentLoaded', adjustForMobile);
+      window.addEventListener('resize', adjustForMobile);
+    </script>
 
     <!-- Floor torches -->
     <div class="floor-torch floor-torch-left"></div>
