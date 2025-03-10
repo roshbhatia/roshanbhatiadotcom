@@ -76,6 +76,22 @@
     <div class="torch-overlay"></div>
   </div>
 
+  <!-- Background character images (in 3rds of the screen) - top section -->
+  <div style="position: fixed; top: calc(100vh / 6); left: calc(100vw / 6); transform: translate(-50%, -50%); z-index: 5;">
+    <img src="/assets/img/pondering-orb.gif" alt="Pondering Orb" style="width: 256px; height: 256px; object-fit: contain;">
+  </div>
+  <div style="position: fixed; top: calc(100vh / 6); left: calc(5 * 100vw / 6); transform: translate(-50%, -50%); z-index: 5;">
+    <img src="/assets/img/knight-cat.avif" alt="Knight Cat" style="width: 256px; height: 256px; object-fit: contain;">
+  </div>
+  
+  <!-- Background character images (in 3rds of the screen) - bottom section -->
+  <div style="position: fixed; bottom: calc(3 * 100vh / 8); left: calc(100vw / 6); transform: translate(-50%, 50%); z-index: 5;">
+    <img src="/assets/img/frida.jpeg" alt="Frida" style="width: 300px; height: 300px; object-fit: contain;">
+  </div>
+  <div style="position: fixed; bottom: calc(3 * 100vh / 8); left: calc(5 * 100vw / 6); transform: translate(-50%, 50%); z-index: 5;">
+    <img src="/assets/img/frustrated-head-in-hands.webp" alt="Frustrated" style="width: 300px; height: 300px; object-fit: contain;">
+  </div>
+
   <div class="moss-window-container">
     <div class="moss-window"></div>
     <div class="moss-window"></div>
@@ -124,7 +140,7 @@
       <section id="content" class="fx-content">
         <div style="padding-top: 30px;">
           <h2 style="margin-top: 15;">Platform and Infrastructure</h2>          
-          <div id="readme-content" style="max-width: 800px; margin: 0 auto; text-align: left;">
+          <div id="readme-content" style="max-width: 800px; margin: 0 auto; text-align: left; font-family: 'Metal Mania', serif;">
           </div>
         </div>
       </section>
@@ -172,6 +188,12 @@
             roleText.innerHTML = '';
             roleText.appendChild(linkedInLink);
           }
+          
+          // Hide the background character images on mobile
+          const characterImages = document.querySelectorAll('.parallax-bg + div, .parallax-bg + div + div, .parallax-bg + div + div + div, .parallax-bg + div + div + div + div');
+          characterImages.forEach(img => {
+            img.style.display = 'none';
+          });
         }
       }
       
