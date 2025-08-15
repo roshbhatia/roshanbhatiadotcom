@@ -47,6 +47,42 @@ body {
   overflow: hidden; /* Disable scrolling */
 }
 
+/* CRT/Scanline effect overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(transparent 50%, rgba(0, 255, 0, 0.03) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9998;
+  animation: scanlines 0.1s linear infinite;
+}
+
+@keyframes scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Character image enhancements */
+.character-image {
+  transition: transform 0.1s ease-out;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+}
+
+.character-image img {
+  transition: all 0.3s ease;
+}
+
+.character-image:hover img {
+  transform: scale(1.05);
+  filter: brightness(1.1) contrast(1.1);
+}
+
 /* Custom skeleton cursor */
 .skeleton-cursor {
   position: fixed;
@@ -187,11 +223,31 @@ body {
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .win95-menuitem:hover {
   background-color: var(--win95-blue);
   color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.win95-menuitem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.win95-menuitem:hover::before {
+  left: 100%;
 }
 
 /* Win95 title bar */
@@ -294,6 +350,44 @@ body {
   filter: blur(8px);
   z-index: 1;
   opacity: 0.6;
+}
+
+/* Floating ember particles around torches */
+.torch-embers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ember {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: radial-gradient(circle, #ff6b00 0%, #ff4500 50%, transparent 100%);
+  border-radius: 50%;
+  animation: floatEmber 4s infinite linear;
+  opacity: 0;
+}
+
+@keyframes floatEmber {
+  0% {
+    transform: translateY(20px) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-80px) translateX(var(--ember-drift, 10px));
+    opacity: 0;
+  }
 }
 
 /* Custom component styles */
@@ -705,8 +799,40 @@ body {
   }
 }
 
+/* Touch gesture enhancements */
+.touch-enhanced {
+  -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.win95-menuitem, .win95-button, .character-image {
+  -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
+  touch-action: manipulation;
+}
+
+/* Hover states for touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .win95-menuitem:active {
+    background-color: var(--win95-blue);
+    color: white;
+    transform: translateY(-1px);
+  }
+  
+  .character-image:active img {
+    transform: scale(1.05);
+    filter: brightness(1.1) contrast(1.1);
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  /* Disable CRT effect on mobile for performance */
+  body::before {
+    display: none;
+  }
+  
   .fx-hero h1 {
     font-size: 36px;
     margin-top: 5px;
@@ -875,6 +1001,103 @@ body {
   to {
     opacity: 1;
   }
+}
+
+/* Scroll reveal animations */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: all 0.6s ease;
+}
+
+.scroll-reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scroll-reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: all 0.6s ease;
+}
+
+.scroll-reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Dungeon-themed loading animation */
+.dungeon-loading {
+  text-align: center;
+  padding: 40px;
+  color: #8B0000;
+}
+
+.loading-torch {
+  width: 32px;
+  height: 48px;
+  background-image: url('/assets/img/torch.gif');
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 0 auto 20px;
+  animation: torchFlicker 1s ease-in-out infinite alternate;
+}
+
+@keyframes torchFlicker {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+.loading-text {
+  font-family: 'Metal Mania', serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.loading-bar {
+  width: 200px;
+  height: 8px;
+  background-color: #8B4513;
+  border: 2px ridge #8B4513;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+  background-size: 200% 100%;
+  animation: loadingProgress 3s ease-in-out infinite, shimmer 1s linear infinite;
+  width: 0%;
+}
+
+@keyframes loadingProgress {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 /* Scrollbar */

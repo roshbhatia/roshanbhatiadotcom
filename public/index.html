@@ -77,18 +77,18 @@
   </div>
 
   <!-- Background character images (in 3rds of the screen) - top section -->
-  <div style="position: fixed; top: calc(100vh / 6); left: calc(100vw / 6); transform: translate(-50%, -50%); z-index: 5;">
+  <div class="character-image parallax-character" data-depth="0.2" style="position: fixed; top: calc(100vh / 6); left: calc(100vw / 6); transform: translate(-50%, -50%); z-index: 5;">
     <img src="/assets/img/pondering-orb.gif" alt="Pondering Orb" style="width: 256px; height: 256px; object-fit: contain;">
   </div>
-  <div style="position: fixed; top: calc(100vh / 6); left: calc(5 * 100vw / 6); transform: translate(-50%, -50%); z-index: 5;">
+  <div class="character-image parallax-character" data-depth="0.3" style="position: fixed; top: calc(100vh / 6); left: calc(5 * 100vw / 6); transform: translate(-50%, -50%); z-index: 5;">
     <img src="/assets/img/knight-cat.avif" alt="Knight Cat" style="width: 256px; height: 256px; object-fit: contain;">
   </div>
   
   <!-- Background character images (in 3rds of the screen) - bottom section -->
-  <div style="position: fixed; bottom: calc(3 * 100vh / 8); left: calc(100vw / 6); transform: translate(-50%, 50%); z-index: 5;">
+  <div class="character-image parallax-character" data-depth="0.15" style="position: fixed; bottom: calc(3 * 100vh / 8); left: calc(100vw / 6); transform: translate(-50%, 50%); z-index: 5;">
     <img src="/assets/img/frida.jpeg" alt="Frida" style="width: 300px; height: 300px; object-fit: contain;">
   </div>
-  <div style="position: fixed; bottom: calc(3 * 100vh / 8); left: calc(5 * 100vw / 6); transform: translate(-50%, 50%); z-index: 5;">
+  <div class="character-image parallax-character" data-depth="0.25" style="position: fixed; bottom: calc(3 * 100vh / 8); left: calc(5 * 100vw / 6); transform: translate(-50%, 50%); z-index: 5;">
     <img src="/assets/img/frustrated-head-in-hands.webp" alt="Frustrated" style="width: 300px; height: 300px; object-fit: contain;">
   </div>
 
@@ -139,8 +139,16 @@
 
       <section id="content" class="fx-content">
         <div style="padding-top: 30px;">
-          <h2 style="margin-top: 15;">Platform and Infrastructure</h2>          
-          <div id="readme-content" style="max-width: 800px; margin: 0 auto; text-align: left; font-family: 'Metal Mania', serif;">
+          <h2 class="scroll-reveal" style="margin-top: 15;">Platform and Infrastructure</h2>          
+          <div id="readme-content" class="scroll-reveal" style="max-width: 800px; margin: 0 auto; text-align: left; font-family: 'Metal Mania', serif;">
+            <!-- Loading animation will be injected here -->
+            <div class="dungeon-loading" id="dungeon-loading">
+              <div class="loading-torch"></div>
+              <div class="loading-text">Summoning ancient scrolls...</div>
+              <div class="loading-bar">
+                <div class="loading-progress"></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -359,6 +367,13 @@
         })
         .then(markdownText => {
           console.log('README content fetched, length:', markdownText.length);
+          
+          // Hide loading animation
+          const loadingElement = document.getElementById('dungeon-loading');
+          if (loadingElement) {
+            loadingElement.style.display = 'none';
+          }
+          
           // Extract content between <body> and </body> tags
           const bodyContent = extractBodyContent(markdownText);
           
@@ -376,6 +391,13 @@
         })
         .catch(error => {
           console.error('Error fetching README:', error);
+          
+          // Hide loading animation
+          const loadingElement = document.getElementById('dungeon-loading');
+          if (loadingElement) {
+            loadingElement.style.display = 'none';
+          }
+          
           readmeContainer.innerHTML = `
             <div class="error-message">
               <p style="text-align: center; color: #8B0000;">
@@ -446,6 +468,10 @@
     
     // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize new features
+      initScrollReveal();
+      createTorchEmbers();
+      
       // Fetch GitHub README
       fetchReadmeContent();
       
@@ -656,10 +682,11 @@
       }, (duration + delay) * 1000);
     }
     
-    // Parallax effect for the Daggerfall background
+    // Enhanced parallax effect for the Daggerfall background and characters
     document.addEventListener('mousemove', function(e) {
       const mossWall = document.getElementById('moss-wall');
       const windowContainer = document.querySelector('.moss-window-container');
+      const characters = document.querySelectorAll('.parallax-character');
       
       if (mossWall && windowContainer) {
         // Calculate mouse position percentages (0-100)
@@ -675,8 +702,86 @@
         
         // Apply transform to windows (slightly faster movement for depth)
         windowContainer.style.transform = `translate(${offsetX * 1.5}px, ${offsetY * 1.5}px)`;
+        
+        // Apply parallax to character images with different depths
+        characters.forEach(character => {
+          const depth = parseFloat(character.getAttribute('data-depth')) || 0.1;
+          const charOffsetX = offsetX * depth * 10;
+          const charOffsetY = offsetY * depth * 10;
+          const currentTransform = character.style.transform;
+          const baseTransform = currentTransform.split('translate(')[0];
+          character.style.transform = `${baseTransform}translate(calc(-50% + ${charOffsetX}px), calc(-50% + ${charOffsetY}px))`;
+        });
       }
     });
+    
+    // Scroll reveal functionality
+    function initScrollReveal() {
+      const revealElements = document.querySelectorAll('.scroll-reveal, .scroll-reveal-left, .scroll-reveal-right');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+      
+      revealElements.forEach(el => observer.observe(el));
+    }
+    
+    // Create ember particles for torches
+    function createTorchEmbers() {
+      const torches = document.querySelectorAll('.floor-torch');
+      
+      torches.forEach(torch => {
+        const emberContainer = document.createElement('div');
+        emberContainer.className = 'torch-embers';
+        torch.appendChild(emberContainer);
+        
+        // Create embers periodically
+        setInterval(() => {
+          if (emberContainer.children.length < 8) { // Limit number of embers
+            createEmber(emberContainer);
+          }
+        }, 300 + Math.random() * 500); // Random interval between 300-800ms
+      });
+    }
+    
+    function createEmber(container) {
+      const ember = document.createElement('div');
+      ember.className = 'ember';
+      
+      // Random starting position near the torch flame
+      const startX = 20 + Math.random() * 24; // Center area of torch
+      const startY = 10 + Math.random() * 10;
+      
+      ember.style.left = startX + 'px';
+      ember.style.top = startY + 'px';
+      
+      // Random drift direction
+      const drift = (Math.random() - 0.5) * 20;
+      ember.style.setProperty('--ember-drift', drift + 'px');
+      
+      // Random animation delay and duration
+      const delay = Math.random() * 1000;
+      const duration = 3000 + Math.random() * 2000;
+      
+      ember.style.animationDelay = delay + 'ms';
+      ember.style.animationDuration = duration + 'ms';
+      
+      container.appendChild(ember);
+      
+      // Remove ember after animation
+      setTimeout(() => {
+        if (ember.parentNode === container) {
+          container.removeChild(ember);
+        }
+      }, delay + duration + 500);
+    }
   </script>
 </body>
 </html>
