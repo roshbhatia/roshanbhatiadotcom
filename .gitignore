@@ -43,3 +43,6 @@ pnpm-debug.log*
 
 # AI agent folders (may contain credentials)
 .opencode/
+
+# Exception: Track .specify/ directory for this project
+!.specify/
