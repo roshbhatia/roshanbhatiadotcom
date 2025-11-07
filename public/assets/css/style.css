@@ -1126,3 +1126,464 @@ body::before {
   letter-spacing: 2px;
   font-family: 'Courier New', monospace;
 }
+
+/* ========================================
+   Blog Styles
+   ======================================== */
+
+/* Blog Container */
+.blog-container {
+  padding: 2rem;
+  color: #8B0000;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Blog Index Styles */
+.blog-index {
+  width: 100%;
+}
+
+.blog-index-title {
+  color: #8B0000;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  font-family: "Metal Mania", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 48px;
+  text-align: center;
+  border-bottom: 3px ridge #8B4513;
+  padding-bottom: 15px;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.blog-index-description {
+  text-align: center;
+  color: #B8860B;
+  font-size: 1.1rem;
+  font-style: italic;
+  margin-bottom: 3rem;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Blog Posts Grid */
+.blog-posts-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Blog Card (Post Preview) */
+.blog-card {
+  padding: 2rem;
+  background-image: url('/assets/img/scroll.png');
+  background-size: cover;
+  position: relative;
+  border: 8px solid transparent;
+  border-image: url('/assets/img/daggerfall-mosswall-128x128.png') 20 round;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  text-decoration: none;
+  display: block;
+}
+
+.blog-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  z-index: 0;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(139, 69, 19, 0.3), 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.blog-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.blog-card-title {
+  margin: 0 0 1rem 0;
+  color: #8B0000;
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+  font-family: "Metal Mania", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 32px;
+  border-bottom: 2px ridge #8B4513;
+  padding-bottom: 10px;
+  letter-spacing: 1px;
+}
+
+.blog-card-title a {
+  color: #8B0000;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.blog-card-title a:hover {
+  color: #A52A2A;
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  color: #B8860B;
+  font-size: 0.9rem;
+  font-family: 'Times New Roman', serif;
+}
+
+.blog-card-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.blog-card-tags .tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  background: #8B4513;
+  color: #FFD700;
+  border-radius: 3px;
+  font-family: "Metal Mania", serif;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.blog-card-description {
+  color: #4B0082;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  font-family: 'Times New Roman', serif;
+}
+
+.blog-card-link {
+  color: #8B0000;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: 'Times New Roman', serif;
+  transition: color 0.2s ease;
+}
+
+.blog-card-link:hover {
+  color: #A52A2A;
+  text-decoration: underline;
+}
+
+/* Individual Blog Post Styles */
+.blog-post {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.blog-post-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 3px ridge #8B4513;
+}
+
+.blog-post-title {
+  color: #8B0000;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  font-family: "Metal Mania", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 48px;
+  margin-bottom: 1rem;
+  letter-spacing: 2px;
+  line-height: 1.2;
+}
+
+.blog-post-meta {
+  color: #B8860B;
+  font-size: 1rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  font-family: 'Times New Roman', serif;
+}
+
+.blog-post-tags {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.blog-post-tags .tag {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  background: #8B4513;
+  color: #FFD700;
+  border-radius: 3px;
+  font-family: "Metal Mania", serif;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Blog Post Content Typography */
+.blog-post-content {
+  color: #4B0082;
+  line-height: 1.8;
+  font-family: 'Times New Roman', serif;
+  font-size: 1.1rem;
+}
+
+.blog-post-content h1,
+.blog-post-content h2,
+.blog-post-content h3,
+.blog-post-content h4,
+.blog-post-content h5,
+.blog-post-content h6 {
+  color: #8B0000;
+  font-family: "Metal Mania", serif;
+  font-weight: 400;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.blog-post-content h1 {
+  font-size: 2.5rem;
+  border-bottom: 2px ridge #8B4513;
+  padding-bottom: 0.5rem;
+}
+
+.blog-post-content h2 {
+  font-size: 2rem;
+  border-bottom: 1px ridge #8B4513;
+  padding-bottom: 0.4rem;
+}
+
+.blog-post-content h3 {
+  font-size: 1.6rem;
+}
+
+.blog-post-content h4 {
+  font-size: 1.3rem;
+}
+
+.blog-post-content p {
+  margin-bottom: 1.5rem;
+  color: #4B0082;
+}
+
+.blog-post-content a {
+  color: #8B0000;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.blog-post-content a:hover {
+  color: #A52A2A;
+}
+
+.blog-post-content ul,
+.blog-post-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+}
+
+.blog-post-content ul {
+  list-style-type: none;
+}
+
+.blog-post-content li {
+  margin-bottom: 0.75rem;
+  position: relative;
+  color: #4B0082;
+}
+
+.blog-post-content ul li:before {
+  content: "✦";
+  color: #8B0000;
+  position: absolute;
+  left: -1.5rem;
+  font-weight: bold;
+}
+
+.blog-post-content ol li {
+  color: #4B0082;
+}
+
+.blog-post-content blockquote {
+  border-left: 4px solid #8B4513;
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: #5D3A1A;
+  background: rgba(139, 69, 19, 0.05);
+  padding: 1rem 1.5rem;
+}
+
+.blog-post-content strong {
+  color: #8B0000;
+  font-weight: bold;
+}
+
+.blog-post-content em {
+  font-style: italic;
+}
+
+.blog-post-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 2rem auto;
+  border: 4px solid #8B4513;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.blog-post-content hr {
+  border: none;
+  border-top: 2px ridge #8B4513;
+  margin: 3rem 0;
+}
+
+/* Code Styling */
+.blog-post-content code {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  background: rgba(0, 0, 0, 0.7);
+  color: #0F0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  border: 1px solid #8B4513;
+}
+
+.blog-post-content pre {
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #8B4513;
+  border-radius: 4px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  margin: 2rem 0;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.blog-post-content pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #0F0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Blog Navigation Footer */
+.blog-post-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 2px ridge #8B4513;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.win95-button-link {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background-color: var(--win95-bg);
+  color: var(--win95-text);
+  text-decoration: none;
+  font-weight: bold;
+  border-top: 2px solid var(--win95-border-light);
+  border-left: 2px solid var(--win95-border-light);
+  border-right: 2px solid var(--win95-border-darker);
+  border-bottom: 2px solid var(--win95-border-darker);
+  text-align: center;
+  transition: transform 0.1s ease;
+  font-family: 'MS Sans Serif', Arial, sans-serif;
+}
+
+.win95-button-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.win95-button-link:active {
+  border-top: 2px solid var(--win95-border-darker);
+  border-left: 2px solid var(--win95-border-darker);
+  border-right: 2px solid var(--win95-border-light);
+  border-bottom: 2px solid var(--win95-border-light);
+  transform: translateY(1px);
+}
+
+/* Responsive Blog Styles */
+@media (max-width: 768px) {
+  .blog-index-title {
+    font-size: 36px;
+  }
+  
+  .blog-post-title {
+    font-size: 36px;
+  }
+  
+  .blog-card {
+    padding: 1.5rem;
+  }
+  
+  .blog-card-title {
+    font-size: 24px;
+  }
+  
+  .blog-post {
+    padding: 1rem;
+  }
+  
+  .blog-post-content {
+    font-size: 1rem;
+  }
+  
+  .blog-post-content h1 {
+    font-size: 2rem;
+  }
+  
+  .blog-post-content h2 {
+    font-size: 1.6rem;
+  }
+  
+  .blog-post-content h3 {
+    font-size: 1.3rem;
+  }
+  
+  .blog-post-footer {
+    flex-direction: column;
+  }
+  
+  .win95-button-link {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-index-title {
+    font-size: 28px;
+  }
+  
+  .blog-post-title {
+    font-size: 28px;
+  }
+  
+  .blog-card-title {
+    font-size: 20px;
+  }
+  
+  .blog-post-content pre {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+}

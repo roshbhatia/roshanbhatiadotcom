@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to the Dungeon - roshanbhatia.com</title>
+  <link rel="stylesheet" href="https://fx.hot.page/style">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/prism-retro.css">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Metal+Mania&display=swap" rel="stylesheet">
+  <!-- Ensure proper mobile rendering -->
+  <meta name="theme-color" content="#1a1209">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- NetScape 4.0 Compatible -->
+  <meta name="keywords" content="roshan bhatia, dungeon, coding, fantasy, win95, 90s, retro, geocities, blog">
+  
+</head>
+<body>
+  <!-- Daggerfall background with parallax effect -->
+  <div class="parallax-bg">
+    <div class="moss-wall" id="moss-wall"></div>
+    <div class="torch-overlay"></div>
+  </div>
+
+  <div class="moss-window-container">
+    <div class="moss-window"></div>
+    <div class="moss-window"></div>
+    <div class="moss-window"></div>
+  </div>
+  
+  <div class="fog"></div>
+  
+  <div class="fx-root">
+    <div class="win95-titlebar">
+      <div class="win95-titlebar-text">🔮 roshanbhatia.com </div>
+      <div class="win95-buttons">
+        <div class="win95-button">_</div>
+        <div class="win95-button">□</div>
+        <div class="win95-button">×</div>
+      </div>
+    </div>
+    
+    <header>
+      <!-- Win95 style menu bar -->
+      <nav class="win95-menubar">
+        <a href="/" class="win95-menuitem"><img src="/assets/img/icons8-home-16.png" alt="Home icon" style="vertical-align: text-bottom; margin-right: 3px;"> Home</a>
+        <a href="/blog/" class="win95-menuitem">📜 Blog</a>
+        <a href="https://github.com/roshbhatia" target="_blank" class="win95-menuitem"><img src="/assets/img/icons8-github-16.png" alt="GitHub icon" style="vertical-align: text-bottom; margin-right: 3px;"> GitHub</a>
+        <a href="https://www.linkedin.com/in/roshan-bhatia-2b1970a7/" target="_blank" class="win95-menuitem"><img src="/assets/img/icons8-linkedin-16.png" alt="LinkedIn icon" style="vertical-align: text-bottom; margin-right: 3px;"> LinkedIn</a>
+      </nav>
+    </header>
+
+    <main class="blog-container">
+      
+<article class="blog-post">
+  <header class="blog-post-header">
+    <h1 class="blog-post-title">Welcome to the Dungeon</h1>
+    <div class="blog-post-meta">
+      <time datetime="2024-01-15">January 14, 2024</time>
+      
+      <span class="blog-post-tags">
+        
+          
+        
+          
+            <span class="blog-tag">#meta</span>
+          
+        
+          
+            <span class="blog-tag">#retro</span>
+          
+        
+      </span>
+      
+    </div>
+  </header>
+
+  <div class="blog-post-content">
+    <h2>Greetings, Adventurer</h2>
+<p>Welcome to my corner of the web - a digital dungeon where the torches flicker with JavaScript and the walls are built with CSS.</p>
+<p>This site is a love letter to the early web and classic dungeon crawlers like Daggerfall. No frameworks, no build steps (well, except for this blog), just pure HTML, CSS, and vanilla JavaScript doing their thing.</p>
+<h2>The Philosophy</h2>
+<p>In an age of complex frameworks and gigabyte node_modules folders, sometimes it’s refreshing to go back to basics:</p>
+<ul>
+<li><strong>No frameworks</strong> - Just the web platform itself</li>
+<li><strong>Retro aesthetic</strong> - 90s web meets dungeon crawler pixel art</li>
+<li><strong>Simple deployment</strong> - Static files on GitHub Pages</li>
+<li><strong>Fast loading</strong> - No massive bundles to download</li>
+</ul>
+<h2>Building in the Dark</h2>
+<p>Here’s a taste of the vanilla JavaScript that powers the torch animations:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token comment">// Animate the dungeon torches</span>
+<span class="token keyword">const</span> torches <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">querySelectorAll</span><span class="token punctuation">(</span><span class="token string">'.torch'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+torches<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">torch</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+    torch<span class="token punctuation">.</span>style<span class="token punctuation">.</span>opacity <span class="token operator">=</span> <span class="token number">0.7</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">0.3</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">100</span> <span class="token operator">+</span> Math<span class="token punctuation">.</span><span class="token function">random</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Simple, effective, and no dependencies required.</p>
+<h2>The CSS Sorcery</h2>
+<p>The Win95-style borders are created with pure CSS ridge borders:</p>
+<pre class="language-css"><code class="language-css"><span class="token selector">.modal-content</span> <span class="token punctuation">{</span>
+  <span class="token property">border</span><span class="token punctuation">:</span> 4px ridge <span class="token function">var</span><span class="token punctuation">(</span>--win95-button-face<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token property">box-shadow</span><span class="token punctuation">:</span> inset -2px -2px 0 <span class="token function">var</span><span class="token punctuation">(</span>--win95-button-shadow<span class="token punctuation">)</span><span class="token punctuation">,</span>
+              inset 2px 2px 0 <span class="token function">var</span><span class="token punctuation">(</span>--win95-button-highlight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>This creates that iconic beveled look without any images.</p>
+<h2>What’s Next</h2>
+<p>More posts coming soon about:</p>
+<ul>
+<li>Building retro web animations</li>
+<li>CSS tricks for pixel-perfect designs</li>
+<li>JavaScript game dev experiments</li>
+<li>Web accessibility in retro designs</li>
+</ul>
+<p>Thanks for stopping by the dungeon. Don’t forget to check your inventory before you leave.</p>
+<hr>
+<p><em>May your code compile and your servers stay up.</em></p>
+
+  </div>
+
+  <footer class="blog-post-footer">
+    <nav class="blog-post-nav">
+      <a href="/blog/" class="win95-button-link">← Back to Blog</a>
+      <a href="/" class="win95-button-link">🏠 Home</a>
+    </nav>
+  </footer>
+</article>
+
+    </main>
+
+    <!-- Floor torches -->
+    <div class="floor-torch floor-torch-left"></div>
+    <div class="floor-torch floor-torch-right"></div>
+    
+    <!-- Goblin container for animations -->
+    <div id="goblin-container"></div>
+    
+    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513; position: fixed; bottom: 0; left: 0; right: 0; background-image: url('/assets/img/daggerfall-bedrock-128x64.png'); background-repeat: repeat; background-size: 128px 64px; z-index: 90;">
+      <div style="color: #FFD700; font-size: 16px; margin: 0;">
+        <span>You are adventurer #: </span>
+        <span class="counter-digits">1337</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Skeleton cursor element -->
+  <div class="skeleton-cursor" id="skeleton-cursor"></div>
+
+  <script>
+    // Skeleton cursor behavior
+    document.addEventListener('DOMContentLoaded', function() {
+      const cursor = document.getElementById('skeleton-cursor');
+      let lastX = 0;
+      let isMoving = false;
+      let isFacingLeft = false;
+      let isAttacking = false;
+      let lastMoveTime = Date.now();
+      const idleTimeout = 500;
+      
+      cursor.style.display = 'block';
+      cursor.style.visibility = 'visible';
+      cursor.style.opacity = '1';
+      
+      document.addEventListener('mousemove', function(e) {
+        const currentTime = Date.now();
+        cursor.style.display = 'block';
+        cursor.style.visibility = 'visible';
+        cursor.style.opacity = '1';
+        cursor.style.left = (e.clientX - 16) + 'px';
+        cursor.style.top = (e.clientY - 16) + 'px';
+        
+        if (e.clientX < lastX) {
+          isFacingLeft = true;
+          cursor.style.transform = 'scaleX(-1)';
+        } else if (e.clientX > lastX) {
+          isFacingLeft = false;
+          cursor.style.transform = 'scaleX(1)';
+        }
+        lastX = e.clientX;
+        
+        if (!isAttacking) {
+          cursor.style.backgroundImage = "url('/assets/img/skeleton-walk.gif')";
+        }
+        
+        isMoving = true;
+        lastMoveTime = currentTime;
+      });
+      
+      document.addEventListener('mousedown', function(e) {
+        isAttacking = true;
+        cursor.style.display = 'block';
+        cursor.style.visibility = 'visible';
+        cursor.style.opacity = '1';
+        cursor.style.left = (e.clientX - 16) + 'px';
+        cursor.style.top = (e.clientY - 16) + 'px';
+        cursor.style.backgroundImage = "url('/assets/img/skeleton-attack.gif')";
+        
+        setTimeout(function() {
+          isAttacking = false;
+          cursor.style.display = 'block';
+          cursor.style.visibility = 'visible';
+          cursor.style.opacity = '1';
+          
+          if (isMoving) {
+            cursor.style.backgroundImage = "url('/assets/img/skeleton-walk.gif')";
+          } else {
+            cursor.style.backgroundImage = "url('/assets/img/skeleton-idle.gif')";
+          }
+        }, 500);
+        
+        e.preventDefault();
+      });
+      
+      setInterval(function() {
+        const currentTime = Date.now();
+        cursor.style.display = 'block';
+        cursor.style.visibility = 'visible';
+        cursor.style.opacity = '1';
+        
+        if (currentTime - lastMoveTime > idleTimeout && !isAttacking) {
+          cursor.style.backgroundImage = "url('/assets/img/skeleton-idle.gif')";
+          isMoving = false;
+        }
+      }, 100);
+      
+      // Initialize goblins
+      initGoblins();
+      
+      // Win95 button functionality
+      const minimizeButton = document.querySelector('.win95-button:nth-child(1)');
+      const maximizeButton = document.querySelector('.win95-button:nth-child(2)');
+      const closeButton = document.querySelector('.win95-button:nth-child(3)');
+      
+      if (minimizeButton) {
+        minimizeButton.addEventListener('click', function() {
+          alert('The dungeon refuses to be minimized!');
+        });
+      }
+      
+      if (maximizeButton) {
+        maximizeButton.addEventListener('click', function() {
+          alert('Dungeon expansion was halted due to budget cuts!');
+        });
+      }
+      
+      if (closeButton) {
+        closeButton.addEventListener('click', function() {
+          alert('Sorry! You cannot escape the dungeon so easily!');
+        });
+      }
+    });
+    
+    // Create goblins that run across the screen
+    function initGoblins() {
+      const goblinContainer = document.getElementById('goblin-container');
+      if (!goblinContainer) return;
+      
+      createStaticGoblin();
+      setTimeout(spawnRunningGoblin, 2000);
+      
+      function createStaticGoblin() {
+        const staticGoblin = document.createElement('div');
+        staticGoblin.className = 'goblin static-goblin';
+        staticGoblin.classList.add('goblin-idle-left');
+        staticGoblin.style.position = 'fixed';
+        staticGoblin.style.right = '80px';
+        staticGoblin.style.bottom = '50px';
+        staticGoblin.style.zIndex = '999';
+        goblinContainer.appendChild(staticGoblin);
+      }
+      
+      function spawnRunningGoblin() {
+        const goblin = document.createElement('div');
+        goblin.className = 'goblin running-goblin';
+        goblin.style.bottom = (Math.floor(Math.random() * 5) + 3) + 'px';
+        goblin.style.zIndex = '999';
+        
+        const isLeftToRight = Math.random() > 0.5;
+        const duration = 15;
+        
+        if (isLeftToRight) {
+          goblin.classList.add('goblin-left-to-right');
+          goblin.style.animation = `goblin-run-left-to-right ${duration}s linear forwards`;
+          goblin.style.left = '-70px';
+        } else {
+          goblin.classList.add('goblin-right-to-left');
+          goblin.style.animation = `goblin-run-right-to-left ${duration}s linear forwards`;
+          goblin.style.right = '-70px';
+        }
+        
+        goblinContainer.appendChild(goblin);
+        
+        setTimeout(() => {
+          if (goblin.parentNode === goblinContainer) {
+            goblinContainer.removeChild(goblin);
+          }
+        }, duration * 1000 + 500);
+        
+        setTimeout(spawnRunningGoblin, 10000);
+      }
+    }
+    
+    // Enhanced parallax effect
+    document.addEventListener('mousemove', function(e) {
+      const mossWall = document.getElementById('moss-wall');
+      const windowContainer = document.querySelector('.moss-window-container');
+      
+      if (mossWall && windowContainer) {
+        const mouseX = (e.clientX / window.innerWidth) * 100;
+        const mouseY = (e.clientY / window.innerHeight) * 100;
+        const offsetX = (50 - mouseX) * 0.1;
+        const offsetY = (50 - mouseY) * 0.05;
+        
+        mossWall.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        windowContainer.style.transform = `translate(${offsetX * 1.5}px, ${offsetY * 1.5}px)`;
+      }
+    });
+  </script>
+</body>
+</html>

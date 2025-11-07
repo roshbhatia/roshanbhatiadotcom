@@ -1,32 +1,25 @@
 <!--
 Sync Impact Report:
-Version: N/A → 1.0.0 (Initial constitution ratification)
+Version: 1.0.0 → 1.1.0 (Blog build process exception)
 
 Changes:
-- ✅ NEW: Core Principles established (5 principles)
-  1. Simplicity First - Zero build complexity
-  2. Static-First Architecture - Pure HTML/CSS/JS
-  3. Aesthetic Consistency - Retro dungeon theme
-  4. Accessibility Standards - Inclusive design
-  5. Deployment Automation - Zero-friction CI/CD
+- ✅ AMENDMENT: Complexity Justification section updated
+  - Added Active Exceptions table with blog build process (Feature 001-001)
+  - Documented violation of Principle I (Simplicity First)
+  - Justified 11ty/Eleventy build for Markdown → HTML transformation
+  - Scoped exception: Build in CI/CD only, deployed output remains static
+  - Exception approved 2025-01-07
 
-- ✅ NEW: Code Style Standards
-  - File organization in public/
-  - Naming conventions (kebab-case)
-  - CSS variable namespacing
-
-- ✅ NEW: Development Workflow
-  - Local development with yarn
-  - Manual testing requirements
-  - Git workflow standards
+Previous Version (1.0.0 - 2023-06-02):
+- Core Principles established (5 principles)
+- Code Style Standards defined
+- Development Workflow documented
 
 Template Updates Required:
-- ✅ plan-template.md: Updated constitution check references to match new principles
-- ✅ spec-template.md: No changes needed (technology-agnostic requirements align)
-- ✅ tasks-template.md: Updated to reflect static site development (no test infrastructure by default)
+- ✅ No template updates needed (exception is feature-specific, not workflow change)
 
 Follow-up TODOs:
-- None - all placeholders filled
+- None - exception documented and approved
 -->
 
 # roshanbhatiadotcom Constitution
@@ -266,9 +259,24 @@ Any violation of core principles MUST be documented with:
 - Why violation is necessary (specific problem solved)
 - Why simpler alternatives were rejected
 
-**Example**:
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| Adding build step (PostCSS) | CSS variables insufficient for theme switching | Increases complexity; theme switching not required |
+**Active Exceptions**:
+| Violation | Why Needed | Simpler Alternative Rejected Because | Feature ID |
+|-----------|------------|-------------------------------------|------------|
+| Adding build process (11ty/Eleventy) for blog | Markdown → HTML transformation required for blog authoring workflow | Browser-side Markdown parsing adds client-side complexity, degrades performance, and violates static-first principle. Content authors need simple Markdown workflow without HTML knowledge. | 001-001 |
 
-**Version**: 1.0.0 | **Ratified**: 2023-06-02 | **Last Amended**: 2025-01-07
+**Exception Details - Blog Build Process**:
+- **Principle Violated**: I. Simplicity First (NO build process)
+- **Scope**: Limited to `/blog` subdirectory only
+- **Build Tool**: 11ty (Eleventy) - minimal static site generator
+- **Deployment Strategy**: Build occurs in GitHub Actions CI/CD, NOT locally
+  - Developers write Markdown in `/content/blog/`
+  - GitHub Actions runs `npm run build` (generates HTML to `public/blog/`)
+  - Generated `public/blog/` directory is gitignored
+  - Deployed output remains pure static HTML/CSS/JS (principle maintained)
+- **Justification**: Markdown authoring significantly improves content creation velocity. Alternative (writing raw HTML) creates friction that would prevent regular blog updates. Build complexity is acceptable because:
+  1. Isolated to blog feature only (main site remains zero-build)
+  2. Build happens in CI/CD (developers still run `yarn start` locally)
+  3. Deployed artifact is still static HTML (no runtime dependencies)
+- **Approved**: 2025-01-07
+
+**Version**: 1.1.0 | **Ratified**: 2023-06-02 | **Last Amended**: 2025-01-07

@@ -8,9 +8,19 @@
   "private": true,
   "scripts": {
     "dev": "serve public -s",
-    "start": "serve public -s"
+    "start": "serve public -s",
+    "build:blog": "eleventy",
+    "build": "npm run build:blog",
+    "clean": "rm -rf public/blog"
   },
   "dependencies": {
     "serve": "^14.2.4"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "markdown-it": "^14.1.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-link-attributes": "^4.0.1"
   }
 }

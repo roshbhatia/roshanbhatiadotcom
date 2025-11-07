@@ -1,0 +1,29 @@
+<article class="blog-card">
+  <div class="blog-card-content">
+    <h2 class="blog-card-title">
+      <a href="/blog{{ post.url }}">{{ post.data.title }}</a>
+    </h2>
+    
+    <div class="blog-card-meta">
+      <time datetime="{{ post.date | htmlDateString }}">
+        {{ post.date | readableDate }}
+      </time>
+      
+      {%- if post.data.tags -%}
+        <div class="blog-card-tags">
+          {%- for tag in post.data.tags -%}
+            {%- if tag != "post" -%}
+              <span class="tag">{{ tag }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- if post.data.description -%}
+      <p class="blog-card-description">{{ post.data.description }}</p>
+    {%- endif -%}
+    
+    <a href="/blog{{ post.url }}" class="blog-card-link">Read more →</a>
+  </div>
+</article>

@@ -1,0 +1,16 @@
+---
+layout: layouts/base.njk
+---
+
+<div class="blog-index">
+  <div class="scroll-container">
+    <h1 class="blog-index-title">Blog Posts</h1>
+    <p class="blog-index-description">Adventures in code and creativity</p>
+    
+    <div class="blog-posts-grid">
+      {%- for post in collections.posts | reverse -%}
+        {% include "components/post-card.njk" %}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>

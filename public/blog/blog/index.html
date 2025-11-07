@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Roshan Bhatia - roshanbhatia.com</title>
+  <link rel="stylesheet" href="https://fx.hot.page/style">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/prism-retro.css">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Metal+Mania&display=swap" rel="stylesheet">
+  <!-- Ensure proper mobile rendering -->
+  <meta name="theme-color" content="#1a1209">
+  <meta name="apple-mobile-web-app-capable" content="no">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- NetScape 4.0 Compatible -->
+  <meta name="keywords" content="roshan bhatia, dungeon, coding, fantasy, win95, 90s, retro, geocities, blog">
+  
+</head>
+<body>
+  <!-- Daggerfall background with parallax effect -->
+  <div class="parallax-bg">
+    <div class="moss-wall" id="moss-wall"></div>
+    <div class="torch-overlay"></div>
+  </div>
+
+  <div class="moss-window-container">
+    <div class="moss-window"></div>
+    <div class="moss-window"></div>
+    <div class="moss-window"></div>
+  </div>
+  
+  <div class="fog"></div>
+  
+  <div class="fx-root">
+    <div class="win95-titlebar">
+      <div class="win95-titlebar-text">🔮 roshanbhatia.com </div>
+      <div class="win95-buttons">
+        <div class="win95-button">_</div>
+        <div class="win95-button">□</div>
+        <div class="win95-button">×</div>
+      </div>
+    </div>
+    
+    <header>
+      <!-- Win95 style menu bar -->
+      <nav class="win95-menubar">
+        <a href="/" class="win95-menuitem"><img src="/assets/img/icons8-home-16.png" alt="Home icon" style="vertical-align: text-bottom; margin-right: 3px;"> Home</a>
+        <a href="/blog/" class="win95-menuitem">📜 Blog</a>
+        <a href="https://github.com/roshbhatia" target="_blank" class="win95-menuitem"><img src="/assets/img/icons8-github-16.png" alt="GitHub icon" style="vertical-align: text-bottom; margin-right: 3px;"> GitHub</a>
+        <a href="https://www.linkedin.com/in/roshan-bhatia-2b1970a7/" target="_blank" class="win95-menuitem"><img src="/assets/img/icons8-linkedin-16.png" alt="LinkedIn icon" style="vertical-align: text-bottom; margin-right: 3px;"> LinkedIn</a>
+      </nav>
+    </header>
+
+    <main class="blog-container">
+      
+<div class="blog-index">
+  <div class="scroll-container">
+    <h1 class="blog-index-title">Blog Posts</h1>
+    <p class="blog-index-description">Adventures in code and creativity</p>
+    
+    <div class="blog-posts-grid"><article class="blog-card">
+  <div class="blog-card-content">
+    <h2 class="blog-card-title">
+      <a href="/welcome-to-the-dungeon/">Welcome to the Dungeon</a>
+    </h2>
+    
+    <div class="blog-card-meta">
+      <time datetime="2024-01-15">
+        January 14, 2024
+      </time><div class="blog-card-tags"><span class="tag">meta</span><span class="tag">retro</span></div></div><p class="blog-card-description">A journey into the retro web aesthetic - building a personal site with 90s dungeon crawler vibes</p><a href="/welcome-to-the-dungeon/" class="blog-card-link">Read more →</a>
+  </div>
+</article>
+</div>
+  </div>
+</div>
+
+    </main>
+
+    <!-- Floor torches -->
+    <div class="floor-torch floor-torch-left"></div>
+    <div class="floor-torch floor-torch-right"></div>
+    
+    <!-- Goblin container for animations -->
+    <div id="goblin-container"></div>
+    
+    <footer style="text-align: center; padding: 1rem; border-top: 2px ridge #8B4513; position: fixed; bottom: 0; left: 0; right: 0; background-image: url('/assets/img/daggerfall-bedrock-128x64.png'); background-repeat: repeat; background-size: 128px 64px; z-index: 90;">
+      <div style="color: #FFD700; font-size: 16px; margin: 0;">
+        <span>You are adventurer #: </span>
+        <span class="counter-digits">1337</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Skeleton cursor element -->
+  <div class="skeleton-cursor" id="skeleton-cursor"></div>
+
+  <script>
+    // Skeleton cursor behavior
+    document.addEventListener('DOMContentLoaded', function() {
+      const cursor = document.getElementById('skeleton-cursor');
+      let lastX = 0;
+      let isMoving = false;
+      let isFacingLeft = false;
+      let isAttacking = false;
+      let lastMoveTime = Date.now();
+      const idleTimeout = 500;
+      
+      cursor.style.display = 'block';
+      cursor.style.visibility = 'visible';
+      cursor.style.opacity = '1';
+      
+      document.addEventListener('mousemove', function(e) {
+        const currentTime = Date.now();
+        cursor.style.display = 'block';
+        cursor.style.visibility = 'visible';
+        cursor.style.opacity = '1';
+        cursor.style.left = (e.clientX - 16) + 'px';
+        cursor.style.top = (e.clientY - 16) + 'px';
+        
+        if (e.clientX < lastX) {
+          isFacingLeft = true;
+          cursor.style.transform = 'scaleX(-1)';
+        } else if (e.clientX > lastX) {
+          isFacingLeft = false;
+          cursor.style.transform = 'scaleX(1)';
+        }
+        lastX = e.clientX;
+        
+        if (!isAttacking) {
+          cursor.style.backgroundImage = "url('/assets/img/skeleton-walk.gif')";
+        }
+        
+        isMoving = true;
+        lastMoveTime = currentTime;
+      });
+      
+      document.addEventListener('mousedown', function(e) {
+        isAttacking = true;
+        cursor.style.display = 'block';
+        cursor.style.visibility = 'visible';
+        cursor.style.opacity = '1';
+        cursor.style.left = (e.clientX - 16) + 'px';
+        cursor.style.top = (e.clientY - 16) + 'px';
+        cursor.style.backgroundImage = "url('/assets/img/skeleton-attack.gif')";
+        
+        setTimeout(function() {
+          isAttacking = false;
+          cursor.style.display = 'block';
+          cursor.style.visibility = 'visible';
+          cursor.style.opacity = '1';
+          
+          if (isMoving) {
+            cursor.style.backgroundImage = "url('/assets/img/skeleton-walk.gif')";
+          } else {
+            cursor.style.backgroundImage = "url('/assets/img/skeleton-idle.gif')";
+          }
+        }, 500);
+        
+        e.preventDefault();
+      });
+      
+      setInterval(function() {
+        const currentTime = Date.now();
+        cursor.style.display = 'block';
+        cursor.style.visibility = 'visible';
+        cursor.style.opacity = '1';
+        
+        if (currentTime - lastMoveTime > idleTimeout && !isAttacking) {
+          cursor.style.backgroundImage = "url('/assets/img/skeleton-idle.gif')";
+          isMoving = false;
+        }
+      }, 100);
+      
+      // Initialize goblins
+      initGoblins();
+      
+      // Win95 button functionality
+      const minimizeButton = document.querySelector('.win95-button:nth-child(1)');
+      const maximizeButton = document.querySelector('.win95-button:nth-child(2)');
+      const closeButton = document.querySelector('.win95-button:nth-child(3)');
+      
+      if (minimizeButton) {
+        minimizeButton.addEventListener('click', function() {
+          alert('The dungeon refuses to be minimized!');
+        });
+      }
+      
+      if (maximizeButton) {
+        maximizeButton.addEventListener('click', function() {
+          alert('Dungeon expansion was halted due to budget cuts!');
+        });
+      }
+      
+      if (closeButton) {
+        closeButton.addEventListener('click', function() {
+          alert('Sorry! You cannot escape the dungeon so easily!');
+        });
+      }
+    });
+    
+    // Create goblins that run across the screen
+    function initGoblins() {
+      const goblinContainer = document.getElementById('goblin-container');
+      if (!goblinContainer) return;
+      
+      createStaticGoblin();
+      setTimeout(spawnRunningGoblin, 2000);
+      
+      function createStaticGoblin() {
+        const staticGoblin = document.createElement('div');
+        staticGoblin.className = 'goblin static-goblin';
+        staticGoblin.classList.add('goblin-idle-left');
+        staticGoblin.style.position = 'fixed';
+        staticGoblin.style.right = '80px';
+        staticGoblin.style.bottom = '50px';
+        staticGoblin.style.zIndex = '999';
+        goblinContainer.appendChild(staticGoblin);
+      }
+      
+      function spawnRunningGoblin() {
+        const goblin = document.createElement('div');
+        goblin.className = 'goblin running-goblin';
+        goblin.style.bottom = (Math.floor(Math.random() * 5) + 3) + 'px';
+        goblin.style.zIndex = '999';
+        
+        const isLeftToRight = Math.random() > 0.5;
+        const duration = 15;
+        
+        if (isLeftToRight) {
+          goblin.classList.add('goblin-left-to-right');
+          goblin.style.animation = `goblin-run-left-to-right ${duration}s linear forwards`;
+          goblin.style.left = '-70px';
+        } else {
+          goblin.classList.add('goblin-right-to-left');
+          goblin.style.animation = `goblin-run-right-to-left ${duration}s linear forwards`;
+          goblin.style.right = '-70px';
+        }
+        
+        goblinContainer.appendChild(goblin);
+        
+        setTimeout(() => {
+          if (goblin.parentNode === goblinContainer) {
+            goblinContainer.removeChild(goblin);
+          }
+        }, duration * 1000 + 500);
+        
+        setTimeout(spawnRunningGoblin, 10000);
+      }
+    }
+    
+    // Enhanced parallax effect
+    document.addEventListener('mousemove', function(e) {
+      const mossWall = document.getElementById('moss-wall');
+      const windowContainer = document.querySelector('.moss-window-container');
+      
+      if (mossWall && windowContainer) {
+        const mouseX = (e.clientX / window.innerWidth) * 100;
+        const mouseY = (e.clientY / window.innerHeight) * 100;
+        const offsetX = (50 - mouseX) * 0.1;
+        const offsetY = (50 - mouseY) * 0.05;
+        
+        mossWall.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+        windowContainer.style.transform = `translate(${offsetX * 1.5}px, ${offsetY * 1.5}px)`;
+      }
+    });
+  </script>
+</body>
+</html>
