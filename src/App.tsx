@@ -43,24 +43,16 @@ function App() {
         </section>
 
         <section>
-          <h2 className="mono text-2xl font-bold mb-8">Projects</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="border border-border p-6 space-y-4">
-              <h3 className="mono font-bold">kubanana</h3>
-              <p className="text-sm">Kubernetes management tool</p>
-              <div className="flex gap-2">
-                <span className="mono text-xs border border-border px-2 py-1">TypeScript</span>
-                <span className="mono text-xs border border-border px-2 py-1">Kubernetes</span>
-              </div>
-            </div>
-            <div className="border border-border p-6 space-y-4">
-              <h3 className="mono font-bold">grugnvim</h3>
-              <p className="text-sm">Neovim configuration</p>
-              <div className="flex gap-2">
-                <span className="mono text-xs border border-border px-2 py-1">Lua</span>
-                <span className="mono text-xs border border-border px-2 py-1">Neovim</span>
-              </div>
-            </div>
+          <h2 className="mono text-2xl font-bold mb-8">The Cloud</h2>
+          <div className="flex justify-center">
+            <img src="/the_cloud.png" alt="The Cloud" className="max-w-md border border-border" />
+          </div>
+        </section>
+
+        <section>
+          <h2 className="mono text-2xl font-bold mb-8">Writing</h2>
+          <div className="space-y-4 text-sm">
+            <p>Static site generated from markdown commits in this repository.</p>
           </div>
         </section>
 
