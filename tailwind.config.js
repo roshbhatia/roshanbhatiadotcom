@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['Space Mono', 'monospace'],
+        mono: ['VT323', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',
