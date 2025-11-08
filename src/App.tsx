@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { ThemeProvider } from './contexts/ThemeContext.tsx'
 import Navigation from './components/Navigation.tsx'
 import HomePage from './pages/HomePage.tsx'
 import DesignSystem from './pages/DesignSystem.tsx'
@@ -71,11 +70,7 @@ function AppContent() {
 }
 
 function App() {
-  return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
-  )
+  return <AppContent />
 }
 
 export default App
