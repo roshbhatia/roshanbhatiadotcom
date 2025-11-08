@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import Navigation from './components/Navigation'
-import HomePage from './pages/HomePage'
-import DesignSystem from './pages/DesignSystem'
-import DemoPage from './pages/DemoPage'
+import Navigation from '@/components/Navigation'
+import HomePage from '@/pages/HomePage'
+import DesignSystem from '@/pages/DesignSystem'
+import DemoPage from '@/pages/DemoPage'
 import './styles/globals.css'
 
 function AppContent() {
