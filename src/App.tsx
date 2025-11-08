@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ThemeProvider } from './contexts/ThemeContext'
+import { ThemeProvider } from '@/contexts/ThemeContext'
 import Navigation from './components/Navigation'
 import HomePage from './pages/HomePage'
 import DesignSystem from './pages/DesignSystem'
