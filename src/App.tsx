@@ -23,15 +23,47 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-bg text-text engineering-grid">
-      <div className="technical-border m-4 p-6 bg-bg/80">
-        <div className="technical-border p-4 bg-bg/60">
-          <Navigation currentPage={currentPage} onPageChange={(page) => setCurrentPage(page as 'home' | 'design' | 'demo')} />
-          
-          <main className="w-full mt-6">
-            <div className="technical-border p-6 bg-bg/50">
-              {renderPage()}
+      <div className="sheet-border m-2 p-8">
+        <div className="frame-border p-6">
+          <div className="grid grid-cols-12 gap-1">
+            {/* Header Row */}
+            <div className="col-span-12 grid grid-cols-12 gap-1 mb-4">
+              <div className="col-span-8 cell-border p-3">
+                <Navigation currentPage={currentPage} onPageChange={(page) => setCurrentPage(page as 'home' | 'design' | 'demo')} />
+              </div>
+              <div className="col-span-4 cell-border p-3">
+                <div className="text-xs text-border mono">SYSTEM STATUS: ONLINE</div>
+                <div className="text-xs text-border mono">VERSION: 1.0.0</div>
+              </div>
             </div>
-          </main>
+            
+            {/* Main Content Area */}
+            <div className="col-span-12 grid grid-cols-12 gap-1">
+              <div className="col-span-12 cell-border p-4">
+                <div className="grid grid-cols-12 gap-1">
+                  <div className="col-span-12">
+                    {renderPage()}
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Footer Row */}
+            <div className="col-span-12 grid grid-cols-12 gap-1 mt-4">
+              <div className="col-span-3 cell-border p-2">
+                <div className="text-xs text-border mono">CONTACT</div>
+              </div>
+              <div className="col-span-3 cell-border p-2">
+                <div className="text-xs text-border mono">GITHUB</div>
+              </div>
+              <div className="col-span-3 cell-border p-2">
+                <div className="text-xs text-border mono">LINKEDIN</div>
+              </div>
+              <div className="col-span-3 cell-border p-2">
+                <div className="text-xs text-border mono">EMAIL</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

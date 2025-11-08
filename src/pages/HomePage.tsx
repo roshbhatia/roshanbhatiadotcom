@@ -3,160 +3,182 @@ import WritingSection from '../WritingSection'
 
 const HomePage: React.FC = () => {
   return (
-    <div className="w-full space-y-16">
-      {/* Hero Section */}
-      <section className="space-y-8">
-        <div className="technical-border p-8 bg-bg/40">
-          <div className="technical-border p-6 bg-bg/30">
-            <div className="space-y-4">
-              <div className="technical-border p-4 bg-bg/20">
-                <h1 className="mono text-4xl md:text-6xl font-bold text-left">Roshan Bhatia</h1>
-              </div>
-              <div className="technical-border p-3 bg-bg/20">
-                <div className="mono text-lg md:text-xl text-border text-left">
-                  Senior Software Engineer @ Nike-Inc
+    <div className="w-full space-y-4">
+      {/* Technical Data Sheet Header */}
+      <section className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 cell-border p-4">
+          <div className="grid grid-cols-12 gap-1">
+            {/* Name Block */}
+            <div className="col-span-8 grid-cell p-4">
+              <div className="grid grid-cols-1 gap-1">
+                <div className="cell-border p-3">
+                  <div className="mono text-2xl font-bold text-text">ROSHAN BHATIA</div>
+                  <div className="mono text-xs text-border">SUBJECT: SOFTWARE ENGINEER</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-sm text-text">SENIOR SOFTWARE ENGINEER</div>
+                  <div className="mono text-xs text-border">NIKE INC • KUBERNETES CONTROLLERS</div>
                 </div>
               </div>
-              <div className="technical-border p-2 bg-bg/20">
-                <div className="mono text-sm text-accent">
-                  Kubernetes Controllers • Platform Engineering
+            </div>
+            
+            {/* Status Panel */}
+            <div className="col-span-4 grid-cell p-4">
+              <div className="grid grid-cols-1 gap-1">
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">STATUS</div>
+                  <div className="mono text-sm text-accent">ACTIVE</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">SPECIALIZATION</div>
+                  <div className="mono text-sm text-text">PLATFORM ENG</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">CLEARANCE</div>
+                  <div className="mono text-sm text-text">LEVEL 4</div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="technical-border p-4 bg-bg/40">
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold mb-3 text-accent">Current Role</h3>
-              </div>
-              <div className="space-y-2 text-sm mt-3">
-                <p className="text-text">Senior Software Engineer</p>
-                <p className="text-border">Nike-Inc</p>
-                <p className="text-border">Kubernetes Controllers Development</p>
-              </div>
-            </div>
-
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold mb-3 text-accent">Technical Focus</h3>
-              </div>
-              <div className="space-y-1 text-sm mt-3">
-                <p className="text-text">• Distributed Systems</p>
-                <p className="text-text">• Platform Engineering</p>
-                <p className="text-text">• Infrastructure as Code</p>
-                <p className="text-text">• System Design & Scale</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="technical-border p-6 bg-bg/40">
-          <div className="technical-border p-3 bg-bg/30">
-            <h3 className="mono text-sm font-semibold text-accent">Previous Experience</h3>
-          </div>
-          <div className="space-y-3 text-sm mt-4">
-            <div className="technical-border p-3 bg-bg/20 border-l-4 border-l-accent">
-              <p className="text-text">Senior Software Engineer @ Ping</p>
-              <p className="text-border">Backend, Platform, SRE</p>
-            </div>
-            <div className="technical-border p-3 bg-bg/20 border-l-4 border-l-accent">
-              <p className="text-text">SRE @ Virtual Instruments</p>
-              <p className="text-border">Observability & Reliability</p>
-            </div>
-            <div className="technical-border p-3 bg-bg/20 border-l-4 border-l-accent">
-              <p className="text-text">Senior Software Engineer @ Shipyard</p>
-              <p className="text-border">K8s, Multi-cloud, React</p>
-            </div>
-            <div className="technical-border p-3 bg-bg/20 border-l-4 border-l-accent">
-              <p className="text-text">SRE @ Dgraph Labs</p>
-              <p className="text-border">Multi-cloud & Bare-metal K8s</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Technical Expertise Section */}
-      <section className="space-y-6">
-        <div className="technical-border p-4 bg-bg/40">
-          <div className="flex items-center gap-4 pb-4 border-b-2 border-b-border">
-            <h2 className="mono text-2xl font-semibold text-left">Technical Expertise</h2>
-            <div className="technical-border px-3 py-1 bg-bg/30">
-              <div className="mono text-xs text-border">Core Competencies</div>
+      {/* Experience Grid */}
+      <section className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 cell-border p-4">
+          <div className="grid grid-cols-12 gap-1">
+            <div className="col-span-6 grid-cell p-3">
+              <div className="mono text-sm font-semibold text-accent mb-2">CURRENT ASSIGNMENT</div>
+              <div className="grid grid-cols-1 gap-1">
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">ORGANIZATION</div>
+                  <div className="mono text-sm text-text">NIKE INC</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">ROLE</div>
+                  <div className="mono text-sm text-text">SENIOR SOFTWARE ENGINEER</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">DOMAIN</div>
+                  <div className="mono text-sm text-text">KUBERNETES CONTROLLERS</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="col-span-6 grid-cell p-3">
+              <div className="mono text-sm font-semibold text-accent mb-2">TECHNICAL MATRIX</div>
+              <div className="grid grid-cols-2 gap-1">
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">DISTRIBUTED</div>
+                  <div className="mono text-sm text-text">SYSTEMS</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">PLATFORM</div>
+                  <div className="mono text-sm text-text">ENGINEERING</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">INFRASTRUCTURE</div>
+                  <div className="mono text-sm text-text">AS CODE</div>
+                </div>
+                <div className="cell-border p-2">
+                  <div className="mono text-xs text-border">SYSTEM</div>
+                  <div className="mono text-sm text-text">DESIGN</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div className="technical-border p-6 bg-bg/40">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold text-accent">Kubernetes</h3>
-              </div>
-              <div className="mono text-xs text-border mt-2">Container orchestration</div>
-              <p className="text-xs text-text mt-2">
-                Controllers, operators, custom resources, cluster management
-              </p>
-            </div>
+      </section>
 
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold text-accent">Platform Engineering</h3>
-              </div>
-              <div className="mono text-xs text-border mt-2">Developer platforms</div>
-              <p className="text-xs text-text mt-2">
-                Infrastructure as code, CI/CD, developer experience
-              </p>
+      {/* Previous Assignments */}
+      <section className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 cell-border p-4">
+          <div className="mono text-sm font-semibold text-accent mb-3">PREVIOUS ASSIGNMENTS</div>
+          <div className="grid grid-cols-12 gap-1">
+            <div className="col-span-3 cell-border p-2">
+              <div className="mono text-xs text-border">ORGANIZATION</div>
+              <div className="mono text-sm text-text">PING INC</div>
+              <div className="mono text-xs text-border mt-1">ROLE</div>
+              <div className="mono text-sm text-text">SENIOR SWE</div>
             </div>
-
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold text-accent">Site Reliability</h3>
-              </div>
-              <div className="mono text-xs text-border mt-2">Reliability engineering</div>
-              <p className="text-xs text-text mt-2">
-                Monitoring, alerting, system reliability principles
-              </p>
+            <div className="col-span-3 cell-border p-2">
+              <div className="mono text-xs text-border">ORGANIZATION</div>
+              <div className="mono text-sm text-text">VIRTUAL INSTRUMENTS</div>
+              <div className="mono text-xs text-border mt-1">ROLE</div>
+              <div className="mono text-sm text-text">SRE</div>
             </div>
-
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold text-accent">Distributed Systems</h3>
-              </div>
-              <div className="mono text-xs text-border mt-2">System architecture</div>
-              <p className="text-xs text-text mt-2">
-                Microservices, event-driven architecture, system design
-              </p>
+            <div className="col-span-3 cell-border p-2">
+              <div className="mono text-xs text-border">ORGANIZATION</div>
+              <div className="mono text-sm text-text">SHIPYARD</div>
+              <div className="mono text-xs text-border mt-1">ROLE</div>
+              <div className="mono text-sm text-text">SENIOR SWE</div>
             </div>
-
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold text-accent">Backend Development</h3>
-              </div>
-              <div className="mono text-xs text-border mt-2">API & services</div>
-              <p className="text-xs text-text mt-2">
-                REST APIs, GraphQL, service-oriented architecture
-              </p>
+            <div className="col-span-3 cell-border p-2">
+              <div className="mono text-xs text-border">ORGANIZATION</div>
+              <div className="mono text-sm text-text">DGRAPH LABS</div>
+              <div className="mono text-xs text-border mt-1">ROLE</div>
+              <div className="mono text-sm text-text">SRE</div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="technical-border p-4 bg-bg/30">
-              <div className="technical-border p-2 bg-bg/20">
-                <h3 className="mono text-sm font-semibold text-accent">Frontend Development</h3>
-              </div>
-              <div className="mono text-xs text-border mt-2">Web applications</div>
-              <p className="text-xs text-text mt-2">
-                React, TypeScript, design system implementation
-              </p>
+      {/* Technical Specifications */}
+      <section className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 cell-border p-4">
+          <div className="mono text-sm font-semibold text-accent mb-3">TECHNICAL SPECIFICATIONS</div>
+          <div className="grid grid-cols-12 gap-1">
+            <div className="col-span-4 cell-border p-2">
+              <div className="mono text-xs text-border">KUBERNETES</div>
+              <div className="mono text-xs text-text mt-1">• CONTROLLERS</div>
+              <div className="mono text-xs text-text">• OPERATORS</div>
+              <div className="mono text-xs text-text">• CUSTOM RESOURCES</div>
+              <div className="mono text-xs text-text">• CLUSTER MGMT</div>
+            </div>
+            <div className="col-span-4 cell-border p-2">
+              <div className="mono text-xs text-border">PLATFORM ENG</div>
+              <div className="mono text-xs text-text mt-1">• IAC</div>
+              <div className="mono text-xs text-text">• CI/CD</div>
+              <div className="mono text-xs text-text">• DEVEX</div>
+              <div className="mono text-xs text-text">• AUTOMATION</div>
+            </div>
+            <div className="col-span-4 cell-border p-2">
+              <div className="mono text-xs text-border">SRE</div>
+              <div className="mono text-xs text-text mt-1">• MONITORING</div>
+              <div className="mono text-xs text-text">• ALERTING</div>
+              <div className="mono text-xs text-text">• RELIABILITY</div>
+              <div className="mono text-xs text-text">• OBSERVABILITY</div>
+            </div>
+            <div className="col-span-4 cell-border p-2">
+              <div className="mono text-xs text-border">BACKEND</div>
+              <div className="mono text-xs text-text mt-1">• REST APIS</div>
+              <div className="mono text-xs text-text">• GRAPHQL</div>
+              <div className="mono text-xs text-text">• MICROSERVICES</div>
+              <div className="mono text-xs text-text">• SOA</div>
+            </div>
+            <div className="col-span-4 cell-border p-2">
+              <div className="mono text-xs text-border">FRONTEND</div>
+              <div className="mono text-xs text-text mt-1">• REACT</div>
+              <div className="mono text-xs text-text">• TYPESCRIPT</div>
+              <div className="mono text-xs text-text">• DESIGN SYSTEMS</div>
+              <div className="mono text-xs text-text">• WEB APPS</div>
+            </div>
+            <div className="col-span-4 cell-border p-2">
+              <div className="mono text-xs text-border">SYSTEMS</div>
+              <div className="mono text-xs text-text mt-1">• DISTRIBUTED</div>
+              <div className="mono text-xs text-text">• EVENT-DRIVEN</div>
+              <div className="mono text-xs text-text">• SCALABLE</div>
+              <div className="mono text-xs text-text">• RESILIENT</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Writing Section */}
-      <section className="technical-border p-6 bg-bg/40">
-        <WritingSection />
+      <section className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 cell-border p-4">
+          <WritingSection />
+        </div>
       </section>
     </div>
   )

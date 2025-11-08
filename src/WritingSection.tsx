@@ -82,30 +82,32 @@ function CodeBlock({ language, children }: CodeBlockProps) {
   }
 
   return (
-    <div className="code-block my-6">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border bg-bg/50">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="mono text-xs text-border ml-2">{language}</span>
+    <div className="cell-border my-4">
+      <div className="grid grid-cols-12 gap-1 border-b border-border bg-bg/50">
+        <div className="col-span-8 flex items-center gap-2 p-2">
+          <div className="w-2 h-2 rounded-full bg-red-500"></div>
+          <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+          <div className="w-2 h-2 rounded-full bg-green-500"></div>
+          <span className="mono text-xs text-border">{language}</span>
         </div>
-        <button
-          onClick={handleCopy}
-          className="flex items-center gap-2 px-3 py-1 text-xs bg-bg/80 border border-border rounded hover:bg-accent/20 transition-colors"
-        >
-          {copied ? (
-            <>
-              <Check className="w-3 h-3" />
-              Copied
-            </>
-          ) : (
-            <>
-              <Copy className="w-3 h-3" />
-              Copy
-            </>
-          )}
-        </button>
+        <div className="col-span-4 p-2">
+          <button
+            onClick={handleCopy}
+            className="cell-border w-full text-xs bg-bg/80 hover:bg-accent/20 transition-colors flex items-center justify-center gap-1"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3 h-3" />
+                COPIED
+              </>
+            ) : (
+              <>
+                <Copy className="w-3 h-3" />
+                COPY
+              </>
+            )}
+          </button>
+        </div>
       </div>
       <SyntaxHighlighter
         language={language}
@@ -114,19 +116,20 @@ function CodeBlock({ language, children }: CodeBlockProps) {
           backgroundColor: 'transparent',
           color: 'var(--text)',
           fontFamily: "'Wumpus Mono', 'IBM Plex Mono', monospace",
-          fontSize: '0.875rem',
-          lineHeight: '1.6',
+          fontSize: '0.75rem',
+          lineHeight: '1.4',
           borderRadius: '0',
           border: 'none',
-          padding: '1rem',
+          padding: '0.75rem',
           margin: '0',
         }}
         showLineNumbers
         lineNumberStyle={{
           color: 'var(--border)',
-          paddingRight: '1rem',
+          paddingRight: '0.75rem',
           userSelect: 'none',
-          minWidth: '2rem',
+          minWidth: '1.5rem',
+          fontSize: '0.7rem',
         }}
         codeTagProps={{
           style: {
@@ -151,7 +154,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
       const paragraphText = currentParagraph.join(' ').trim()
       if (paragraphText) {
         elements.push(
-          <p key={elements.length} className="mb-4 leading-relaxed">
+          <p key={elements.length} className="mb-3 leading-relaxed text-xs">
             {paragraphText
               .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
               .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -177,10 +180,8 @@ function parseMarkdown(content: string): React.ReactNode[] {
   }
 
   lines.forEach((line) => {
-    // Handle code blocks
     if (line.startsWith('```')) {
       if (codeBlock) {
-        // End of code block
         elements.push(
           <CodeBlock 
             key={elements.length} 
@@ -191,7 +192,6 @@ function parseMarkdown(content: string): React.ReactNode[] {
         )
         codeBlock = null
       } else {
-        // Start of code block
         flushParagraph()
         codeBlock = {
           language: line.slice(3).trim() || 'text',
@@ -206,39 +206,42 @@ function parseMarkdown(content: string): React.ReactNode[] {
       return
     }
 
-    // Handle headers
     if (line.startsWith('# ')) {
       flushParagraph()
       elements.push(
-        <h1 key={elements.length} className="mono text-2xl font-bold mb-6 text-text border-b-2 border-border pb-2">
-          {line.slice(2)}
-        </h1>
+        <div key={elements.length} className="cell-border p-3 mb-4">
+          <h1 className="mono text-lg font-bold text-text">DOCUMENT: {line.slice(2)}</h1>
+        </div>
       )
     } else if (line.startsWith('## ')) {
       flushParagraph()
       elements.push(
-        <h2 key={elements.length} className="mono text-xl font-semibold mb-4 text-text border-b border-border pb-2">
-          {line.slice(3)}
-        </h2>
+        <div key={elements.length} className="cell-border p-2 mb-3">
+          <h2 className="mono text-base font-semibold text-text">SECTION: {line.slice(3)}</h2>
+        </div>
       )
     } else if (line.startsWith('### ')) {
       flushParagraph()
       elements.push(
-        <h3 key={elements.length} className="mono text-lg font-medium mb-3 text-text border-b border-border pb-1">
-          {line.slice(4)}
-        </h3>
+        <div key={elements.length} className="cell-border p-2 mb-2">
+          <h3 className="mono text-sm font-medium text-text">SUBSECTION: {line.slice(4)}</h3>
+        </div>
       )
     } else if (line.startsWith('- ')) {
       flushParagraph()
       elements.push(
-        <li key={elements.length} className="mono text-sm mb-2 text-text list-disc ml-6 border-l border-border pl-2">
-          {line.slice(2)}
-        </li>
+        <div key={elements.length} className="cell-border p-2 mb-2 ml-4">
+          <div className="mono text-xs text-text">• {line.slice(2)}</div>
+        </div>
       )
     } else if (line.trim() === '---') {
       flushParagraph()
       elements.push(
-        <hr key={elements.length} className="border-t-2 border-border my-8" />
+        <div key={elements.length} className="grid grid-cols-12 gap-1 my-4">
+          <div className="col-span-12 cell-border p-1">
+            <div className="text-xs text-border text-center">DOCUMENT SEPARATOR</div>
+          </div>
+        </div>
       )
     } else if (line.trim() === '') {
       flushParagraph()
@@ -257,73 +260,86 @@ function WritingSection() {
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-6">
-        <div className="technical-border p-4 bg-bg/30">
-          <div className="flex items-center gap-4 pb-4 border-b-2 border-b-border">
-            <h2 className="mono text-2xl font-bold text-left">Writing</h2>
-            <div className="technical-border px-3 py-1 bg-bg/20">
-              <div className="mono text-xs text-border">Technical Documentation</div>
+    <div className="space-y-4">
+      <div className="grid grid-cols-12 gap-1">
+        <div className="col-span-12 cell-border p-3">
+          <div className="grid grid-cols-12 gap-1">
+            <div className="col-span-8">
+              <div className="mono text-sm font-semibold text-accent">TECHNICAL DOCUMENTATION</div>
+            </div>
+            <div className="col-span-4">
+              <div className="mono text-xs text-border text-right">RECORDS: {writings.length}</div>
             </div>
           </div>
         </div>
-        
-        <div className="technical-border p-4 bg-bg/30">
-          <div className="grid gap-3">
-            {writings.map(post => (
-              <div key={post.slug} className="technical-border bg-bg/20 overflow-hidden">
+      </div>
+      
+      {!selectedWriting && (
+        <div className="grid grid-cols-12 gap-1">
+          {writings.map(post => (
+            <div key={post.slug} className="col-span-12">
+              <div className="cell-border">
                 <button
                   onClick={() => setSelectedPost(post.slug)}
-                  className="mono text-sm text-left w-full hover:bg-accent/20 transition-colors text-text p-4 group"
+                  className="w-full text-left hover:bg-accent/20 transition-colors p-3 group"
                 >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <div className="technical-border p-2 bg-bg/10 font-medium group-hover:text-accent transition-colors">
-                        {post.title}
-                      </div>
-                      <div className="text-xs text-border mt-2">
-                        {post.date} • Technical Analysis
+                  <div className="grid grid-cols-12 gap-1">
+                    <div className="col-span-8">
+                      <div className="cell-border p-2">
+                        <div className="mono text-xs font-medium text-text group-hover:text-accent transition-colors">
+                          {post.title}
+                        </div>
                       </div>
                     </div>
-                    <div className="technical-border p-2 bg-bg/10 mono text-xs text-border ml-4">
-                      →
+                    <div className="col-span-2">
+                      <div className="cell-border p-2">
+                        <div className="mono text-xs text-border">{post.date}</div>
+                      </div>
+                    </div>
+                    <div className="col-span-2">
+                      <div className="cell-border p-2">
+                        <div className="mono text-xs text-accent">VIEW →</div>
+                      </div>
                     </div>
                   </div>
                 </button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
 
       {selectedWriting && (
-        <div className="technical-border bg-bg/40 overflow-hidden">
-          <div className="technical-border border-b border-border bg-bg/30 p-4">
-            <div className="technical-border p-2 bg-bg/20">
-              <button
-                onClick={() => setSelectedPost(null)}
-                className="mono text-xs border border-border px-3 py-1 hover:bg-accent/20 transition-colors flex items-center gap-2"
-              >
-                ← back to index
-              </button>
-            </div>
-          </div>
-          
-          <div className="technical-border p-6 bg-bg/30">
-            <div className="technical-border mb-6 pb-4 border-b-2 border-b-border bg-bg/20 p-4">
-              <h1 className="mono text-3xl font-bold mb-2 text-text">
-                {selectedWriting.title}
-              </h1>
-              <div className="technical-border p-2 bg-bg/10 mono text-xs text-border">
-                Published: {selectedWriting.date} • Technical Documentation
+        <div className="grid grid-cols-12 gap-1">
+          <div className="col-span-12 cell-border">
+            <div className="grid grid-cols-12 gap-1">
+              <div className="col-span-12 cell-border p-2">
+                <button
+                  onClick={() => setSelectedPost(null)}
+                  className="cell-border text-xs bg-bg/80 hover:bg-accent/20 transition-colors px-3 py-1"
+                >
+                  ← BACK TO INDEX
+                </button>
+              </div>
+              
+              <div className="col-span-12 cell-border p-4">
+                <div className="grid grid-cols-12 gap-1 mb-4">
+                  <div className="col-span-8 cell-border p-3">
+                    <div className="mono text-sm font-bold text-text">{selectedWriting.title}</div>
+                  </div>
+                  <div className="col-span-4 cell-border p-3">
+                    <div className="mono text-xs text-border">PUBLISHED: {selectedWriting.date}</div>
+                    <div className="mono text-xs text-border">TYPE: TECHNICAL ANALYSIS</div>
+                  </div>
+                </div>
+                
+                <div className="cell-border p-4">
+                  <div className="mono text-xs leading-relaxed text-text">
+                    {parseMarkdown(selectedWriting.content)}
+                  </div>
+                </div>
               </div>
             </div>
-            
-            <article className="prose prose-invert max-w-none">
-              <div className="technical-border p-4 bg-bg/20 mono text-sm leading-relaxed text-text">
-                {parseMarkdown(selectedWriting.content)}
-              </div>
-            </article>
           </div>
         </div>
       )}
