@@ -1,4 +1,4 @@
-@import url('https://cdn.jsdelivr.net/npm/wumpus-mono@latest/wumpus-mono.css');
+@import url('https://cdn.jsdelivr.net/gh/chrismaltby/wumpus@main/wumpus-mono.css');
 
 @tailwind base;
 @tailwind components;
