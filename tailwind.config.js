@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['IBM Plex Mono', 'monospace'],
+        mono: ['Space Mono', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',
