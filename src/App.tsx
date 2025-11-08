@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { ThemeProvider } from '@/contexts/ThemeContext'
-import Navigation from './components/Navigation'
-import HomePage from './pages/HomePage'
-import DesignSystem from './pages/DesignSystem'
-import DemoPage from './pages/DemoPage'
-import './styles/globals.css'
+import Navigation from '@/components/Navigation'
+import HomePage from '@/pages/HomePage'
+import DesignSystem from '@/pages/DesignSystem'
+import DemoPage from '@/pages/DemoPage'
+import '@/styles/globals.css'
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<'home' | 'design' | 'demo'>('home')
