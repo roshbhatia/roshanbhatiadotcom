@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323:wght@400;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/wumpus-mono@latest/wumpus-mono.css');
 
 @tailwind base;
 @tailwind components;
@@ -26,11 +26,11 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'VT323', monospace;
+    font-family: 'Wumpus Mono', monospace;
     line-height: 1.6;
   }
 
   .mono {
-    font-family: 'VT323', monospace;
+    font-family: 'Wumpus Mono', monospace;
   }
 }

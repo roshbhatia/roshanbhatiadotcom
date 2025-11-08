@@ -27,10 +27,19 @@ function App() {
       <main className="max-w-4xl mx-auto space-y-16">
         <section className="text-center space-y-4">
           <h1 className="mono text-4xl font-bold">Roshan Bhatia</h1>
-          <p className="mono text-lg text-border">Senior Software Engineer</p>
-          <p className="max-w-2xl mx-auto">
-            Building scalable cloud infrastructure and distributed systems.
-          </p>
+          <p className="mono text-lg text-border">kubernetes controllers @Nike-Inc (Senior Software Engineer)</p>
+          <div className="max-w-2xl mx-auto space-y-2 text-sm">
+            <p className="text-border">formerly:</p>
+            <p>backend, platform, and site reliability @pinginc (Senior Software Engineer)</p>
+            <p>observability integrations and site reliabililty @VirtualInstruments (Software Engineer, Site Reliability Engineer)</p>
+            <p className="text-border">also formerly (but short lived):</p>
+            <p>kubernetes controllers, multicloud k8s, react @shipyard (Senior Software Engineer)</p>
+            <p>site reliability working on multicloud and baremetal Kubernetes @dgraph-io (Site Reliability Engineer)</p>
+            <p className="text-border">i like:</p>
+            <p>distributed systems</p>
+            <p>platform and infrastructure</p>
+            <p>designing for scale</p>
+          </div>
         </section>
 
         <section>
