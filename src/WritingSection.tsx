@@ -244,6 +244,8 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
 
+  console.log('WritingSection mounted, available writings:', writings.length)
+
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
   // Get the folder path from the selected writing slug
