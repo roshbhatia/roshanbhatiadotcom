@@ -51,7 +51,7 @@ Handwiring is objectively simpler and easier — you straight up just have some 
 
 A PCB introduces a few more variables into the mix — when traces (which are akin to wires) intersect, you need to account for that by punching holes through the board (called a 'via'). And you run the possibility of energy/heat sticking around on the board, so you need a big area of copper to help dissipate it called a "ground pour".
 
-I decided to ultimately go with a PCB because I was scared of soldering — it's simple, I've done it before, but I have a hand tremor that makes playing Wii difficult so I didn't want to commit to getting frustrated when I solder the wrong bit 4 times in a row.
+I decided to ultimately go with a PCB because I was scared of soldering — it's simple, I've done it before, but I have a hand tremor that makes playing the Wii difficult so I didn't want to commit to getting frustrated when I solder the wrong bit 4 times in a row.
 
 ### Designing the PCB
 
