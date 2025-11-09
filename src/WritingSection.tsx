@@ -441,14 +441,14 @@ function TOC({ toc }: { toc: TOCItem[] }) {
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
     <article className="content-card cursor-pointer schematic-section" data-test="blog-card"     onClick={() => onSelect(post.slug)}>
-      <div className="flex justify-between mb-4">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:justify-between mb-4 gap-2 sm:gap-0">
+        <div className="flex-1">
           <span className="text-small accent-text">[POST]</span>
-          <h3 className="text-body mt-2 primary-text" data-test="blog-title">
+          <h3 className="text-body mt-2 primary-text text-lg sm:text-base" data-test="blog-title">
             {post.title}
           </h3>
         </div>
-        <span className="text-small secondary-text" data-test="blog-date">
+        <span className="text-small secondary-text whitespace-nowrap" data-test="blog-date">
           {new Date(post.date).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -457,13 +457,24 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
         </span>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-2 sm:gap-0">
         <div className="text-small muted-text" data-test="reading-time">
           {post.readingTime} MIN READ
         </div>
         <div className="text-small accent-text">
           [READ_MORE]
         </div>
+      </div>
+      
+      {/* Hardlink for direct access */}
+      <div className="mt-4 pt-4 border-t border-border">
+        <a 
+          href={`#${post.slug}`}
+          className="text-small text-link hover:text-accent transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          🔗 Direct link: /{post.slug}
+        </a>
       </div>
     </article>
   )

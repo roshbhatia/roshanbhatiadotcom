@@ -1,6 +1,40 @@
 const fs = require('fs')
 const path = require('path')
 
+// Function to parse metadata from markdown frontmatter
+function parseMetadata(content) {
+  // Check if content has frontmatter metadata
+  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/
+  const match = content.match(frontmatterRegex)
+  
+  if (match) {
+    const frontmatter = match[1]
+    const markdownContent = content.slice(match[0].length)
+    
+    // Parse YAML-like frontmatter
+    const metadata = {}
+    frontmatter.split('\n').forEach(line => {
+      const colonIndex = line.indexOf(':')
+      if (colonIndex > 0) {
+        const key = line.slice(0, colonIndex).trim()
+        const value = line.slice(colonIndex + 1).trim().replace(/^["']|["']$/g, '')
+        metadata[key] = value
+      }
+    })
+    
+    return { metadata, content: markdownContent }
+  }
+  
+  // Fallback: extract title from first H1 if no frontmatter
+  const titleMatch = content.match(/^#\s+(.+)$/m)
+  const title = titleMatch ? titleMatch[1] : 'Untitled'
+  
+  return { 
+    metadata: { title }, 
+    content 
+  }
+}
+
 // Function to load writings from writing folder
 function loadWritingsFromFolder() {
   const writingsDir = path.join(__dirname, '../writing')
@@ -19,19 +53,27 @@ function loadWritingsFromFolder() {
     const folderPath = path.join(writingsDir, folder)
     const files = fs.readdirSync(folderPath)
     
-    // Find .md file
-    const mdFile = files.find(file => file.endsWith('.md'))
+    // Find post.md file
+    const mdFile = files.find(file => file === 'post.md')
     if (!mdFile) continue
     
     const mdPath = path.join(folderPath, mdFile)
-    const content = fs.readFileSync(mdPath, 'utf8')
+    const rawContent = fs.readFileSync(mdPath, 'utf8')
     
-    // Extract metadata
-    const titleMatch = content.match(/^#\s+(.+)$/m)
-    const title = titleMatch ? titleMatch[1] : mdFile.replace('.md', '')
+    // Parse metadata and content
+    const { metadata, content } = parseMetadata(rawContent)
     
-    // Create slug from folder name and filename
-    const slug = folder + '/' + mdFile.replace('.md', '')
+    // Create slug from folder name
+    const slug = folder
+    
+    // Use date from metadata or fallback to folder modification time
+    let date
+    if (metadata.date) {
+      date = metadata.date
+    } else {
+      const stats = fs.statSync(folderPath)
+      date = stats.mtime.toISOString().split('T')[0]
+    }
     
     // Estimate reading time (rough calculation: 200 words per minute)
     const wordCount = content.split(/\s+/).length
@@ -41,21 +83,17 @@ function loadWritingsFromFolder() {
     const lines = content.split('\n')
     let excerpt = ''
     
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim()
       if (line && !line.startsWith('#')) {
         excerpt = line.substring(0, 200) + (line.length > 200 ? '...' : '')
-        break
+          break
       }
     }
     
-    // Use folder modification time as date
-    const stats = fs.statSync(folderPath)
-    const date = stats.mtime.toISOString().split('T')[0]
-    
     writings.push({
       slug,
-      title,
+      title: metadata.title || 'Untitled',
       date,
       excerpt,
       readingTime,
