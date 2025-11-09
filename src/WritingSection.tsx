@@ -297,10 +297,10 @@ function WritingSection() {
               </header>
 
               <div className="prose">
-                {(() => {
-                  console.log('About to render content, length:', selectedWriting?.content?.length)
-                  return parseMarkdown(selectedWriting.content, getImagePath)
-                })()}
+                <div style={{background: 'yellow', padding: '10px', marginBottom: '10px'}}>
+                  TEST: Blog post content should appear below this yellow box
+                </div>
+                {parseMarkdown(selectedWriting.content, getImagePath)}
               </div>
             </article>
           </div>
