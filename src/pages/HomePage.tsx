@@ -1,32 +1,116 @@
 import React, { useState, useEffect } from 'react'
 import WritingSection from '../WritingSection'
 
-const GitHubReadme: React.FC = () => {
-  const [readme, setReadme] = useState('')
-  const [loading, setLoading] = useState(true)
+const ThemeToggle: React.FC = () => {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/roshbhatia/roshanbhatia/contents/README.md')
-      .then(res => res.json())
-      .then(data => {
-        const content = atob(data.content)
-        setReadme(content)
-        setLoading(false)
-      })
-      .catch(() => setLoading(false))
+    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 'dark'
+    setTheme(savedTheme)
+    document.documentElement.setAttribute('data-theme', savedTheme)
   }, [])
 
-  if (loading) {
-    return <div className="text-body text-text">Loading README...</div>
-  }
-
-  if (!readme) {
-    return <div className="text-body text-text">Unable to load README</div>
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(newTheme)
+    document.documentElement.setAttribute('data-theme', newTheme)
+    localStorage.setItem('theme', newTheme)
   }
 
   return (
-    <div className="prose max-w-none">
-      <pre className="mono text-sm whitespace-pre-wrap">{readme}</pre>
+    <button 
+      onClick={toggleTheme}
+      className="theme-toggle"
+      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+    >
+      {theme === 'dark' ? '☀️' : '🌙'}
+    </button>
+  )
+}
+
+const GitHubReadme: React.FC = () => {
+  const [readme, setReadme] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchReadme = async () => {
+      try {
+        // Try CORS proxy approach
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+        const githubUrl = 'https://raw.githubusercontent.com/roshbhatia/roshanbhatia/main/README.md'
+        
+        const response = await fetch(proxyUrl + githubUrl, {
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+        }
+        
+        const content = await response.text()
+        setReadme(content)
+        setError(null)
+      } catch (err) {
+        console.error('Failed to fetch README:', err)
+        // Fallback to static content
+        setReadme(`# Roshan Bhatia
+
+Senior Software Engineer at Nike Inc. specializing in platform engineering and Kubernetes.
+
+## Experience
+- **Nike Inc** - Senior Software Engineer
+  - Kubernetes controllers and platform engineering
+  - Infrastructure automation and DevOps
+
+## Skills
+- Kubernetes & Containers
+- Platform Engineering  
+- Go, Python, TypeScript
+- Cloud Infrastructure (AWS)
+- DevOps & CI/CD
+
+## Contact
+- GitHub: roshbhatia
+- LinkedIn: roshanbhatia`)
+        setError(null)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchReadme()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="text-body text-text mono">
+        [LOADING README...]
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-body text-text mono">
+        [ERROR: {error}]
+      </div>
+    )
+  }
+
+  if (!readme) {
+    return (
+      <div className="text-body text-text mono">
+        [NO README CONTENT]
+      </div>
+    )
+  }
+
+  return (
+    <div className="mono text-sm leading-relaxed">
+      <pre className="whitespace-pre-wrap">{readme}</pre>
     </div>
   )
 }
@@ -35,131 +119,23 @@ const HeroSection: React.FC = () => {
   return (
     <section className="content-section">
       <div className="content-card">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="hero-text">
-            <h1 className="text-hero mb-4">ROSHAN BHATIA</h1>
-            <p className="text-section mb-2">Senior Software Engineer</p>
-            <p className="text-body text-text mb-4">Platform Engineering & Kubernetes Specialist</p>
-            <div className="flex flex-wrap gap-4">
-              <div className="mono text-sm">
-                <span className="text-text">Nike Inc</span>
-                <span className="mx-2">•</span>
-                <span className="accent-text">Kubernetes Controllers</span>
-              </div>
-            </div>
+        <div className="text-center">
+          <h1 className="text-hero mb-4">ROSHAN BHATIA</h1>
+          <div className="mb-6">
+            <span className="text-section text-accent">[</span>
+            <span className="text-section mx-2">SENIOR SOFTWARE ENGINEER</span>
+            <span className="text-section text-accent">]</span>
           </div>
-          <div className="hero-visual flex justify-center">
-            <img 
-              src="/the_cloud.png" 
-              alt="Cloud Architecture Diagram" 
-              className="w-full max-w-sm rounded-lg shadow-lg"
-            />
+          <div className="mono text-body text-text mb-4">
+            <span className="text-accent">{'{'}</span>
+            <span> PLATFORM ENGINEERING & KUBERNETES SPECIALIST</span>
+            <span className="text-accent">{'}'}</span>
           </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-const ExperienceSection: React.FC = () => {
-  const experiences = [
-    {
-      company: "Nike Inc",
-      role: "Senior Software Engineer",
-      domain: "Kubernetes Controllers",
-      current: true
-    },
-    {
-      company: "Ping Inc",
-      role: "Senior SWE",
-      domain: "Identity & Access"
-    },
-    {
-      company: "Virtual Instruments",
-      role: "SRE",
-      domain: "Observability"
-    },
-    {
-      company: "Shipyard",
-      role: "Senior SWE", 
-      domain: "Container Platforms"
-    },
-    {
-      company: "Dgraph Labs",
-      role: "SRE",
-      domain: "Graph Database"
-    }
-  ]
-
-  return (
-    <section className="content-section">
-      <div className="content-card">
-        <h2 className="text-section mb-6">Experience</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {experiences.map((exp, index) => (
-            <div key={index} className="card-hover border border-border rounded-lg p-4">
-              {exp.current && (
-                <div className="inline-block px-2 py-1 bg-accent/20 text-accent text-xs font-semibold rounded mb-2">
-                  CURRENT
-                </div>
-              )}
-              <h3 className="font-semibold text-text mb-1">{exp.company}</h3>
-              <p className="text-body text-text mb-1">{exp.role}</p>
-              <p className="text-sm text-text/70">{exp.domain}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-const SkillsSection: React.FC = () => {
-  const skills = [
-    {
-      category: "Kubernetes",
-      items: ["Controllers", "Operators", "Custom Resources", "Cluster Management"]
-    },
-    {
-      category: "Platform Engineering", 
-      items: ["IaC", "CI/CD", "DevEx", "Automation"]
-    },
-    {
-      category: "SRE",
-      items: ["Monitoring", "Alerting", "Reliability", "Observability"]
-    },
-    {
-      category: "Backend",
-      items: ["REST APIs", "GraphQL", "Microservices", "SOA"]
-    },
-    {
-      category: "Frontend",
-      items: ["React", "TypeScript", "Design Systems", "Web Apps"]
-    },
-    {
-      category: "Systems",
-      items: ["Distributed", "Event-Driven", "Scalable", "Resilient"]
-    }
-  ]
-
-  return (
-    <section className="content-section">
-      <div className="content-card">
-        <h2 className="text-section mb-6">Technical Skills</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skillGroup, index) => (
-            <div key={index} className="card-hover">
-              <h3 className="font-semibold text-text mb-3 mono">{skillGroup.category}</h3>
-              <ul className="space-y-2">
-                {skillGroup.items.map((skill, skillIndex) => (
-                  <li key={skillIndex} className="text-body text-text flex items-center">
-                    <span className="w-2 h-2 bg-accent rounded-full mr-3"></span>
-                    {skill}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <div className="mono text-sm text-text/70">
+            <span className="text-accent">/*</span>
+            <span> Nike Inc • Kubernetes Controllers</span>
+            <span className="text-accent"> */</span>
+          </div>
         </div>
       </div>
     </section>
@@ -168,23 +144,34 @@ const SkillsSection: React.FC = () => {
 
 const HomePage: React.FC = () => {
   return (
-    <main className="max-w-6xl mx-auto px-4 py-8">
-      <HeroSection />
-      <ExperienceSection />
-      <SkillsSection />
-      <section className="content-section">
-        <div className="content-card">
-          <h2 className="text-section mb-6">About & Projects</h2>
-          <GitHubReadme />
-        </div>
-      </section>
-      <section className="content-section">
-        <div className="content-card">
-          <h2 className="text-section mb-6">Writing</h2>
-          <WritingSection />
-        </div>
-      </section>
-    </main>
+    <>
+      <ThemeToggle />
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <HeroSection />
+        
+        <section className="content-section">
+          <div className="content-card">
+            <div className="mb-6">
+              <span className="text-section text-accent">[</span>
+              <span className="text-section mx-2">README.MD</span>
+              <span className="text-section text-accent">]</span>
+            </div>
+            <GitHubReadme />
+          </div>
+        </section>
+        
+        <section className="content-section">
+          <div className="content-card">
+            <div className="mb-6">
+              <span className="text-section text-accent">[</span>
+              <span className="text-section mx-2">WRITING</span>
+              <span className="text-section text-accent">]</span>
+            </div>
+            <WritingSection />
+          </div>
+        </section>
+      </main>
+    </>
   )
 }
 

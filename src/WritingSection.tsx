@@ -249,40 +249,37 @@ function parseMarkdown(content: string): React.ReactNode[] {
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
-    <article className="card-hover bg-bg/30 border border-border rounded-lg p-6 cursor-pointer">
-      <div className="flex items-start justify-between mb-3">
-        <h3 className="text-lg font-semibold text-text group-hover:text-accent transition-colors">
-          {post.title}
-        </h3>
-        <span className="text-xs px-2 py-1 bg-accent/20 text-accent rounded-full">
-          TECH
+    <article className="card-hover content-card cursor-pointer">
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex-1">
+          <span className="text-accent mono text-xs">[POST]</span>
+          <h3 className="text-body text-text mt-1 group-hover:text-accent transition-colors">
+            {post.title}
+          </h3>
+        </div>
+        <span className="mono text-xs text-accent">
+          {new Date(post.date).toLocaleDateString('en-US', { 
+            month: 'short', 
+            day: 'numeric', 
+            year: 'numeric' 
+          })}
         </span>
       </div>
       
-      <p className="text-body text-text mb-4 line-clamp-3">
+      <p className="mono text-sm text-text/80 mb-4 leading-relaxed">
         {post.excerpt}
       </p>
       
-      <div className="flex items-center justify-between text-sm text-text/70">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
-            {new Date(post.date).toLocaleDateString('en-US', { 
-              month: 'short', 
-              day: 'numeric', 
-              year: 'numeric' 
-            })}
-          </div>
-          <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            {post.readingTime} min read
-          </div>
+      <div className="flex items-center justify-between">
+        <div className="mono text-xs text-text/60">
+          <Clock className="inline w-3 h-3 mr-1" />
+          {post.readingTime} min read
         </div>
         <button 
           onClick={() => onSelect(post.slug)}
-          className="text-accent hover:text-accent/80 font-medium"
+          className="mono text-xs text-accent hover:text-text transition-colors"
         >
-          Read more →
+          [READ_MORE] →
         </button>
       </div>
     </article>
