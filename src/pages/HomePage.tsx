@@ -56,25 +56,23 @@ const GitHubReadme: React.FC = () => {
       } catch (err) {
         console.error('Failed to fetch README:', err)
         // Fallback to static content
-        setReadme(`# Roshan Bhatia
+        setReadme(`kubernetes controllers @Nike-Inc (Senior Software Engineer)
 
-Senior Software Engineer at Nike Inc. specializing in platform engineering and Kubernetes.
+formerly:
 
-## Experience
-- **Nike Inc** - Senior Software Engineer
-  - Kubernetes controllers and platform engineering
-  - Infrastructure automation and DevOps
+backend, platform, and site reliability @pinginc (Senior Software Engineer)
+observability integrations and site reliabililty @VirtualInstruments (Software Engineer, Site Reliability Engineer)
 
-## Skills
-- Kubernetes & Containers
-- Platform Engineering  
-- Go, Python, TypeScript
-- Cloud Infrastructure (AWS)
-- DevOps & CI/CD
+also formerly (but short lived):
 
-## Contact
-- GitHub: roshbhatia
-- LinkedIn: roshanbhatia`)
+kubernetes controllers, multicloud k8s, react @shipyard (Senior Software Engineer)
+site reliability working on multicloud and baremetal Kubernetes @dgraph-io (Site Reliability Engineer)
+
+i like:
+
+distributed systems
+platform and infrastructure
+designing for scale`)
         setError(null)
       } finally {
         setLoading(false)
@@ -110,45 +108,28 @@ Senior Software Engineer at Nike Inc. specializing in platform engineering and K
 
   return (
     <div className="mono text-sm leading-relaxed">
+      <div className="mb-4">
+        <span className="text-accent">{'{'}</span>
+        <span className="mx-2">README CONTENT</span>
+        <span className="text-accent">{'}'}</span>
+      </div>
       <pre className="whitespace-pre-wrap">{readme}</pre>
+      <div className="mt-4">
+        <span className="text-accent">/*</span>
+        <span className="mx-2">END README</span>
+        <span className="text-accent">*/</span>
+      </div>
     </div>
   )
 }
 
-const HeroSection: React.FC = () => {
-  return (
-    <section className="content-section">
-      <div className="content-card">
-        <div className="text-center">
-          <h1 className="text-hero mb-4">ROSHAN BHATIA</h1>
-          <div className="mb-6">
-            <span className="text-section text-accent">[</span>
-            <span className="text-section mx-2">SENIOR SOFTWARE ENGINEER</span>
-            <span className="text-section text-accent">]</span>
-          </div>
-          <div className="mono text-body text-text mb-4">
-            <span className="text-accent">{'{'}</span>
-            <span> PLATFORM ENGINEERING & KUBERNETES SPECIALIST</span>
-            <span className="text-accent">{'}'}</span>
-          </div>
-          <div className="mono text-sm text-text/70">
-            <span className="text-accent">/*</span>
-            <span> Nike Inc • Kubernetes Controllers</span>
-            <span className="text-accent"> */</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+
 
 const HomePage: React.FC = () => {
   return (
     <>
       <ThemeToggle />
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <HeroSection />
-        
         <section className="content-section">
           <div className="content-card">
             <div className="mb-6">
