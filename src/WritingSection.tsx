@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import { Copy, Check, Calendar, Clock, ArrowLeft } from 'lucide-react'
+import { Calendar, Clock, ArrowLeft } from 'lucide-react'
 
 interface Writing {
   slug: string
@@ -107,61 +107,61 @@ function CodeBlock({ language, children }: CodeBlockProps) {
   // Use opposite theme colors for code block
   const codeBgColor = isDarkMode ? '#1e1e1e' : '#f8f8f8'
   const codeTextColor = isDarkMode ? '#d4d4d4' : '#000000'
-  const headerBgColor = isDarkMode ? '#2d2d30' : '#f1f1f1'
-  const borderColor = isDarkMode ? '#3e3e42' : '#e1e1e1'
 
   return (
-    <div className="border border-border rounded-lg overflow-hidden my-6" style={{ backgroundColor: codeBgColor, borderColor }}>
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border" style={{ backgroundColor: headerBgColor, borderColor }}>
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="mono text-sm" style={{ color: codeTextColor }}>{language}</span>
+    <div className="content-card my-6" style={{ backgroundColor: codeBgColor }}>
+      <div className="flex items-center justify-between mb-4 pb-3 border-b" style={{ borderColor: isDarkMode ? '#404040' : '#e0e0e0' }}>
+        <div className="flex items-center gap-3">
+          <span className="text-accent mono text-xs">[</span>
+          <span className="mono text-sm" style={{ color: codeTextColor }}>{language.toUpperCase()}</span>
+          <span className="text-accent mono text-xs">]</span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 px-3 py-1 text-sm hover:text-accent transition-colors"
-          style={{ color: codeTextColor }}
+          className="flex items-center gap-2 px-3 py-1 text-xs mono border transition-all hover:border-accent"
+          style={{ 
+            color: codeTextColor, 
+            borderColor: isDarkMode ? '#404040' : '#e0e0e0',
+            backgroundColor: 'transparent'
+          }}
         >
           {copied ? (
             <>
-              <Check className="w-4 h-4" />
-              Copied
+              <span className="text-accent">✓</span>
+              COPIED
             </>
           ) : (
             <>
-              <Copy className="w-4 h-4" />
-              Copy
+              <span>[</span>
+              COPY
+              <span>]</span>
             </>
           )}
         </button>
       </div>
-      <SyntaxHighlighter
-        language={language}
-        style={vscDarkPlus}
-        customStyle={{
-          backgroundColor: 'transparent',
-          color: codeTextColor,
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '0.875rem',
-          lineHeight: '1.5',
-          borderRadius: '0',
-          border: 'none',
-          padding: '1rem',
-          margin: '0',
-        }}
-        showLineNumbers
-        lineNumberStyle={{
-          color: isDarkMode ? '#858585' : '#858585',
-          paddingRight: '1rem',
-          userSelect: 'none',
-          minWidth: '2rem',
-          fontSize: '0.75rem',
-        }}
-      >
-        {children}
-      </SyntaxHighlighter>
+      <div className="relative">
+        <div className="absolute left-0 top-0 bottom-0 w-8 flex items-center justify-center text-xs mono" style={{ color: isDarkMode ? '#666' : '#999' }}>
+          <span className="text-accent">│</span>
+        </div>
+        <SyntaxHighlighter
+          language={language}
+          style={vscDarkPlus}
+          customStyle={{
+            backgroundColor: 'transparent',
+            color: codeTextColor,
+            fontFamily: "'IBM Plex Mono', monospace",
+            fontSize: '0.875rem',
+            lineHeight: '1.6',
+            borderRadius: '0',
+            border: 'none',
+            padding: '1rem 1rem 1rem 2.5rem',
+            margin: '0',
+          }}
+          showLineNumbers={false}
+        >
+          {children}
+        </SyntaxHighlighter>
+      </div>
     </div>
   )
 }
