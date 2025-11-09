@@ -135,28 +135,21 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const [alt, path] = imageMatch.slice(1)
 
-      // Use image path as-is since files have normal spaces
-      const imagePath = path || ''
+      // Test with hardcoded path first
+      const testPath = "/writing/000/Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg"
       
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
-          {(() => {
-            const finalPath = getImagePath(imagePath)
-            console.log('Image path being used:', finalPath)
-            return (
-              <img
-                src={finalPath}
-                alt={alt || ''}
-                className="w-full border-2 border-border"
-                loading="lazy"
-                onLoad={() => console.log('Image loaded successfully:', finalPath)}
-                onError={(e) => {
-                  console.error('Image failed to load:', finalPath)
-                  console.error('Error:', e)
-                }}
-              />
-            )
-          })()}
+          <img
+            src={testPath}
+            alt={alt || ''}
+            className="w-full border-2 border-border"
+            loading="lazy"
+            onLoad={() => console.log('Hardcoded image loaded successfully')}
+            onError={(e) => {
+              console.error('Hardcoded image failed to load:', e)
+            }}
+          />
           {alt && (
             <div className="text-small mt-4 text-center secondary-text italic">
               {alt}
