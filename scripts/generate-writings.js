@@ -31,7 +31,7 @@ function loadWritingsFromFolder() {
     const title = titleMatch ? titleMatch[1] : mdFile.replace('.md', '')
     
     // Create slug from folder name and filename
-    const slug = folder + '/' + mdFile.replace('.md', '').toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    const slug = folder + '/' + mdFile.replace('.md', '')
     
     // Estimate reading time (rough calculation: 200 words per minute)
     const wordCount = content.split(/\s+/).length
