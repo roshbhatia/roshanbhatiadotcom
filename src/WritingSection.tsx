@@ -301,12 +301,6 @@ function WritingSection() {
               </header>
 
               <div className="prose">
-                <div style={{background: 'yellow', padding: '10px', marginBottom: '10px'}}>
-                  TEST: Blog post content should appear below this yellow box
-                </div>
-                <div style={{background: 'lightblue', padding: '10px', marginBottom: '10px'}}>
-                  Content preview: {selectedWriting.content?.substring(0, 100)}...
-                </div>
                 {parseMarkdown(selectedWriting.content, getImagePath)}
               </div>
             </article>

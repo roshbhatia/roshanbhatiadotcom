@@ -289,6 +289,15 @@
     border-radius: 2px;
   }
 
+  .text-link {
+    color: var(--link);
+    text-decoration: underline;
+  }
+
+  .text-link:hover {
+    color: var(--accent);
+  }
+
   .keyword {
     color: var(--accent);
     font-weight: 600;
