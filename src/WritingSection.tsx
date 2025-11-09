@@ -206,7 +206,10 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
-    <article className="content-card cursor-pointer schematic-section" onClick={() => onSelect(post.slug)}>
+    <article className="content-card cursor-pointer schematic-section" onClick={() => {
+      console.log('Blog card clicked, slug:', post.slug)
+      onSelect(post.slug)
+    }}>
       <div className="flex justify-between mb-4">
         <div>
           <span className="text-small accent-text">[POST]</span>
