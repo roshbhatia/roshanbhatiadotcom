@@ -67,7 +67,6 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
 }
 
 function parseMarkdown(content: string, getImagePath: (path: string) => string): { elements: React.ReactNode[], toc: TOCItem[] } {
-  console.log('parseMarkdown called with content length:', content.length)
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
   const toc: TOCItem[] = []
@@ -235,10 +234,7 @@ function TOC({ toc }: { toc: TOCItem[] }) {
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
-    <article className="content-card cursor-pointer schematic-section" data-test="blog-card" onClick={() => {
-      console.log('Blog card clicked, slug:', post.slug)
-      onSelect(post.slug)
-    }}>
+    <article className="content-card cursor-pointer schematic-section" data-test="blog-card"     onClick={() => onSelect(post.slug)}>
       <div className="flex justify-between mb-4">
         <div>
           <span className="text-small accent-text">[POST]</span>
@@ -306,27 +302,14 @@ function WritingSection() {
     // Check if path already includes subfolder name
     if (normalizedPath.startsWith(subfolderPath + '/')) {
       // Path already includes subfolder, just add base folder
-      const fullPath = `/writing/${folderPath}/${normalizedPath}`
-      console.log('Original imagePath:', imagePath)
-      console.log('Decoded path:', decodedPath)
-      console.log('Normalized path:', normalizedPath)
-      console.log('Full path (with subfolder):', fullPath)
-      return fullPath
+      return `/writing/${folderPath}/${normalizedPath}`
     } else {
       // Path is just filename, add both folder and subfolder
-      const fullPath = `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
-      console.log('Original imagePath:', imagePath)
-      console.log('Decoded path:', decodedPath)
-      console.log('Normalized path:', normalizedPath)
-      console.log('Full path (filename only):', fullPath)
-      return fullPath
+      return `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
     }
   }
 
   if (selectedWriting) {
-    console.log('Selected writing found:', selectedWriting.title)
-    console.log('Content length:', selectedWriting.content?.length)
-    console.log('First 100 chars:', selectedWriting.content?.substring(0, 100))
     
     const { elements, toc } = parseMarkdown(selectedWriting.content, getImagePath)
     
@@ -335,9 +318,7 @@ function WritingSection() {
         className="fixed inset-0 bg-bg z-50 overflow-y-auto engineering-grid"
         data-test="blog-modal"
         onClick={(e) => {
-          console.log('Modal clicked, target:', e.target, 'currentTarget:', e.currentTarget)
           if (e.target === e.currentTarget) {
-            console.log('Closing modal - clicked on overlay')
             setSelectedPost(null)
           }
         }}
