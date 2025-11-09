@@ -20,7 +20,7 @@ function AppContent() {
             
             {/* Main Content Area */}
             <div className="col-span-12 grid grid-cols-12 gap-1">
-              <div className="col-span-12 cell-border p-4">
+              <div className="col-span-12 cell-border p-3">
                 <div className="grid grid-cols-12 gap-1">
                   <div className="col-span-12">
                     <HomePage />

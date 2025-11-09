@@ -18,9 +18,7 @@ Resources:
 
 I started with trying to generate a layout that was more tuned to me. I knew I wanted something somewhat split (i.e, like an Alice layout) as I’ve had been using a more traditional, staggered split keyboard for a while because of wrist pain. My workflow on my laptop is clustered around “leader” keys with various vim-like navigation keybindings, so I wanted the keys I typically strain to hit (Command/Win, Alt, and Space) to be more easily accessible. I also wanted something that ultimately looked cool.
 
-![My Keychron Q11 with Durock T1s and bougie ceramic keycaps. ](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg)
-
-My Keychron Q11 with Durock T1s and bougie ceramic keycaps. 
+![My Keychron Q11 with Durock T1s and bougie ceramic keycaps. ](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg) 
 
 To design this I had two options — Keyboard Layout Editor (KLE) and Ergogen. I ended up going with KLE as it was pretty straightforward to use in comparison — KLE just took a 2D JSON array of key placements, whereas Ergogen seemed a lot more powerful but more geared towards what I considered at the time to be more extreme ergonomic keyboards, which typically are typically literally split (like my Keychron), which have some design considerations and additional complexity I’ll get into later. It’s worth it to note that you don’t have to commit to that with Ergogen — I found out later that you can have a unibody keyboard just as easily, but you’ll find out throughout this piece that I make a lot of assumptions that backfired on me.
 
@@ -74,8 +72,6 @@ Then comes wiring, like I mentioned. That portion is pretty straightforward, and
 Finally, I snagged some cool graphics to get printed on the outside (called the silkscreen), which were nicely provided by my buddy Trevor ([https://www.instagram.com/iamzoop/](https://www.instagram.com/iamzoop/)).
 
 ![Looks cooler than the actual thing!](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/pcb_traces.png)
-
-Looks cooler than the actual thing!
 
 ![pcb_front.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/pcb_front.png)
 

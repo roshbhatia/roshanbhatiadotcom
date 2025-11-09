@@ -123,28 +123,30 @@ const HomePage: React.FC = () => {
   return (
     <>
       <ThemeToggle />
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        <section className="content-section">
-          <div className="content-card">
-            <div className="mb-6">
-              <span className="text-section text-accent">[</span>
-              <span className="text-section mx-2">README.MD</span>
-              <span className="text-section text-accent">]</span>
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <section className="content-section">
+            <div className="content-card">
+              <div className="mb-4">
+                <span className="text-section text-accent">[</span>
+                <span className="text-section mx-2">README.MD</span>
+                <span className="text-section text-accent">]</span>
+              </div>
+              <GitHubReadme />
             </div>
-            <GitHubReadme />
-          </div>
-        </section>
-        
-        <section className="content-section">
-          <div className="content-card">
-            <div className="mb-6">
-              <span className="text-section text-accent">[</span>
-              <span className="text-section mx-2">WRITING</span>
-              <span className="text-section text-accent">]</span>
+          </section>
+          
+          <section className="content-section">
+            <div className="content-card">
+              <div className="mb-4">
+                <span className="text-section text-accent">[</span>
+                <span className="text-section mx-2">WRITING</span>
+                <span className="text-section text-accent">]</span>
+              </div>
+              <WritingSection />
             </div>
-            <WritingSection />
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
     </>
   )
