@@ -1,32 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import WritingSection from '../WritingSection'
 
-const ThemeToggle: React.FC = () => {
-  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 'dark'
-    setTheme(savedTheme)
-    document.documentElement.setAttribute('data-theme', savedTheme)
-  }, [])
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark'
-    setTheme(newTheme)
-    document.documentElement.setAttribute('data-theme', newTheme)
-    localStorage.setItem('theme', newTheme)
-  }
-
-  return (
-    <button 
-      onClick={toggleTheme}
-      className="theme-toggle"
-    >
-      [{theme === 'dark' ? 'LIGHT' : 'DARK'}]
-    </button>
-  )
-}
-
 const GitHubReadme: React.FC = () => {
   const [readme, setReadme] = useState('')
   const [loading, setLoading] = useState(true)
@@ -87,30 +61,30 @@ linkedin: https://linkedin.com/in/roshanbhatia`)
 
   if (loading) {
     return (
-      <div className="text-body mono">
-        [LOADING README...]
+      <div className="text-body mono content-spacing technical-border">
+        <div className="accent-text">[LOADING README...]</div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="text-body mono">
-        [ERROR: {error}]
+      <div className="text-body mono content-spacing technical-border">
+        <div className="accent-text">[ERROR: {error}]</div>
       </div>
     )
   }
 
   if (!readme) {
     return (
-      <div className="text-body mono">
-        [NO README CONTENT]
+      <div className="text-body mono content-spacing technical-border">
+        <div className="muted-text">[NO README CONTENT]</div>
       </div>
     )
   }
 
   return (
-    <div className="mono text-body">
+    <div className="mono text-body content-spacing grid-overlay">
       <pre className="whitespace-pre-wrap">{readme}</pre>
     </div>
   )
@@ -121,24 +95,27 @@ linkedin: https://linkedin.com/in/roshanbhatia`)
 const HomePage: React.FC = () => {
   return (
     <>
-      <ThemeToggle />
-      <main className="p-2">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+      <main className="p-8">
+        <div className="technical-grid gap-8">
           <section className="content-section">
-            <div className="content-card">
-              <div className="mb-2">
-                <span className="text-section">[README.MD]</span>
+            <div className="content-card schematic-section">
+              <div className="mb-6 breathing-room">
+                <span className="text-section accent-text">[README.MD]</span>
               </div>
-              <GitHubReadme />
+              <div className="breathing-room">
+                <GitHubReadme />
+              </div>
             </div>
           </section>
           
           <section className="content-section">
-            <div className="content-card">
-              <div className="mb-2">
-                <span className="text-section">[WRITING]</span>
+            <div className="content-card schematic-section">
+              <div className="mb-6 breathing-room">
+                <span className="text-section accent-text">[WRITING]</span>
               </div>
-              <WritingSection />
+              <div className="breathing-room">
+                <WritingSection />
+              </div>
             </div>
           </section>
         </div>

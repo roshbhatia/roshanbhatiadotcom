@@ -4,11 +4,12 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { writings, Writing } from './writings.generated'
 
 interface CodeBlockProps {
-  language: string
+  language: string | undefined
   children: string
+  showCopy?: boolean
 }
 
-function CodeBlock({ language, children }: CodeBlockProps) {
+function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -18,28 +19,30 @@ function CodeBlock({ language, children }: CodeBlockProps) {
   }
 
   return (
-    <div className="code-block my-4">
-      <div className="border-box p-2 flex justify-between items-center">
-        <span className="mono text-xs">[{language.toUpperCase()}]</span>
-        <button
-          onClick={handleCopy}
-          className="mono text-xs"
-        >
-          [{copied ? 'COPIED' : 'COPY'}]
-        </button>
+    <div className="code-block my-8">
+      <div className="border-box p-6 flex justify-between items-center technical-border">
+        <span className="mono text-small accent-text">[{(language || 'text').toUpperCase()}]</span>
+        {showCopy && (
+          <button
+            onClick={handleCopy}
+            className="mono text-small theme-toggle"
+          >
+            [{copied ? 'COPIED' : 'COPY'}]
+          </button>
+        )}
       </div>
       <SyntaxHighlighter
-        language={language}
+        language={language || 'text'}
         style={vscDarkPlus}
         customStyle={{
           backgroundColor: 'var(--code-bg)',
           color: 'var(--code-text)',
-          fontFamily: "'Courier New', monospace",
+          fontFamily: "'JetBrains Mono', monospace",
           fontSize: '12px',
-          lineHeight: '1.2',
+          lineHeight: '1.5',
           borderRadius: '0',
           border: 'none',
-          padding: '5px',
+          padding: '16px',
           margin: '0',
         }}
         showLineNumbers
@@ -61,37 +64,37 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
   let currentParagraph: string[] = []
-  let codeBlock: { language: string; content: string[] } | null = null
+  let codeBlock: { language: string | undefined; content: string[] } | null = null
 
   const flushParagraph = () => {
     if (currentParagraph.length > 0) {
       const paragraphText = currentParagraph.join(' ').trim()
       if (paragraphText) {
-      elements.push(
-        <p key={elements.length} className="mb-2 text-body">
-          {paragraphText
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
-            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-link">$1</a>')
-            .split(/(<strong>.*?<\/strong>|<em>.*?<\/em>|<code class="inline-code">.*?<\/code>|<a[^>]*>.*?<\/a>)/)
-            .map((part, index) => {
-              if (part.startsWith('<strong>')) {
-                return <strong key={index}>{part.replace(/<\/?strong>/g, '')}</strong>
-              }
-              if (part.startsWith('<em>')) {
-                return <em key={index}>{part.replace(/<\/?em>/g, '')}</em>
-              }
-              if (part.startsWith('<code class="inline-code">')) {
-                return <code key={index} className="inline-code">{part.replace(/<\/?code class="inline-code">/g, '')}</code>
-              }
-              if (part.startsWith('<a')) {
-                return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
-              }
-              return part
-            })}
-        </p>
-      )
+        elements.push(
+          <p key={elements.length} className="mb-6 text-body breathing-room">
+            {paragraphText
+              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+              .replace(/\*(.*?)\*/g, '<em>$1</em>')
+              .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+              .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-link">$1</a>')
+              .split(/(<strong>.*?<\/strong>|<em>.*?<\/em>|<code class="inline-code">.*?<\/code>|<a[^>]*>.*?<\/a>)/)
+              .map((part, index) => {
+                if (part.startsWith('<strong>')) {
+                  return <strong key={index}>{part.replace(/<\/?strong>/g, '')}</strong>
+                }
+                if (part.startsWith('<em>')) {
+                  return <em key={index}>{part.replace(/<\/?em>/g, '')}</em>
+                }
+                if (part.startsWith('<code class="inline-code">')) {
+                  return <code key={index} className="inline-code">{part.replace(/<\/?code class="inline-code">/g, '')}</code>
+                }
+                if (part.startsWith('<a')) {
+                  return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
+                }
+                return part
+              })}
+          </p>
+        )
       }
       currentParagraph = []
     }
@@ -103,7 +106,8 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
         elements.push(
           <CodeBlock
             key={elements.length}
-            language={codeBlock.language}
+            language={codeBlock.language || 'text'}
+            showCopy={false}
           >
             {codeBlock.content.join('\n')}
           </CodeBlock>
@@ -112,7 +116,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       } else {
         flushParagraph()
         codeBlock = {
-          language: line.slice(3).trim() || 'text',
+          language: line.slice(3).trim() || undefined,
           content: []
         }
       }
@@ -130,19 +134,41 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const [alt, path] = imageMatch.slice(1)
 
-      // Decode URL-encoded paths for the actual file system
+      // Fix image path handling - decode URL encoding from markdown and construct proper path
       const decodedPath = decodeURIComponent(path || '')
-
+      
       elements.push(
-        <div key={elements.length} className="my-4">
+        <div key={elements.length} className="my-8 content-spacing technical-border">
           <img
             src={getImagePath(decodedPath)}
             alt={alt || ''}
-            className="w-full border border-border"
+            className="w-full border-2 border-border"
             loading="lazy"
+            onError={(e) => {
+              console.error('Image failed to load:', getImagePath(decodedPath))
+              // Try multiple fallback paths
+              const fallbackPaths: string[] = [
+                `/writing/${decodedPath}`,
+                `/writing/000/${decodedPath}`,
+                `/writing/000/Keyboard designing for fools, by an idiot/${decodedPath}`
+              ]
+              
+              let currentPathIndex = 0
+              const tryNextFallback = () => {
+                if (currentPathIndex < fallbackPaths.length) {
+                  const fallbackPath = fallbackPaths[currentPathIndex]
+                  if (fallbackPath && (e.target as HTMLImageElement).src !== fallbackPath) {
+                    (e.target as HTMLImageElement).src = fallbackPath
+                    currentPathIndex++
+                  }
+                }
+              }
+              
+              tryNextFallback()
+            }}
           />
           {alt && (
-            <div className="text-xs mt-2 text-center italic">
+            <div className="text-small mt-4 text-center secondary-text italic">
               {alt}
             </div>
           )}
@@ -154,35 +180,35 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
     if (line.startsWith('# ')) {
       flushParagraph()
       elements.push(
-        <h1 key={elements.length} className="text-hero mb-4 mt-6">
+        <h1 key={elements.length} className="text-hero mb-8 mt-12">
           {line.slice(2)}
         </h1>
       )
     } else if (line.startsWith('## ')) {
       flushParagraph()
       elements.push(
-        <h2 key={elements.length} className="text-section mb-3 mt-4">
+        <h2 key={elements.length} className="text-section mb-6 mt-8">
           {line.slice(3)}
         </h2>
       )
     } else if (line.startsWith('### ')) {
       flushParagraph()
       elements.push(
-        <h3 key={elements.length} className="text-body font-bold mb-2 mt-3">
+        <h3 key={elements.length} className="text-body font-bold mb-4 mt-6">
           {line.slice(4)}
         </h3>
       )
     } else if (line.startsWith('- ')) {
       flushParagraph()
       elements.push(
-        <li key={elements.length} className="text-body mb-1 ml-4">
+        <li key={elements.length} className="text-body mb-2 ml-6">
           {line.slice(2)}
         </li>
       )
     } else if (line.trim() === '---') {
       flushParagraph()
       elements.push(
-        <hr key={elements.length} className="border-border my-4" />
+        <hr key={elements.length} className="industrial-divider my-8" />
       )
     } else if (line.trim() === '') {
       flushParagraph()
@@ -197,15 +223,15 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
-    <article className="content-card cursor-pointer" onClick={() => onSelect(post.slug)}>
-      <div className="flex justify-between mb-2">
+    <article className="content-card cursor-pointer schematic-section" onClick={() => onSelect(post.slug)}>
+      <div className="flex justify-between mb-4">
         <div>
-          <span className="text-xs">[POST]</span>
-          <h3 className="text-body mt-1">
+          <span className="text-small accent-text">[POST]</span>
+          <h3 className="text-body mt-2 primary-text">
             {post.title}
           </h3>
         </div>
-        <span className="text-xs">
+        <span className="text-small secondary-text">
           {new Date(post.date).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -215,10 +241,10 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
       </div>
 
       <div className="flex justify-between">
-        <div className="text-xs">
+        <div className="text-small muted-text">
           {post.readingTime} MIN READ
         </div>
-        <div className="text-xs">
+        <div className="text-small accent-text">
           [READ_MORE]
         </div>
       </div>
@@ -233,45 +259,61 @@ function WritingSection() {
 
   // Get the folder path from the selected writing slug
   const getImagePath = (imagePath: string) => {
-    if (!selectedWriting) return imagePath
-    const folderPath = selectedWriting.slug // Use full slug "000/Keyboard designing..."
-    // imagePath is already URL-encoded in markdown, ensure it's properly encoded for browser
-    const decodedPath = decodeURIComponent(imagePath)
-    const properlyEncodedPath = encodeURIComponent(decodedPath)
-    return `/writing/${folderPath}/${properlyEncodedPath}`
+    if (!selectedWriting) return `/writing/${imagePath}`
+    
+    const slugParts = selectedWriting.slug.split('/')
+    const folderPath = slugParts[0] || '' // Get "000" from "000/Keyboard designing..."
+    const subfolderPath = slugParts[1] || '' // Get "Keyboard designing..." part
+    
+    // Handle different image path formats
+    if (imagePath.startsWith('/')) {
+      // Absolute path from root
+      return imagePath
+    }
+    
+    // Try multiple possible paths
+    const possiblePaths = [
+      `/writing/${folderPath}/${subfolderPath}/${imagePath}`, // Original path
+      `/writing/${folderPath}/${imagePath}`, // Folder level
+      `/writing/${imagePath}`, // Root writing level
+      imagePath // Direct path as fallback
+    ]
+    
+    // Return the first path that seems most likely to work
+    return possiblePaths[0] || imagePath
   }
 
   if (selectedWriting) {
     return (
       <div
-        className="fixed inset-0 bg-bg z-50 overflow-y-auto"
+        className="fixed inset-0 bg-bg z-50 overflow-y-auto engineering-grid"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             setSelectedPost(null)
           }
         }}
       >
-        <div className="min-h-screen p-2">
+        <div className="min-h-screen p-8">
           <div className="max-w-4xl mx-auto">
             <button
               onClick={() => setSelectedPost(null)}
-              className="text-text mb-4"
+              className="theme-toggle mb-8"
             >
               [BACK]
             </button>
 
-            <article className="content-card">
-              <header className="mb-4">
-                <div className="flex justify-between mb-2">
+            <article className="content-card schematic-container">
+              <header className="mb-8">
+                <div className="flex justify-between mb-4">
                   <h1 className="text-hero">
                     {selectedWriting.title}
                   </h1>
-                  <span className="text-xs">
+                  <span className="text-small accent-text">
                     [TECHNICAL ANALYSIS]
                   </span>
                 </div>
 
-                <div className="flex gap-4 text-xs">
+                <div className="flex gap-8 text-small secondary-text">
                   <div>
                     {new Date(selectedWriting.date).toLocaleDateString('en-US', {
                       month: 'short',
@@ -283,6 +325,7 @@ function WritingSection() {
                     {selectedWriting.readingTime} MIN READ
                   </div>
                 </div>
+                <div className="industrial-divider"></div>
               </header>
 
               <div className="prose">
@@ -297,7 +340,7 @@ function WritingSection() {
 
   return (
     <div>
-      <div className="grid gap-2">
+      <div className="grid gap-4">
         {writings.map((post) => (
           <BlogCard
             key={post.slug}

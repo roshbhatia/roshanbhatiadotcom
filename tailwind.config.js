@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['Courier New', 'Kode Mono', 'monospace'],
+        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',

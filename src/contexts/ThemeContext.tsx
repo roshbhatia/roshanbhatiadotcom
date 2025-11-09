@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'dark' | 'light'
+type Theme = 'dark' | 'light' | 'gruvbox-light' | 'gruvbox-dark' | 'nord-dark'
 
 interface ThemeContextType {
   theme: Theme
   toggleTheme: () => void
+  cycleTheme: () => void
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
@@ -15,7 +16,8 @@ export const useTheme = () => {
     // Return default theme for SSR/static generation
     return {
       theme: 'dark',
-      toggleTheme: () => {}
+      toggleTheme: () => {},
+      cycleTheme: () => {}
     }
   }
   return context
@@ -40,8 +42,15 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark')
   }
 
+  const cycleTheme = () => {
+    const themes: Theme[] = ['dark', 'light', 'gruvbox-light', 'gruvbox-dark', 'nord-dark']
+    const currentIndex = themes.indexOf(theme)
+    const nextIndex = currentIndex >= 0 ? (currentIndex + 1) % themes.length : 0
+    setTheme(themes[nextIndex] as Theme)
+  }
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, cycleTheme }}>
       {children}
     </ThemeContext.Provider>
   )
