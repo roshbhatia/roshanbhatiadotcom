@@ -16,6 +16,8 @@
     --cell-border: #00ff00;
     --code-bg: #111111;
     --code-text: #00ff00;
+    --code-bg-opposite: #f6f8fa;
+    --code-text-opposite: #24292e;
     --grid-color: #00ff0015;
     --grid-major: #00ff0030;
   }
@@ -31,6 +33,8 @@
     --cell-border: #e5e7eb;
     --code-bg: #f6f8fa;
     --code-text: #24292e;
+    --code-bg-opposite: #111111;
+    --code-text-opposite: #00ff00;
     --grid-color: #d1d5db20;
     --grid-major: #d1d5db40;
   }
@@ -46,6 +50,8 @@
     --cell-border: #d5c4a1;
     --code-bg: #f2e5bc;
     --code-text: #3c3836;
+    --code-bg-opposite: #1d2021;
+    --code-text-opposite: #ebdbb2;
     --grid-color: #92837420;
     --grid-major: #92837440;
   }
@@ -61,6 +67,8 @@
     --cell-border: #3c3836;
     --code-bg: #32302f;
     --code-text: #ebdbb2;
+    --code-bg-opposite: #f2e5bc;
+    --code-text-opposite: #3c3836;
     --grid-color: #665c5420;
     --grid-major: #665c5440;
   }
@@ -76,6 +84,8 @@
     --cell-border: #434c5e;
     --code-bg: #434c5e;
     --code-text: #d8dee9;
+    --code-bg-opposite: #f8f9fa;
+    --code-text-opposite: #2e3440;
     --grid-color: #4c566a20;
     --grid-major: #4c566a40;
   }
@@ -299,7 +309,8 @@
   /* Enhanced code styling */
   code {
     font-family: 'JetBrains Mono', monospace;
-    background: var(--code-bg);
+    background: var(--code-bg-opposite);
+    color: var(--code-text-opposite);
     padding: 3px 6px;
     font-size: 12px;
     border: 1px solid var(--border);
@@ -307,8 +318,8 @@
   }
 
   .inline-code {
-    color: var(--code-text);
-    background: var(--code-bg);
+    color: var(--code-text-opposite);
+    background: var(--code-bg-opposite);
     padding: 3px 6px;
     font-size: 12px;
     border: 1px solid var(--border);
@@ -317,7 +328,7 @@
 
   .text-link {
     color: var(--link);
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .text-link:hover {

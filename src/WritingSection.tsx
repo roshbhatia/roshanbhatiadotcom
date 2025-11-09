@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { writings, Writing } from './writings.generated'
+import { useTheme } from './contexts/ThemeContext'
 
 interface CodeBlockProps {
   language: string | undefined
@@ -17,12 +18,17 @@ interface TOCItem {
 
 function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
+  const { theme } = useTheme()
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(children)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
+
+  // Use opposite colorway for better contrast
+  const isDarkTheme = theme === 'dark' || theme === 'gruvbox-dark' || theme === 'nord-dark'
+  const syntaxStyle = isDarkTheme ? vs : vscDarkPlus
 
   return (
     <div className="code-block my-8">
@@ -39,10 +45,10 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
       </div>
       <SyntaxHighlighter
         language={language || 'text'}
-        style={vscDarkPlus}
+        style={syntaxStyle}
         customStyle={{
-          backgroundColor: 'var(--code-bg)',
-          color: 'var(--code-text)',
+          backgroundColor: 'var(--code-bg-opposite)',
+          color: 'var(--code-text-opposite)',
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: '12px',
           lineHeight: '1.5',
