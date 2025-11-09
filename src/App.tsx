@@ -32,17 +32,25 @@ function AppContent() {
             
             {/* Footer Row */}
             <div className="col-span-12 grid grid-cols-12 gap-1 mt-4">
-              <div className="col-span-3 cell-border p-2">
-                <div className="text-xs text-border mono">CONTACT</div>
+              <div className="col-span-6 cell-border p-2">
+                <a 
+                  href="https://github.com/roshbhatia" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs text-accent mono hover:text-text transition-colors"
+                >
+                  GITHUB
+                </a>
               </div>
-              <div className="col-span-3 cell-border p-2">
-                <div className="text-xs text-border mono">GITHUB</div>
-              </div>
-              <div className="col-span-3 cell-border p-2">
-                <div className="text-xs text-border mono">LINKEDIN</div>
-              </div>
-              <div className="col-span-3 cell-border p-2">
-                <div className="text-xs text-border mono">EMAIL</div>
+              <div className="col-span-6 cell-border p-2">
+                <a 
+                  href="https://linkedin.com/in/roshanbhatia" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-xs text-accent mono hover:text-text transition-colors"
+                >
+                  LINKEDIN
+                </a>
               </div>
             </div>
           </div>
