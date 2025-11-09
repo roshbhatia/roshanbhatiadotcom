@@ -6,14 +6,16 @@
 
 @layer base {
   :root {
-    --bg: #282828;
+    --bg: #1d2021;
     --text: #ebdbb2;
     --border: #3c3836;
     --accent: #d79921;
     --ring: #d79921;
-    --background: #282828;
-    --surface: #32302f;
+    --background: #1d2021;
+    --surface: #282828;
     --surface-light: #504945;
+    --highlight: #458588;
+    --highlight-alt: #a89984;
   }
 
   [data-theme='light'] {
@@ -326,12 +328,12 @@
   }
 
   .prose code {
-    background: var(--bg);
+    background: var(--highlight);
     border: 1px solid var(--border);
     padding: 0.125rem 0.375rem;
     border-radius: 0.25rem;
     font-size: 0.875rem;
-    color: var(--accent);
+    color: var(--text);
   }
 
   .prose pre {

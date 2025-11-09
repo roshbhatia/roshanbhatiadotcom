@@ -234,9 +234,7 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
         </span>
       </div>
       
-      <p className="mono text-sm text-text/80 mb-4 leading-relaxed">
-        {post.excerpt}
-      </p>
+
       
       <div className="flex items-center justify-between">
         <div className="mono text-xs text-text/60">
@@ -319,10 +317,7 @@ function WritingSection() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-text mb-2">Technical Writing</h2>
-        <p className="text-body text-text/70">
-          Thoughts on keyboard design, software engineering, and technical topics from a practitioner's perspective.
-        </p>
+        <h2 className="text-2xl font-bold text-text mb-2">Writing</h2>
       </div>
       
       <div className="grid gap-6">
