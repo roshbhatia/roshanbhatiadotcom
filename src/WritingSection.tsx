@@ -1,20 +1,24 @@
 import { useState } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import { Copy, Check } from 'lucide-react'
+import { Copy, Check, Calendar, Clock, ArrowLeft } from 'lucide-react'
 
 interface Writing {
   slug: string
   title: string
   date: string
   content: string
+  excerpt: string
+  readingTime: number
 }
 
 const writings: Writing[] = [
   {
     slug: 'keyboard-designing-for-fools-by-an-idiot',
-    title: 'keyboard designing for fools by an idiot',
+    title: 'Keyboard Designing for Fools by an Idiot',
     date: '2025-01-08',
+    excerpt: 'A brutally honest take on keyboard design, why most enthusiasts are wrong, and what actually matters for comfortable typing.',
+    readingTime: 5,
     content: `# keyboard designing for fools by an idiot
 
 i'm an idiot and here's how i design keyboards:
@@ -82,32 +86,30 @@ function CodeBlock({ language, children }: CodeBlockProps) {
   }
 
   return (
-    <div className="cell-border my-4">
-      <div className="grid grid-cols-12 gap-1 border-b border-border bg-bg/50">
-        <div className="col-span-8 flex items-center gap-2 p-2">
-          <div className="w-2 h-2 rounded-full bg-red-500"></div>
-          <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
-          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-          <span className="mono text-xs text-border">{language}</span>
+    <div className="bg-bg/50 border border-border rounded-lg overflow-hidden my-6">
+      <div className="flex items-center justify-between px-4 py-2 bg-bg/80 border-b border-border">
+        <div className="flex items-center gap-2">
+          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          <span className="mono text-sm text-text">{language}</span>
         </div>
-        <div className="col-span-4 p-2">
-          <button
-            onClick={handleCopy}
-            className="cell-border w-full text-xs bg-bg/80 hover:bg-accent/20 transition-colors flex items-center justify-center gap-1"
-          >
-            {copied ? (
-              <>
-                <Check className="w-3 h-3" />
-                COPIED
-              </>
-            ) : (
-              <>
-                <Copy className="w-3 h-3" />
-                COPY
-              </>
-            )}
-          </button>
-        </div>
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-2 px-3 py-1 text-sm text-text hover:text-accent transition-colors"
+        >
+          {copied ? (
+            <>
+              <Check className="w-4 h-4" />
+              Copied
+            </>
+          ) : (
+            <>
+              <Copy className="w-4 h-4" />
+              Copy
+            </>
+          )}
+        </button>
       </div>
       <SyntaxHighlighter
         language={language}
@@ -115,26 +117,21 @@ function CodeBlock({ language, children }: CodeBlockProps) {
         customStyle={{
           backgroundColor: 'transparent',
           color: 'var(--text)',
-          fontFamily: "'Wumpus Mono', 'IBM Plex Mono', monospace",
-          fontSize: '0.75rem',
-          lineHeight: '1.4',
+          fontFamily: "'IBM Plex Mono', monospace",
+          fontSize: '0.875rem',
+          lineHeight: '1.5',
           borderRadius: '0',
           border: 'none',
-          padding: '0.75rem',
+          padding: '1rem',
           margin: '0',
         }}
         showLineNumbers
         lineNumberStyle={{
           color: 'var(--border)',
-          paddingRight: '0.75rem',
+          paddingRight: '1rem',
           userSelect: 'none',
-          minWidth: '1.5rem',
-          fontSize: '0.7rem',
-        }}
-        codeTagProps={{
-          style: {
-            fontFamily: "'Wumpus Mono', 'IBM Plex Mono', monospace",
-          }
+          minWidth: '2rem',
+          fontSize: '0.75rem',
         }}
       >
         {children}
@@ -154,7 +151,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
       const paragraphText = currentParagraph.join(' ').trim()
       if (paragraphText) {
         elements.push(
-          <p key={elements.length} className="mb-3 leading-relaxed text-xs">
+          <p key={elements.length} className="mb-4 leading-relaxed text-body">
             {paragraphText
               .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
               .replace(/\*(.*?)\*/g, '<em>$1</em>')
@@ -209,39 +206,35 @@ function parseMarkdown(content: string): React.ReactNode[] {
     if (line.startsWith('# ')) {
       flushParagraph()
       elements.push(
-        <div key={elements.length} className="cell-border p-3 mb-4">
-          <h1 className="mono text-lg font-bold text-text">DOCUMENT: {line.slice(2)}</h1>
-        </div>
+        <h1 key={elements.length} className="text-2xl font-bold text-text mb-6 mt-8">
+          {line.slice(2)}
+        </h1>
       )
     } else if (line.startsWith('## ')) {
       flushParagraph()
       elements.push(
-        <div key={elements.length} className="cell-border p-2 mb-3">
-          <h2 className="mono text-base font-semibold text-text">SECTION: {line.slice(3)}</h2>
-        </div>
+        <h2 key={elements.length} className="text-xl font-semibold text-text mb-4 mt-6">
+          {line.slice(3)}
+        </h2>
       )
     } else if (line.startsWith('### ')) {
       flushParagraph()
       elements.push(
-        <div key={elements.length} className="cell-border p-2 mb-2">
-          <h3 className="mono text-sm font-medium text-text">SUBSECTION: {line.slice(4)}</h3>
-        </div>
+        <h3 key={elements.length} className="text-lg font-medium text-text mb-3 mt-4">
+          {line.slice(4)}
+        </h3>
       )
     } else if (line.startsWith('- ')) {
       flushParagraph()
       elements.push(
-        <div key={elements.length} className="cell-border p-2 mb-2 ml-4">
-          <div className="mono text-xs text-text">• {line.slice(2)}</div>
-        </div>
+        <li key={elements.length} className="text-body text-text mb-2 ml-6 list-disc">
+          {line.slice(2)}
+        </li>
       )
     } else if (line.trim() === '---') {
       flushParagraph()
       elements.push(
-        <div key={elements.length} className="grid grid-cols-12 gap-1 my-4">
-          <div className="col-span-12 cell-border p-1">
-            <div className="text-xs text-border text-center">DOCUMENT SEPARATOR</div>
-          </div>
-        </div>
+        <hr key={elements.length} className="border-border my-8" />
       )
     } else if (line.trim() === '') {
       flushParagraph()
@@ -254,95 +247,117 @@ function parseMarkdown(content: string): React.ReactNode[] {
   return elements
 }
 
+function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
+  return (
+    <article className="card-hover bg-bg/30 border border-border rounded-lg p-6 cursor-pointer">
+      <div className="flex items-start justify-between mb-3">
+        <h3 className="text-lg font-semibold text-text group-hover:text-accent transition-colors">
+          {post.title}
+        </h3>
+        <span className="text-xs px-2 py-1 bg-accent/20 text-accent rounded-full">
+          TECH
+        </span>
+      </div>
+      
+      <p className="text-body text-text mb-4 line-clamp-3">
+        {post.excerpt}
+      </p>
+      
+      <div className="flex items-center justify-between text-sm text-text/70">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-1">
+            <Calendar className="w-4 h-4" />
+            {new Date(post.date).toLocaleDateString('en-US', { 
+              month: 'short', 
+              day: 'numeric', 
+              year: 'numeric' 
+            })}
+          </div>
+          <div className="flex items-center gap-1">
+            <Clock className="w-4 h-4" />
+            {post.readingTime} min read
+          </div>
+        </div>
+        <button 
+          onClick={() => onSelect(post.slug)}
+          className="text-accent hover:text-accent/80 font-medium"
+        >
+          Read more →
+        </button>
+      </div>
+    </article>
+  )
+}
+
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
-  return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-12 gap-1">
-        <div className="col-span-12 cell-border p-3">
-          <div className="grid grid-cols-12 gap-1">
-            <div className="col-span-8">
-              <div className="mono text-sm font-semibold text-accent">TECHNICAL DOCUMENTATION</div>
+  if (selectedWriting) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <button
+          onClick={() => setSelectedPost(null)}
+          className="flex items-center gap-2 text-text hover:text-accent transition-colors mb-6"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to all posts
+        </button>
+        
+        <article className="content-card">
+          <header className="mb-8">
+            <div className="flex items-center justify-between mb-4">
+              <h1 className="text-3xl font-bold text-text">
+                {selectedWriting.title}
+              </h1>
+              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
+                TECHNICAL ANALYSIS
+              </span>
             </div>
-            <div className="col-span-4">
-              <div className="mono text-xs text-border text-right">RECORDS: {writings.length}</div>
+            
+            <div className="flex items-center gap-6 text-sm text-text/70">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                {new Date(selectedWriting.date).toLocaleDateString('en-US', { 
+                  month: 'long', 
+                  day: 'numeric', 
+                  year: 'numeric' 
+                })}
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                {selectedWriting.readingTime} minute read
+              </div>
             </div>
+          </header>
+          
+          <div className="prose max-w-none">
+            {parseMarkdown(selectedWriting.content)}
           </div>
-        </div>
+        </article>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-text mb-2">Technical Writing</h2>
+        <p className="text-body text-text/70">
+          Thoughts on keyboard design, software engineering, and technical topics from a practitioner's perspective.
+        </p>
       </div>
       
-      {!selectedWriting && (
-        <div className="grid grid-cols-12 gap-1">
-          {writings.map(post => (
-            <div key={post.slug} className="col-span-12">
-              <div className="cell-border">
-                <button
-                  onClick={() => setSelectedPost(post.slug)}
-                  className="w-full text-left hover:bg-accent/20 transition-colors p-3 group"
-                >
-                  <div className="grid grid-cols-12 gap-1">
-                    <div className="col-span-8">
-                      <div className="cell-border p-2">
-                        <div className="mono text-xs font-medium text-text group-hover:text-accent transition-colors">
-                          {post.title}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-span-2">
-                      <div className="cell-border p-2">
-                        <div className="mono text-xs text-border">{post.date}</div>
-                      </div>
-                    </div>
-                    <div className="col-span-2">
-                      <div className="cell-border p-2">
-                        <div className="mono text-xs text-accent">VIEW →</div>
-                      </div>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {selectedWriting && (
-        <div className="grid grid-cols-12 gap-1">
-          <div className="col-span-12 cell-border">
-            <div className="grid grid-cols-12 gap-1">
-              <div className="col-span-12 cell-border p-2">
-                <button
-                  onClick={() => setSelectedPost(null)}
-                  className="cell-border text-xs bg-bg/80 hover:bg-accent/20 transition-colors px-3 py-1"
-                >
-                  ← BACK TO INDEX
-                </button>
-              </div>
-              
-              <div className="col-span-12 cell-border p-4">
-                <div className="grid grid-cols-12 gap-1 mb-4">
-                  <div className="col-span-8 cell-border p-3">
-                    <div className="mono text-sm font-bold text-text">{selectedWriting.title}</div>
-                  </div>
-                  <div className="col-span-4 cell-border p-3">
-                    <div className="mono text-xs text-border">PUBLISHED: {selectedWriting.date}</div>
-                    <div className="mono text-xs text-border">TYPE: TECHNICAL ANALYSIS</div>
-                  </div>
-                </div>
-                
-                <div className="cell-border p-4">
-                  <div className="mono text-xs leading-relaxed text-text">
-                    {parseMarkdown(selectedWriting.content)}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <div className="grid gap-6">
+        {writings.map(post => (
+          <BlogCard 
+            key={post.slug} 
+            post={post} 
+            onSelect={setSelectedPost}
+          />
+        ))}
+      </div>
     </div>
   )
 }
