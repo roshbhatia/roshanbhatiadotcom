@@ -61,6 +61,7 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
 }
 
 function parseMarkdown(content: string, getImagePath: (path: string) => string): React.ReactNode[] {
+  console.log('parseMarkdown called with content length:', content.length)
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
   let currentParagraph: string[] = []
