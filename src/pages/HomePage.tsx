@@ -72,7 +72,11 @@ i like:
 
 distributed systems
 platform and infrastructure
-designing for scale`)
+designing for scale
+
+connect:
+github: https://github.com/roshbhatia
+linkedin: https://linkedin.com/in/roshanbhatia`)
         setError(null)
       } finally {
         setLoading(false)
