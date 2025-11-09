@@ -303,13 +303,24 @@ function WritingSection() {
     // Also replace non-breaking spaces with regular spaces
     const normalizedPath = decodedPath.replace(/\u00A0/g, ' ')
     
-    // Return correct path - images are in subfolder
-    const fullPath = `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
-    console.log('Original imagePath:', imagePath)
-    console.log('Decoded path:', decodedPath)
-    console.log('Normalized path:', normalizedPath)
-    console.log('Full path:', fullPath)
-    return fullPath
+    // Check if path already includes subfolder name
+    if (normalizedPath.startsWith(subfolderPath + '/')) {
+      // Path already includes subfolder, just add base folder
+      const fullPath = `/writing/${folderPath}/${normalizedPath}`
+      console.log('Original imagePath:', imagePath)
+      console.log('Decoded path:', decodedPath)
+      console.log('Normalized path:', normalizedPath)
+      console.log('Full path (with subfolder):', fullPath)
+      return fullPath
+    } else {
+      // Path is just filename, add both folder and subfolder
+      const fullPath = `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
+      console.log('Original imagePath:', imagePath)
+      console.log('Decoded path:', decodedPath)
+      console.log('Normalized path:', normalizedPath)
+      console.log('Full path (filename only):', fullPath)
+      return fullPath
+    }
   }
 
   if (selectedWriting) {
