@@ -13,7 +13,7 @@ const ThemeToggle: React.FC = () => {
       case 'gruvbox-light': return 'GRUV-L'
       case 'gruvbox-dark': return 'GRUV-D'
       case 'nord-dark': return 'NORD'
-      default: return 'GRUV-L'
+      default: return 'PAPER'
     }
   }
 
