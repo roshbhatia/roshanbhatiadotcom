@@ -5,7 +5,6 @@ Healthy competition is the foundation of every great friendship. So I decided th
 **Disclaimer:** I am not an expert in keyboard design, ergonomics, PCB design, CAD, or firmware. I got a C in my high school physics class. I write `yaml` for a living. So take every fact I state here with a grain of salt.
 
 ## The beginning of the end (layouts)
----
 **Background knowledge**:
 
 - Ergonomic keyboards are a relatively overloaded term, but in this piece I use the term to mean any keyboard that is designed to be relatively ergonomic compared to more traditional designs. What I characterize as "less extreme" ergonomic keyboards are ones like those Microsoft ergo keyboards that have some level of sloping, or a split keyboard I have below which is a normal keyboard chopped in half. "More extreme" would be something like an ortholinear, column staggered keyboard which fundamentally moves the placement of keys compared to the staggered design most of us are used to.
@@ -16,15 +15,13 @@ Healthy competition is the foundation of every great friendship. So I decided th
 - [Keyboard Layout Editor](http://www.keyboard-layout-editor.com/) (layout generator for more normal keyboards)
 - [Ergogen](https://ergogen.xyz/) (layout generator + PCB generator geared towards more ergonomic keyboards)
 ---
-I started with trying to generate a layout that was more tuned to me. I knew I wanted something somewhat split (i.e., like an Alice layout) as I've had been using a more traditional, staggered split keyboard for a while because of wrist pain. My workflow on my laptop is clustered around "leader" keys with various vim-like navigation keybindings, so I wanted keys I typically strain to hit (Command/Win, Alt, and Space) to be more easily accessible. I also wanted something that ultimately looked cool.
+I started with trying to generate a layout that was more tuned to me. I knew I wanted something somewhat split (i.e., like an Alice layout) as I've had been using a more traditional, staggered split keyboard for a while because of wrist pain. My workflow on my laptop is clustered around "leader" keys with various vim-like navigation keybindings, so I wanted keys I typically strain to hit (Command/Win, Alt, and Space) to be more easily accessible. 
 
 ![My Keychron Q11](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg)
 
 To design this I had two options — Keyboard Layout Editor (KLE) and Ergogen. I ended up going with KLE as it was pretty straightforward to use in comparison — KLE just took a 2D JSON array of key placements, whereas Ergogen seemed a lot more powerful but more geared towards what I considered at the time to be more extreme ergonomic keyboards, which typically are typically literally split (like my Keychron), which have some design considerations and additional complexity I'll get into later. It's worth it to note that you don't have to commit to that with Ergogen — I found out later that you can have a unibody keyboard just as easily, but you'll find out throughout this piece that I make a lot of assumptions that backfired on me.
 
 ![Here's an insane early design I considered using. Not actually ergonomic!](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/C1BDE35F-830E-4651-96EA-4A18278173FA.png)
-
-Here's an insane early design I considered using. Not ergonomic! Would hurt my hands!
 
 I ended up trying to copy the staggered keyboard layout somewhat for key placements after realizing trying to reinvent the wheel in terms of core key placements was a ridiculous idea. So I decided to use this, which was nearly still as ridiculous.
 
@@ -35,7 +32,6 @@ I made an insane assumption that it would make sense to use a bunch of 1U (your 
 With the benefit of hindsight: I should have copied a more traditional split layout with some minor tweaks. The 1U hack didn't end up being a hack and ended up just being confusing. That being said, this was probably the most fun aspect of the build. I spent hours trying new layouts and messing with things that looked cool and sending ideas back and forth with Tristan.
 
 ## The middle bit(?) of the end (PCB design)
----
 **Background knowledge**:
 
 - Most keyboards are wired pretty simply — each key's switch has a uniquely assigned row and column combination, which corresponds to two pins on the microcontroller, which means you can write your firmware code to watch for that specific combination and output a character.
@@ -80,7 +76,6 @@ The final bit before production was to choose some parts and get it fabricated. 
 - Upload to JCLPCB, choose a color and material type for the board, click order.
 
 ### Plate and case design
----
 **Resources**:
 
 - [KB Plate](https://kbplate.ai03.com/) (generates a plate for you from KLE JSON)
@@ -102,7 +97,6 @@ While waiting for the PCBs and plate to get fabricated, I also decided to make a
 Someone at work was fortunately kind enough to print the case for me for free!
 
 ### The last bit (firmware)
----
 **Resources**:
 
 - [QMK](https://qmk.fm/)
