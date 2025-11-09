@@ -75,7 +75,7 @@ function CodeBlock({ language, children }: CodeBlockProps) {
   )
 }
 
-function parseMarkdown(content: string): React.ReactNode[] {
+function parseMarkdown(content: string, getImagePath: (path: string) => string): React.ReactNode[] {
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
   let currentParagraph: string[] = []
@@ -305,7 +305,7 @@ function WritingSection() {
               </header>
               
               <div className="prose max-w-none">
-                {parseMarkdown(selectedWriting.content)}
+                {parseMarkdown(selectedWriting.content, getImagePath)}
               </div>
             </article>
           </div>
@@ -317,7 +317,7 @@ function WritingSection() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-2xl font-bold text-text mb-2">Writing</h2>
+        <h2 className="text-2xl font-bold text-text mb-2">[WRITING]</h2>
       </div>
       
       <div className="grid gap-6">

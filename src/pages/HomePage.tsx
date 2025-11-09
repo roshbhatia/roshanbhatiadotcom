@@ -5,7 +5,7 @@ const ThemeToggle: React.FC = () => {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 'dark'
+    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 'light'
     setTheme(savedTheme)
     document.documentElement.setAttribute('data-theme', savedTheme)
   }, [])

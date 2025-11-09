@@ -13,8 +13,8 @@ function AppContent() {
               <div className="col-span-8 cell-border p-3">
                 <div className="mono text-xl text-left">roshanbhatia.com</div>
               </div>
-              <div className="col-span-4 cell-border p-3">
-                <div className="text-xs text-border mono text-right">VERSION: b7fafca</div>
+              <div className="col-span-4 cell-border p-3 flex items-center justify-center">
+                <div className="text-xs text-border mono">VERSION: ced042d</div>
               </div>
             </div>
             

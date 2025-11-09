@@ -16,6 +16,16 @@
     --surface-light: #504945;
     --highlight: #458588;
     --highlight-alt: #a89984;
+    --cell-bg: #32302f;
+    --cell-border: #434455;
+    --accent-alt: #f7768e;
+    --warning: #fb4934;
+    --success: #b8bb26;
+    --info: #83a598;
+    --muted: #665c54;
+    --subtle: #a89984;
+    --bright: #fbf1c7;
+    --neutral: #d4be98;
   }
 
   [data-theme='light'] {
@@ -27,6 +37,16 @@
     --background: #fbf1c7;
     --surface: #ebdbb2;
     --surface-light: #d5c4a1;
+    --cell-bg: #f2e5bc;
+    --cell-border: #d4be98;
+    --accent-alt: #af3a03;
+    --warning: #9d0006;
+    --success: #79740e;
+    --info: #076678;
+    --muted: #928374;
+    --subtle: #665c54;
+    --bright: #1d2021;
+    --neutral: #3c3836;
   }
 
   * {
@@ -115,24 +135,24 @@
   }
 
   .inline-code {
-    color: #569cd6;
-    background: var(--bg);
+    color: var(--info);
+    background: var(--cell-bg);
     padding: 2px 4px;
     border-radius: 2px;
     font-size: 0.9em;
-    border: 1px solid var(--border);
+    border: 1px solid var(--cell-border);
   }
 
   .keyword {
-    color: #d19766;
+    color: var(--accent-alt);
   }
 
   .string {
-    color: #6a9955;
+    color: var(--success);
   }
 
   .comment {
-    color: #6a737d;
+    color: var(--muted);
     font-style: italic;
   }
 
@@ -195,7 +215,7 @@
     left: -1px;
     right: -1px;
     bottom: -1px;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-alt);
     pointer-events: none;
     z-index: 1;
   }
@@ -250,12 +270,16 @@
     top: 1rem;
     right: 1rem;
     z-index: 50;
-    background: var(--surface);
-    border: 2px solid var(--border);
+    background: var(--cell-bg);
+    border: 1px solid var(--cell-border);
     padding: 0.5rem;
     cursor: pointer;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Kode Mono', monospace;
     font-size: 0.875rem;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent-alt);
   }
 
   .theme-toggle:hover {
@@ -346,11 +370,14 @@
   }
 
   .prose blockquote {
-    border-left: 4px solid var(--accent);
+    border-left: 4px solid var(--info);
     padding-left: 1rem;
     margin: 1rem 0;
     font-style: italic;
-    color: var(--border);
+    color: var(--muted);
+    background: var(--cell-bg);
+    padding: 1rem;
+    border-radius: 0.25rem;
   }
 
   .prose hr {
@@ -366,7 +393,7 @@
 
   .prose em {
     font-style: italic;
-    color: var(--border);
+    color: var(--subtle);
   }
 }
 
