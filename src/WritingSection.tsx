@@ -145,15 +145,13 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
         <div key={elements.length} className="my-8 content-spacing technical-border">
           <img
             src={getImagePath(path || '')}
-            alt={alt || ''}
+            alt={alt || 'PLACEHOLDER'}
             className="w-full border-2 border-border"
             loading="lazy"
           />
-          {alt && (
-            <div className="text-small mt-4 text-center secondary-text italic">
-              {alt}
-            </div>
-          )}
+          <div className="text-small mt-4 text-center secondary-text italic">
+            {alt || 'PLACEHOLDER'}
+          </div>
         </div>
       )
       return
@@ -180,17 +178,41 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const title = line.slice(4)
       const id = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
+      
+      // Special styling for Background/Resources sections
+      const isSpecialSection = title.toLowerCase().includes('background') || title.toLowerCase().includes('resources')
+      
       toc.push({ id, title, level: 3 })
       elements.push(
-        <h3 key={elements.length} id={id} className="text-body font-bold mb-4 mt-6">
-          {title}
+        <h3 key={elements.length} id={id} className={`text-body font-bold mb-4 mt-6 ${isSpecialSection ? 'accent-text industrial-divider pb-2' : ''}`}>
+          {isSpecialSection ? `[${title.toUpperCase()}]` : title}
         </h3>
       )
-    } else if (line.startsWith('- ')) {
+    } else     if (line.startsWith('- ')) {
       flushParagraph()
+      // Check if this is a list item with a link
+      const listItemText = line.slice(2)
+      const processedText = listItemText
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-link">$1</a>')
+        .split(/(<a[^>]*>.*?<\/a>)/)
+        .map((part, index) => {
+          if (part.startsWith('<a')) {
+            const hrefMatch = part.match(/href="([^"]+)"/)
+            const textMatch = part.match(/>([^<]+)</)
+            const href = hrefMatch ? hrefMatch[1] : ''
+            const text = textMatch ? textMatch[1] : part
+            return (
+              <a key={index} href={href} target="_blank" rel="noopener noreferrer" className="text-link">
+                {text}
+              </a>
+            )
+          }
+          return part
+        })
+      
       elements.push(
         <li key={elements.length} className="text-body mb-2 ml-6">
-          {line.slice(2)}
+          {processedText}
         </li>
       )
     } else if (line.trim() === '---') {
