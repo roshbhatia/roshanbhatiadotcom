@@ -108,17 +108,7 @@ designing for scale`)
 
   return (
     <div className="mono text-sm leading-relaxed">
-      <div className="mb-4">
-        <span className="text-accent">{'{'}</span>
-        <span className="mx-2">README CONTENT</span>
-        <span className="text-accent">{'}'}</span>
-      </div>
       <pre className="whitespace-pre-wrap">{readme}</pre>
-      <div className="mt-4">
-        <span className="text-accent">/*</span>
-        <span className="mx-2">END README</span>
-        <span className="text-accent">*/</span>
-      </div>
     </div>
   )
 }
