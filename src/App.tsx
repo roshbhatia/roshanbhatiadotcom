@@ -22,6 +22,7 @@ const ThemeToggle: React.FC = () => {
     <button
       onClick={cycleTheme}
       className="theme-toggle corner-markers measurement-indicators"
+      data-test="theme-toggle"
       style={{
         position: 'fixed',
         bottom: 'var(--space-lg)',
@@ -39,13 +40,13 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-bg text-text engineering-grid" data-theme={theme}>
-      <ThemeToggle />
+      <ThemeToggle data-test="theme-toggle" />
       <div className="sheet-border m-8 p-8 schematic-container measurement-indicators">
         {/* Header */}
         <header className="border-box p-8 mb-8 technical-border corner-markers">
           <div className="flex justify-between items-center">
             <div className="mono text-hero primary-text">ROSHANBHATIA.COM</div>
-            <div className="mono text-small secondary-text">VERSION: {COMMIT_SHA}</div>
+            <div className="mono text-small secondary-text" data-test="version-info">VERSION: <span data-test="build-time">{COMMIT_SHA}</span></div>
           </div>
           <div className="industrial-divider mt-6"></div>
         </header>

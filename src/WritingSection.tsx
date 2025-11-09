@@ -168,10 +168,14 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const title = line.slice(3)
       const id = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
+      
+      // Special styling for Background/Resources sections
+      const isSpecialSection = title.toLowerCase().includes('background') || title.toLowerCase().includes('resources')
+      
       toc.push({ id, title, level: 2 })
       elements.push(
-        <h2 key={elements.length} id={id} className="text-section mb-6 mt-8">
-          {title}
+        <h2 key={elements.length} id={id} className={`text-section mb-6 mt-8 ${isSpecialSection ? 'accent-text industrial-divider pb-2' : ''}`}>
+          {isSpecialSection ? `[${title.toUpperCase()}]` : title}
         </h2>
       )
     } else if (line.startsWith('### ')) {
@@ -188,7 +192,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
           {isSpecialSection ? `[${title.toUpperCase()}]` : title}
         </h3>
       )
-    } else     if (line.startsWith('- ')) {
+    } else if (line.startsWith('- ')) {
       flushParagraph()
       // Check if this is a list item with a link
       const listItemText = line.slice(2)

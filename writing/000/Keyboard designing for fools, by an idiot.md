@@ -1,4 +1,4 @@
-In September my friend Tristan ([https://khedron.net](https://khedron.net/)) said he was designing a keyboard. He had spoken to our mutual friend Dede ([https://github.com/dededecline](https://github.com/dededecline)) who has created many keyboards (see https://github.com/dededecline/SST60) and found out that it was a lot simpler than he (and I) previously thought it was.
+In September my friend [Tristan](https://khedron.net/)) said he was designing a keyboard. He had spoken to our mutual friend [Dede](https://github.com/dededecline) who has created many keyboards (see https://github.com/dededecline/SST60) and found out that it was a lot simpler than he (and I) previously thought it was.
 
 Healthy competition is the foundation of every great friendship. So I decided that I would build a keyboard that was built faster and looked better than his.
 
@@ -11,24 +11,22 @@ Background knowledge:
 
 Resources:
 
-- [http://www.keyboard-layout-editor.com/](http://www.keyboard-layout-editor.com/) (layout generator for more normal keyboards)
-- https://ergogen.xyz/ (layout generator + pcb generator geared towards more ergonomic keyboards)
+- [Keyboard Layout Editor](http://www.keyboard-layout-editor.com/) (layout generator for more normal keyboards)
+- [Ergogen](https://ergogen.xyz/) (layout generator + pcb generator geared towards more ergonomic keyboards)
 
 I started with trying to generate a layout that was more tuned to me. I knew I wanted something somewhat split (i.e, like an Alice layout) as I’ve had been using a more traditional, staggered split keyboard for a while because of wrist pain. My workflow on my laptop is clustered around “leader” keys with various vim-like navigation keybindings, so I wanted the keys I typically strain to hit (Command/Win, Alt, and Space) to be more easily accessible. I also wanted something that ultimately looked cool.
 
-![My Keychron Q11 with Durock T1s and bougie ceramic keycaps. ](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg) 
+![My Keycron Q11](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg) 
 
 To design this I had two options — Keyboard Layout Editor (KLE) and Ergogen. I ended up going with KLE as it was pretty straightforward to use in comparison — KLE just took a 2D JSON array of key placements, whereas Ergogen seemed a lot more powerful but more geared towards what I considered at the time to be more extreme ergonomic keyboards, which typically are typically literally split (like my Keychron), which have some design considerations and additional complexity I’ll get into later. It’s worth it to note that you don’t have to commit to that with Ergogen — I found out later that you can have a unibody keyboard just as easily, but you’ll find out throughout this piece that I make a lot of assumptions that backfired on me.
 
-![Here’s an insane early design I considered using. Not ergonomic! Would hurt my hands!](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/C1BDE35F-830E-4651-96EA-4A18278173FA.png)
+![Here’s an insane early design I considered using. Not actually ergonomic!](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/C1BDE35F-830E-4651-96EA-4A18278173FA.png)
 
 Here’s an insane early design I considered using. Not ergonomic! Would hurt my hands!
 
 I ended up trying to copy the staggered keyboard layout somewhat for the key placements after realizing trying to reinvent the wheel in terms of core key placements was a ridiculous idea. So I decided to use this, which was nearly still as ridiculous.
 
-![12 space keys?!!!! 4 shift keys???!!!! ](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-10-07_at_5.36.08_PM.png)
-
-12 space keys?!!!! 4 shift keys???!!!! 
+![12 space keys and 4 shift keys was nuts, in retrospect](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-10-07_at_5.36.08_PM.png)
 
 I made an insane assumption that it would make sense to use a bunch of 1U (your typical square key’s size) keys in lieu of the larger ones for “simplicity” to avoid needing to purchase/install stabilizers for things like shift, space, etc. This is how I ended up with 12 space keys(!).
 
@@ -67,11 +65,11 @@ I ended up using [https://keyboard-tools.xyz](https://keyboard-tools.xyz/) to ge
 
 Then comes wiring, like I mentioned. That portion is pretty straightforward, and Kicad provides utilities to help you track the places where one point needs to get wired to another (referred to as “nets”.) Kicad will help you try to pathfind, but you just need to click on one point and guide it along to the final point. This required a few iterations to make sure I knew what I was doing. I ended up using a 4 layer pcb — front, back, and two internal ones. the row traces were on the front, the column on the back (or maybe it was the other way around, who knows) with two internal ones for some more traces if I had issues routing on the same layer, and the ground pour I mentioned.
 
-Finally, I snagged some cool graphics to get printed on the outside (called the silkscreen), which were nicely provided by my buddy Trevor ([https://www.instagram.com/iamzoop/](https://www.instagram.com/iamzoop/)).
+Finally, I snagged some cool graphics to get printed on the outside (called the silkscreen), which were nicely provided by my buddy [Trevor](https://www.instagram.com/iamzoop/).
 
 ![Looks cooler than the actual thing!](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/pcb_traces.png)
 
-![pcb_front.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/pcb_front.png)
+![](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/pcb_front.png)
 
 The final bit before production was to choose some parts and get it fabricated. This ended up being way more expensive than I thought due to tariffs, but the cheapest option was ordering from JCLPCB which was recommended by many people to me. To get this produced, you need to do the following:
 
@@ -83,21 +81,21 @@ The final bit before production was to choose some parts and get it fabricated. 
 
 Resources:
 
-- [https://kbplate.ai03.com/](https://kbplate.ai03.com/) (generates a plate for you from the KLE JSON)
-- [https://www.autodesk.com/products/fusion-360/](https://www.autodesk.com/products/fusion-360/) (CAD software that most hobbyists I’ve seen online use for plate and case design)
-- [https://openscad.org/](https://openscad.org/) (CAD software that relies more heavily on scripting)
+- [KB Plate](https://kbplate.ai03.com/) (generates a plate for you from the KLE JSON)
+- [Fusion360](https://www.autodesk.com/products/fusion-360/) (CAD software that most hobbyists I’ve seen online use for plate and case design)
+- [OpenSCAD](https://openscad.org/) (CAD software that relies more heavily on scripting)
 
 While I could glue on the switches to the PCB, Dede recommended I try a plate first. A plate has cutouts which the switches snap into, and you can stick your PCB underneath. You’ll find plates in most mechanical keyboards with a case, but by no means is a case required.
 
 I almost got filtered by this. For the life of me I could not brute force Fusion360 despite using [https://kbplate.ai03.com/](https://kbplate.ai03.com/) to generate this initially and gave up and begged Tristan to help me out. He ended up verifying the placement of the cutouts for me and doing some slight modifications to it, namely a cutout for the microcontroller’s USB port and some bends to have the plate sit on a table.
 
-![plate.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/plate.png)
+![](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/plate.png)
 
 I ended up using SendCutSend to get this fabricated and shipped, which had a similar process to JCLPCB, where you upload a file and chose some customization options.
 
 While waiting for the PCBs and plate to get fabricated, I also decided to make a case. I ended up using OpenSCAD for this as it has a scripting engine that made a lot more sense to me. I imported the plate’s 3D model I exported from Fusion360 and did my best to sculpt a two part case that I would slide on around it.
 
-![case.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/case.png)
+![](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/case.png)
 
 Someone at work was fortunately kind enough to print the case for me for free!
 
@@ -105,15 +103,15 @@ Someone at work was fortunately kind enough to print the case for me for free!
 
 Resources:
 
-- [https://qmk.fm/](https://qmk.fm/)
-- https://zmk.dev/
-- https://github.com/KMKfw/kmk_firmware
+- [QMK](https://qmk.fm/)
+- [ZMK](https://zmk.dev/)
+- [KMK](https://github.com/KMKfw/kmk_firmware)
 
 Writing the firmware is also similarly straightforward. There’s two major options right now — QMK and ZMK. Both have relatively similar levels of support for unibody keyboards, it’s the extra bits around wireless connectivity, microcontroller support, rotary encoders, etc. which is where the differences lie. 
 
 QMK and ZMK require you to write some more low level code. I don’t have an issue with this but the setup seemed a lot more complex than I thought it would have ended up being purely because of the number of features that QMK/ZMK support, like dynamic layout editing.
 
-Ultimately I went with a third option — KMK. It’s powered by CircutPython, which is geared more towards beginners. Ultimately I chose it because it was simple and supported by my controller, which is what I wanted! My [main.py](http://main.py) is as follows, which just imports some data-only files that contain the mappings I mentioned earlier.
+Ultimately I went with a third option — KMK. It’s powered by CircutPython, which is geared more towards beginners. Ultimately I chose it because it was simple and supported by my controller, which is what I wanted! My `main.py` is as follows, which just imports some data-only files that contain the mappings I mentioned earlier.
 
 ```python
 from kmk.kmk_keyboard import KMKKeyboard
@@ -146,11 +144,11 @@ Installing this is pretty simple — you follow the directions to install Circut
 
 This part is straightforward. Stick stuff together and it works.
 
-![Screenshot 2025-11-08 at 4.56.00 PM.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_4.56.00_PM.png)
+![](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_4.56.00_PM.png)
 
-![Screenshot 2025-11-08 at 4.56.36 PM.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_4.56.36_PM.png)
+![](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_4.56.36_PM.png)
 
-![Screenshot 2025-11-08 at 4.55.19 PM.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_4.55.19_PM.png)
+![](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_4.55.19_PM.png)
 
 ## Final thoughts
 
@@ -162,8 +160,8 @@ One nice thing about this is that 75% of the way through, Tristan gave me his ZS
 
 I use the Voyager at home (with the new trackball attachment) with the same amount of keys and layout as I assigned to my Corne, which I now use at work.
 
-![Screenshot 2025-11-08 at 5.00.14 PM.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_5.00.14_PM.png)
+![The ZSA voyager, with the navigator trackball, and some keys ripped out to match the Corne's 3x6 layout](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_5.00.14_PM.png)
 
-![Screenshot 2025-11-08 at 5.00.27 PM.png](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_5.00.27_PM.png)
+![My Corne v4.1 from YMDK](Keyboard%20designing%20for%20fools,%20by%20an%20idiot/Screenshot_2025-11-08_at_5.00.27_PM.png)
 
-You can see the final product’s repository at  [https://github.com/roshbhatia/terminus-est](https://github.com/roshbhatia/terminus-est). This includes firmware, the layout, production files, etc.
+You can see the final product’s repository [here](https://github.com/roshbhatia/terminus-est). This includes firmware, the layout, production files, etc.
