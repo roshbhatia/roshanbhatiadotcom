@@ -257,46 +257,50 @@ function WritingSection() {
 
   if (selectedWriting) {
     return (
-      <div className="max-w-4xl mx-auto">
-        <button
-          onClick={() => setSelectedPost(null)}
-          className="flex items-center gap-2 text-text hover:text-accent transition-colors mb-6"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to all posts
-        </button>
-        
-        <article className="content-card">
-          <header className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <h1 className="text-3xl font-bold text-text">
-                {selectedWriting.title}
-              </h1>
-              <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
-                TECHNICAL ANALYSIS
-              </span>
-            </div>
+      <div className="fixed inset-0 bg-bg/95 backdrop-blur-sm z-50 overflow-y-auto">
+        <div className="min-h-screen p-8">
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={() => setSelectedPost(null)}
+              className="flex items-center gap-2 text-text hover:text-accent transition-colors mb-6"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to all posts
+            </button>
             
-            <div className="flex items-center gap-6 text-sm text-text/70">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
-                {new Date(selectedWriting.date).toLocaleDateString('en-US', { 
-                  month: 'long', 
-                  day: 'numeric', 
-                  year: 'numeric' 
-                })}
+            <article className="content-card">
+              <header className="mb-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h1 className="text-3xl font-bold text-text">
+                    {selectedWriting.title}
+                  </h1>
+                  <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
+                    TECHNICAL ANALYSIS
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-6 text-sm text-text/70">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-4 h-4" />
+                    {new Date(selectedWriting.date).toLocaleDateString('en-US', { 
+                      month: 'long', 
+                      day: 'numeric', 
+                      year: 'numeric' 
+                    })}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-4 h-4" />
+                    {selectedWriting.readingTime} minute read
+                  </div>
+                </div>
+              </header>
+              
+              <div className="prose max-w-none">
+                {parseMarkdown(selectedWriting.content)}
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                {selectedWriting.readingTime} minute read
-              </div>
-            </div>
-          </header>
-          
-          <div className="prose max-w-none">
-            {parseMarkdown(selectedWriting.content)}
+            </article>
           </div>
-        </article>
+        </div>
       </div>
     )
   }

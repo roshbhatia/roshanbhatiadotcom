@@ -14,8 +14,7 @@ function AppContent() {
                 <div className="mono text-xl text-left">roshanbhatia.com</div>
               </div>
               <div className="col-span-4 cell-border p-3">
-                <div className="text-xs text-border mono">SYSTEM STATUS: ONLINE</div>
-                <div className="text-xs text-border mono">VERSION: 1.0.0</div>
+                <div className="text-xs text-border mono text-right">VERSION: b7fafca</div>
               </div>
             </div>
             
