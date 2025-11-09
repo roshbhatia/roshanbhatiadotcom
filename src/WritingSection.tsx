@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { Copy, Check, Calendar, Clock, ArrowLeft } from 'lucide-react'
@@ -78,6 +78,25 @@ interface CodeBlockProps {
 
 function CodeBlock({ language, children }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
+  const [isDarkMode, setIsDarkMode] = useState(true)
+
+  // Check current theme
+  useEffect(() => {
+    const checkTheme = () => {
+      const theme = document.documentElement.getAttribute('data-theme')
+      setIsDarkMode(theme !== 'light')
+    }
+    checkTheme()
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(checkTheme)
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ['data-theme'] 
+    })
+    
+    return () => observer.disconnect()
+  }, [])
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(children)
@@ -85,18 +104,25 @@ function CodeBlock({ language, children }: CodeBlockProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
+  // Use opposite theme colors for code block
+  const codeBgColor = isDarkMode ? '#1e1e1e' : '#f8f8f8'
+  const codeTextColor = isDarkMode ? '#d4d4d4' : '#000000'
+  const headerBgColor = isDarkMode ? '#2d2d30' : '#f1f1f1'
+  const borderColor = isDarkMode ? '#3e3e42' : '#e1e1e1'
+
   return (
-    <div className="bg-bg/50 border border-border rounded-lg overflow-hidden my-6">
-      <div className="flex items-center justify-between px-4 py-2 bg-bg/80 border-b border-border">
+    <div className="border border-border rounded-lg overflow-hidden my-6" style={{ backgroundColor: codeBgColor, borderColor }}>
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border" style={{ backgroundColor: headerBgColor, borderColor }}>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-red-500"></div>
           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
           <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="mono text-sm text-text">{language}</span>
+          <span className="mono text-sm" style={{ color: codeTextColor }}>{language}</span>
         </div>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 px-3 py-1 text-sm text-text hover:text-accent transition-colors"
+          className="flex items-center gap-2 px-3 py-1 text-sm hover:text-accent transition-colors"
+          style={{ color: codeTextColor }}
         >
           {copied ? (
             <>
@@ -116,7 +142,7 @@ function CodeBlock({ language, children }: CodeBlockProps) {
         style={vscDarkPlus}
         customStyle={{
           backgroundColor: 'transparent',
-          color: 'var(--text)',
+          color: codeTextColor,
           fontFamily: "'IBM Plex Mono', monospace",
           fontSize: '0.875rem',
           lineHeight: '1.5',
@@ -127,7 +153,7 @@ function CodeBlock({ language, children }: CodeBlockProps) {
         }}
         showLineNumbers
         lineNumberStyle={{
-          color: 'var(--border)',
+          color: isDarkMode ? '#858585' : '#858585',
           paddingRight: '1rem',
           userSelect: 'none',
           minWidth: '2rem',
