@@ -21,18 +21,18 @@
   }
 
   [data-theme='light'] {
-    --bg: #ffffff;
-    --text: #000000;
-    --border: #000000;
-    --accent: #000000;
-    --link: #0000ff;
-    --visited: #800080;
+    --bg: #fafafa;
+    --text: #1a1a1a;
+    --border: #d1d5db;
+    --accent: #2563eb;
+    --link: #0969da;
+    --visited: #7c3aed;
     --cell-bg: #ffffff;
-    --cell-border: #000000;
-    --code-bg: #f5f5f5;
-    --code-text: #000000;
-    --grid-color: #00000015;
-    --grid-major: #00000030;
+    --cell-border: #e5e7eb;
+    --code-bg: #f6f8fa;
+    --code-text: #24292e;
+    --grid-color: #d1d5db20;
+    --grid-major: #d1d5db40;
   }
 
   [data-theme='gruvbox-light'] {
