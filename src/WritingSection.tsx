@@ -310,7 +310,10 @@ function WritingSection() {
               </header>
 
               <div className="prose">
-                {parseMarkdown(selectedWriting.content, getImagePath)}
+                {(() => {
+                  console.log('About to render content, length:', selectedWriting?.content?.length)
+                  return parseMarkdown(selectedWriting.content, getImagePath)
+                })()}
               </div>
             </article>
           </div>
