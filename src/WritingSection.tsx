@@ -2,74 +2,7 @@ import { useState } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { Copy, Check, Calendar, Clock, ArrowLeft } from 'lucide-react'
-
-interface Writing {
-  slug: string
-  title: string
-  date: string
-  content: string
-  excerpt: string
-  readingTime: number
-}
-
-const writings: Writing[] = [
-  {
-    slug: 'keyboard-designing-for-fools-by-an-idiot',
-    title: 'Keyboard Designing for Fools by an Idiot',
-    date: '2025-01-08',
-    excerpt: 'A brutally honest take on keyboard design, why most enthusiasts are wrong, and what actually matters for comfortable typing.',
-    readingTime: 5,
-    content: `# keyboard designing for fools by an idiot
-
-i'm an idiot and here's how i design keyboards:
-
-## why i'm wrong about everything
-
-- i use cherry mx switches because they sound cool
-- i think 65% is "perfect" layout but my hands disagree
-- i buy keycaps with legends that wear off in 2 weeks
-- i spend $200 on a custom keyboard that types worse than my $10 one
-
-## truth about keyboard design
-
-- layout doesn't matter if you can't type comfortably
-- switches are personal preference not objective superiority
-- keycaps are consumables, not investments
-- best keyboard is one you don't think about
-
-## what actually works
-
-- split ergo layout for shoulder health
-- linear switches for reliability (box jades, gaterons)
-- pbt keycaps that last years
-- typing practice beats hardware every time
-
-## conclusion
-
-i'm still an idiot, but at least i'm a comfortable idiot with a keyboard that works.
-
----
-
-\`\`\`typescript
-// Example of proper keyboard configuration
-interface KeyboardConfig {
-  layout: 'split' | 'standard'
-  switches: 'linear' | 'tactile' | 'clicky'
-  keycaps: 'pbt' | 'abs'
-  size: '60%' | '65%' | '75%' | 'full'
-}
-
-const optimalConfig: KeyboardConfig = {
-  layout: 'split',
-  switches: 'linear',
-  keycaps: 'pbt',
-  size: '65%'
-}
-\`\`\`
-
-*this post demonstrates static markdown to blog conversion with syntax highlighting*`
-  }
-]
+import { writings, Writing } from './writings.generated'
 
 interface CodeBlockProps {
   language: string
@@ -349,7 +282,7 @@ function WritingSection() {
       </div>
       
       <div className="grid gap-6">
-        {writings.map(post => (
+        {writings.map((post) => (
           <BlogCard 
             key={post.slug} 
             post={post} 
