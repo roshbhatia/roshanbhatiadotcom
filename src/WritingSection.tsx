@@ -139,17 +139,23 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
-          <img
-            src={getImagePath(imagePath)}
-            alt={alt || ''}
-            className="w-full border-2 border-border"
-            loading="lazy"
-            onLoad={() => console.log('Image loaded successfully:', getImagePath(imagePath))}
-            onError={(e) => {
-              console.error('Image failed to load:', getImagePath(imagePath))
-              console.error('Error:', e)
-            }}
-          />
+          {(() => {
+            const finalPath = getImagePath(imagePath)
+            console.log('Image path being used:', finalPath)
+            return (
+              <img
+                src={finalPath}
+                alt={alt || ''}
+                className="w-full border-2 border-border"
+                loading="lazy"
+                onLoad={() => console.log('Image loaded successfully:', finalPath)}
+                onError={(e) => {
+                  console.error('Image failed to load:', finalPath)
+                  console.error('Error:', e)
+                }}
+              />
+            )
+          })()}
           {alt && (
             <div className="text-small mt-4 text-center secondary-text italic">
               {alt}
