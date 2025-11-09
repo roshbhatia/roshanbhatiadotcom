@@ -99,10 +99,18 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
                   return <em key={index}>{part.replace(/<\/?em>/g, '')}</em>
                 }
                 if (part.startsWith('<code class="inline-code">')) {
-                  return <code key={index} className="inline-code">{part.replace(/<\/?code class="inline-code">/g, '')}</code>
+                  return <code key={index} className="inline-code">{part.replace(/<\/?code[^>]*>/g, '')}</code>
                 }
                 if (part.startsWith('<a')) {
-                  return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
+                  const hrefMatch = part.match(/href="([^"]+)"/)
+                  const textMatch = part.match(/>([^<]+)</)
+                  const href = hrefMatch ? hrefMatch[1] : ''
+                  const text = textMatch ? textMatch[1] : part
+                  return (
+                    <a key={index} href={href} target="_blank" rel="noopener noreferrer" className="text-link">
+                      {text}
+                    </a>
+                  )
                 }
                 return part
               })}
