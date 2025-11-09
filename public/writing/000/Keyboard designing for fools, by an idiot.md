@@ -71,9 +71,9 @@ Then comes wiring, like I mentioned. That portion is pretty straightforward, and
 
 Finally, I snagged some cool graphics to get printed on the outside (called the silkscreen), which were nicely provided by my buddy Trevor ([https://www.instagram.com/iamzoop/](https://www.instagram.com/iamzoop/)).
 
-![Looks cooler than the actual thing!](Keyboard designing for fools, by an idiot/pcb_traces.png)
+![PCB traces showing the wiring layout](Keyboard designing for fools, by an idiot/pcb_traces.png)
 
-![pcb_front.png](Keyboard designing for fools, by an idiot/pcb_front.png)
+![PCB front view](Keyboard designing for fools, by an idiot/pcb_front.png)
 
 The final bit before production was to choose some parts and get it fabricated. This ended up being way more expensive than I thought due to tariffs, but the cheapest option was ordering from JCLPCB which was recommended by many people to me. To get this produced, you need to do the following:
 
@@ -93,13 +93,13 @@ While I could glue on the switches to the PCB, Dede recommended I try a plate fi
 
 I almost got filtered by this. For the life of me I could not brute force Fusion360 despite using [https://kbplate.ai03.com/](https://kbplate.ai03.com/) to generate this initially and gave up and begged Tristan to help me out. He ended up verifying the placement of the cutouts for me and doing some slight modifications to it, namely a cutout for the microcontroller’s USB port and some bends to have the plate sit on a table.
 
-![plate.png](Keyboard designing for fools, by an idiot/plate.png)
+![Laser cut plate for keyboard switches](Keyboard designing for fools, by an idiot/plate.png)
 
 I ended up using SendCutSend to get this fabricated and shipped, which had a similar process to JCLPCB, where you upload a file and chose some customization options.
 
 While waiting for the PCBs and plate to get fabricated, I also decided to make a case. I ended up using OpenSCAD for this as it has a scripting engine that made a lot more sense to me. I imported the plate’s 3D model I exported from Fusion360 and did my best to sculpt a two part case that I would slide on around it.
 
-![case.png](Keyboard designing for fools, by an idiot/case.png)
+![3D printed case design](Keyboard designing for fools, by an idiot/case.png)
 
 Someone at work was fortunately kind enough to print the case for me for free!
 
@@ -115,7 +115,7 @@ Writing the firmware is also similarly straightforward. There’s two major opti
 
 QMK and ZMK require you to write some more low level code. I don’t have an issue with this but the setup seemed a lot more complex than I thought it would have ended up being purely because of the number of features that QMK/ZMK support, like dynamic layout editing.
 
-Ultimately I went with a third option — KMK. It’s powered by CircutPython, which is geared more towards beginners. Ultimately I chose it because it was simple and supported by my controller, which is what I wanted! My [main.py](http://main.py) is as follows, which just imports some data-only files that contain the mappings I mentioned earlier.
+Ultimately I went with a third option — KMK. It’s powered by CircutPython, which is geared more towards beginners. Ultimately I chose it because it was simple and supported by my controller, which is what I wanted! My [main.py](main.py) is as follows, which just imports some data-only files that contain the mappings I mentioned earlier.
 
 ```python
 from kmk.kmk_keyboard import KMKKeyboard
