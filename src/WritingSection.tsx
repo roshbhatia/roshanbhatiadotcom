@@ -135,20 +135,13 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const [alt, path] = imageMatch.slice(1)
 
-      // Test with hardcoded path first
-      const testPath = "/writing/000/Keyboard%20designing%20for%20fools,%20by%20an%20idiot/split.jpg"
-      
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
           <img
-            src={testPath}
+            src={getImagePath(path || '')}
             alt={alt || ''}
             className="w-full border-2 border-border"
             loading="lazy"
-            onLoad={() => console.log('Hardcoded image loaded successfully')}
-            onError={(e) => {
-              console.error('Hardcoded image failed to load:', e)
-            }}
           />
           {alt && (
             <div className="text-small mt-4 text-center secondary-text italic">
@@ -240,8 +233,6 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
 
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
-
-  console.log('WritingSection mounted, available writings:', writings.length)
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
