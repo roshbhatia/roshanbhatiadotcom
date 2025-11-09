@@ -144,7 +144,11 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
             alt={alt || ''}
             className="w-full border-2 border-border"
             loading="lazy"
-
+            onLoad={() => console.log('Image loaded successfully:', getImagePath(imagePath))}
+            onError={(e) => {
+              console.error('Image failed to load:', getImagePath(imagePath))
+              console.error('Error:', e)
+            }}
           />
           {alt && (
             <div className="text-small mt-4 text-center secondary-text italic">
