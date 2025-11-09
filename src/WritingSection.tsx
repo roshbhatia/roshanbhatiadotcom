@@ -119,8 +119,8 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
     if (line.startsWith('```')) {
       if (codeBlock) {
         elements.push(
-          <CodeBlock 
-            key={elements.length} 
+          <CodeBlock
+            key={elements.length}
             language={codeBlock.language}
           >
             {codeBlock.content.join('\n')}
@@ -147,14 +147,14 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
     if (imageMatch) {
       flushParagraph()
       const [alt, path] = imageMatch.slice(1)
-      
+
       // Decode URL-encoded paths for the actual file system
       const decodedPath = decodeURIComponent(path || '')
-      
+
       elements.push(
         <div key={elements.length} className="my-8">
           <div className="relative group">
-            <img 
+            <img
               src={getImagePath(decodedPath)}
               alt={alt || ''}
               className="w-full rounded-lg border border-border shadow-sm hover:shadow-md transition-shadow duration-200"
@@ -226,22 +226,22 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
           </h3>
         </div>
         <span className="mono text-xs text-accent">
-          {new Date(post.date).toLocaleDateString('en-US', { 
-            month: 'short', 
-            day: 'numeric', 
-            year: 'numeric' 
+          {new Date(post.date).toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
           })}
         </span>
       </div>
-      
 
-      
+
+
       <div className="flex items-center justify-between">
         <div className="mono text-xs text-text/60">
           <Clock className="inline w-3 h-3 mr-1" />
           {post.readingTime} min read
         </div>
-        <button 
+        <button
           onClick={() => onSelect(post.slug)}
           className="mono text-xs text-accent hover:text-text transition-colors"
         >
@@ -256,7 +256,7 @@ function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
-  
+
   // Get the folder path from the selected writing slug
   const getImagePath = (imagePath: string) => {
     if (!selectedWriting) return imagePath
@@ -269,7 +269,7 @@ function WritingSection() {
 
   if (selectedWriting) {
     return (
-      <div 
+      <div
         className="fixed inset-0 bg-bg/95 backdrop-blur-sm z-50 overflow-y-auto"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
@@ -286,7 +286,7 @@ function WritingSection() {
               <ArrowLeft className="w-4 h-4" />
               Back to all posts
             </button>
-            
+
             <article className="content-card">
               <header className="mb-8">
                 <div className="flex items-center justify-between mb-4">
@@ -297,14 +297,14 @@ function WritingSection() {
                     TECHNICAL ANALYSIS
                   </span>
                 </div>
-                
+
                 <div className="flex items-center gap-6 text-sm text-text/70">
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4" />
-                    {new Date(selectedWriting.date).toLocaleDateString('en-US', { 
-                      month: 'long', 
-                      day: 'numeric', 
-                      year: 'numeric' 
+                    {new Date(selectedWriting.date).toLocaleDateString('en-US', {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric'
                     })}
                   </div>
                   <div className="flex items-center gap-2">
@@ -313,7 +313,7 @@ function WritingSection() {
                   </div>
                 </div>
               </header>
-              
+
               <div className="prose max-w-none">
                 {parseMarkdown(selectedWriting.content, getImagePath)}
               </div>
@@ -326,15 +326,11 @@ function WritingSection() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-text mb-2">[WRITING]</h2>
-      </div>
-      
       <div className="grid gap-6">
         {writings.map((post) => (
-          <BlogCard 
-            key={post.slug} 
-            post={post} 
+          <BlogCard
+            key={post.slug}
+            post={post}
             onSelect={setSelectedPost}
           />
         ))}
