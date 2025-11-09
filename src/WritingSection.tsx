@@ -260,13 +260,23 @@ function WritingSection() {
   // Get the folder path from the selected writing slug
   const getImagePath = (imagePath: string) => {
     if (!selectedWriting) return imagePath
-    const folderPath = selectedWriting.slug.split('/')[0] // Get "000" from "000/Keyboard designing..."
-    return `/writing/${folderPath}/${imagePath}`
+    const folderPath = selectedWriting.slug // Use full slug "000/Keyboard designing..."
+    // imagePath is already URL-encoded in markdown, ensure it's properly encoded for browser
+    const decodedPath = decodeURIComponent(imagePath)
+    const properlyEncodedPath = encodeURIComponent(decodedPath)
+    return `/writing/${folderPath}/${properlyEncodedPath}`
   }
 
   if (selectedWriting) {
     return (
-      <div className="fixed inset-0 bg-bg/95 backdrop-blur-sm z-50 overflow-y-auto">
+      <div 
+        className="fixed inset-0 bg-bg/95 backdrop-blur-sm z-50 overflow-y-auto"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setSelectedPost(null)
+          }
+        }}
+      >
         <div className="min-h-screen p-8">
           <div className="max-w-6xl mx-auto">
             <button
