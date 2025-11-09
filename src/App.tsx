@@ -1,6 +1,7 @@
 import React from 'react'
 import HomePage from '@/pages/HomePage.tsx'
 import { useTheme } from './contexts/ThemeContext'
+import { COMMIT_SHA } from './version'
 import './styles/globals.css'
 
 const ThemeToggle: React.FC = () => {
@@ -44,7 +45,7 @@ function AppContent() {
         <header className="border-box p-8 mb-8 technical-border corner-markers">
           <div className="flex justify-between items-center">
             <div className="mono text-hero primary-text">ROSHANBHATIA.COM</div>
-            <div className="mono text-small secondary-text">VERSION: 1.0.0</div>
+            <div className="mono text-small secondary-text">VERSION: {COMMIT_SHA}</div>
           </div>
           <div className="industrial-divider mt-6"></div>
         </header>

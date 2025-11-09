@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-writings.js && vite build",
+    "build": "node scripts/generate-writings.js && node scripts/inject-commit-sha.js && vite build",
     "preview": "vite preview",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
