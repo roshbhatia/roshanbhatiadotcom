@@ -96,7 +96,7 @@ While waiting for the PCBs and plate to get fabricated, I also decided to make a
 
 Someone at work was fortunately kind enough to print the case for me for free!
 
-### The last bit (firmware)
+## The last bit (firmware)
 **Resources**:
 
 - [QMK](https://qmk.fm/)
