@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import { Copy, Check, Calendar, Clock, ArrowLeft } from 'lucide-react'
 import { writings, Writing } from './writings.generated'
 
 interface CodeBlockProps {
@@ -18,55 +17,38 @@ function CodeBlock({ language, children }: CodeBlockProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-
-
   return (
-    <div className="bg-bg/50 border border-border rounded-lg overflow-hidden my-6">
-      <div className="flex items-center justify-between px-4 py-2 bg-bg/80 border-b border-border">
-        <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-          <span className="mono text-sm text-text">{language}</span>
-        </div>
+    <div className="code-block my-4">
+      <div className="border-box p-2 flex justify-between items-center">
+        <span className="mono text-xs">[{language.toUpperCase()}]</span>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 px-3 py-1 text-sm text-text hover:text-accent transition-colors"
+          className="mono text-xs"
         >
-          {copied ? (
-            <>
-              <Check className="w-4 h-4" />
-              Copied
-            </>
-          ) : (
-            <>
-              <Copy className="w-4 h-4" />
-              Copy
-            </>
-          )}
+          [{copied ? 'COPIED' : 'COPY'}]
         </button>
       </div>
       <SyntaxHighlighter
         language={language}
         style={vscDarkPlus}
         customStyle={{
-          backgroundColor: 'transparent',
-          color: 'var(--text)',
-          fontFamily: "'IBM Plex Mono', monospace",
-          fontSize: '0.875rem',
-          lineHeight: '1.5',
+          backgroundColor: 'var(--code-bg)',
+          color: 'var(--code-text)',
+          fontFamily: "'Courier New', monospace",
+          fontSize: '12px',
+          lineHeight: '1.2',
           borderRadius: '0',
           border: 'none',
-          padding: '1rem',
+          padding: '5px',
           margin: '0',
         }}
         showLineNumbers
         lineNumberStyle={{
           color: 'var(--border)',
-          paddingRight: '1rem',
+          paddingRight: '10px',
           userSelect: 'none',
-          minWidth: '2rem',
-          fontSize: '0.75rem',
+          minWidth: '20px',
+          fontSize: '10px',
         }}
       >
         {children}
@@ -85,31 +67,31 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
     if (currentParagraph.length > 0) {
       const paragraphText = currentParagraph.join(' ').trim()
       if (paragraphText) {
-        elements.push(
-          <p key={elements.length} className="mb-4 leading-relaxed text-body">
-            {paragraphText
-              .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-              .replace(/\*(.*?)\*/g, '<em>$1</em>')
-              .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
-              .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:text-text transition-colors underline">$1</a>')
-              .split(/(<strong>.*?<\/strong>|<em>.*?<\/em>|<code class="inline-code">.*?<\/code>|<a[^>]*>.*?<\/a>)/)
-              .map((part, index) => {
-                if (part.startsWith('<strong>')) {
-                  return <strong key={index}>{part.replace(/<\/?strong>/g, '')}</strong>
-                }
-                if (part.startsWith('<em>')) {
-                  return <em key={index}>{part.replace(/<\/?em>/g, '')}</em>
-                }
-                if (part.startsWith('<code class="inline-code">')) {
-                  return <code key={index} className="inline-code font-mono">{part.replace(/<\/?code class="inline-code">/g, '')}</code>
-                }
-                if (part.startsWith('<a')) {
-                  return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
-                }
-                return part
-              })}
-          </p>
-        )
+      elements.push(
+        <p key={elements.length} className="mb-2 text-body">
+          {paragraphText
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
+            .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-link">$1</a>')
+            .split(/(<strong>.*?<\/strong>|<em>.*?<\/em>|<code class="inline-code">.*?<\/code>|<a[^>]*>.*?<\/a>)/)
+            .map((part, index) => {
+              if (part.startsWith('<strong>')) {
+                return <strong key={index}>{part.replace(/<\/?strong>/g, '')}</strong>
+              }
+              if (part.startsWith('<em>')) {
+                return <em key={index}>{part.replace(/<\/?em>/g, '')}</em>
+              }
+              if (part.startsWith('<code class="inline-code">')) {
+                return <code key={index} className="inline-code">{part.replace(/<\/?code class="inline-code">/g, '')}</code>
+              }
+              if (part.startsWith('<a')) {
+                return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
+              }
+              return part
+            })}
+        </p>
+      )
       }
       currentParagraph = []
     }
@@ -152,19 +134,17 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       const decodedPath = decodeURIComponent(path || '')
 
       elements.push(
-        <div key={elements.length} className="my-8">
-          <div className="relative group">
-            <img
-              src={getImagePath(decodedPath)}
-              alt={alt || ''}
-              className="w-full rounded-lg border border-border shadow-sm hover:shadow-md transition-shadow duration-200"
-              loading="lazy"
-            />
-          </div>
+        <div key={elements.length} className="my-4">
+          <img
+            src={getImagePath(decodedPath)}
+            alt={alt || ''}
+            className="w-full border border-border"
+            loading="lazy"
+          />
           {alt && (
-            <figcaption className="text-sm text-text/60 mt-3 text-center italic font-light leading-relaxed">
+            <div className="text-xs mt-2 text-center italic">
               {alt}
-            </figcaption>
+            </div>
           )}
         </div>
       )
@@ -174,35 +154,35 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
     if (line.startsWith('# ')) {
       flushParagraph()
       elements.push(
-        <h1 key={elements.length} className="text-2xl font-bold text-text mb-6 mt-8">
+        <h1 key={elements.length} className="text-hero mb-4 mt-6">
           {line.slice(2)}
         </h1>
       )
     } else if (line.startsWith('## ')) {
       flushParagraph()
       elements.push(
-        <h2 key={elements.length} className="text-xl font-semibold text-text mb-4 mt-6">
+        <h2 key={elements.length} className="text-section mb-3 mt-4">
           {line.slice(3)}
         </h2>
       )
     } else if (line.startsWith('### ')) {
       flushParagraph()
       elements.push(
-        <h3 key={elements.length} className="text-lg font-medium text-text mb-3 mt-4">
+        <h3 key={elements.length} className="text-body font-bold mb-2 mt-3">
           {line.slice(4)}
         </h3>
       )
     } else if (line.startsWith('- ')) {
       flushParagraph()
       elements.push(
-        <li key={elements.length} className="text-body text-text mb-2 ml-6 list-disc">
+        <li key={elements.length} className="text-body mb-1 ml-4">
           {line.slice(2)}
         </li>
       )
     } else if (line.trim() === '---') {
       flushParagraph()
       elements.push(
-        <hr key={elements.length} className="border-border my-8" />
+        <hr key={elements.length} className="border-border my-4" />
       )
     } else if (line.trim() === '') {
       flushParagraph()
@@ -217,15 +197,15 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
-    <article className="card-hover content-card cursor-pointer">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex-1">
-          <span className="text-accent mono text-xs">[POST]</span>
-          <h3 className="text-body text-text mt-1 group-hover:text-accent transition-colors">
+    <article className="content-card cursor-pointer" onClick={() => onSelect(post.slug)}>
+      <div className="flex justify-between mb-2">
+        <div>
+          <span className="text-xs">[POST]</span>
+          <h3 className="text-body mt-1">
             {post.title}
           </h3>
         </div>
-        <span className="mono text-xs text-accent">
+        <span className="text-xs">
           {new Date(post.date).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -234,19 +214,13 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
         </span>
       </div>
 
-
-
-      <div className="flex items-center justify-between">
-        <div className="mono text-xs text-text/60">
-          <Clock className="inline w-3 h-3 mr-1" />
-          {post.readingTime} min read
+      <div className="flex justify-between">
+        <div className="text-xs">
+          {post.readingTime} MIN READ
         </div>
-        <button
-          onClick={() => onSelect(post.slug)}
-          className="mono text-xs text-accent hover:text-text transition-colors"
-        >
-          [READ_MORE] →
-        </button>
+        <div className="text-xs">
+          [READ_MORE]
+        </div>
       </div>
     </article>
   )
@@ -270,51 +244,48 @@ function WritingSection() {
   if (selectedWriting) {
     return (
       <div
-        className="fixed inset-0 bg-bg/95 backdrop-blur-sm z-50 overflow-y-auto"
+        className="fixed inset-0 bg-bg z-50 overflow-y-auto"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
             setSelectedPost(null)
           }
         }}
       >
-        <div className="min-h-screen p-8">
-          <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen p-2">
+          <div className="max-w-4xl mx-auto">
             <button
               onClick={() => setSelectedPost(null)}
-              className="flex items-center gap-2 text-text hover:text-accent transition-colors mb-6"
+              className="text-text mb-4"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back to all posts
+              [BACK]
             </button>
 
             <article className="content-card">
-              <header className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h1 className="text-3xl font-bold text-text">
+              <header className="mb-4">
+                <div className="flex justify-between mb-2">
+                  <h1 className="text-hero">
                     {selectedWriting.title}
                   </h1>
-                  <span className="px-3 py-1 bg-accent/20 text-accent text-sm rounded-full">
-                    TECHNICAL ANALYSIS
+                  <span className="text-xs">
+                    [TECHNICAL ANALYSIS]
                   </span>
                 </div>
 
-                <div className="flex items-center gap-6 text-sm text-text/70">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
+                <div className="flex gap-4 text-xs">
+                  <div>
                     {new Date(selectedWriting.date).toLocaleDateString('en-US', {
-                      month: 'long',
+                      month: 'short',
                       day: 'numeric',
                       year: 'numeric'
                     })}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    {selectedWriting.readingTime} minute read
+                  <div>
+                    {selectedWriting.readingTime} MIN READ
                   </div>
                 </div>
               </header>
 
-              <div className="prose max-w-none">
+              <div className="prose">
                 {parseMarkdown(selectedWriting.content, getImagePath)}
               </div>
             </article>
@@ -326,7 +297,7 @@ function WritingSection() {
 
   return (
     <div>
-      <div className="grid gap-6">
+      <div className="grid gap-2">
         {writings.map((post) => (
           <BlogCard
             key={post.slug}

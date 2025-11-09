@@ -4,32 +4,20 @@ import './styles/globals.css'
 
 function AppContent() {
   return (
-    <div className="min-h-screen bg-bg text-text engineering-grid">
-      <div className="sheet-border m-2 p-8">
-        <div className="frame-border p-6">
-          <div className="grid grid-cols-12 gap-1">
-            {/* Header Row */}
-            <div className="col-span-12 grid grid-cols-12 gap-1 mb-4">
-              <div className="col-span-8 cell-border p-3">
-                <div className="mono text-xl text-left">roshanbhatia.com</div>
-              </div>
-              <div className="col-span-4 cell-border p-3 flex items-center justify-center">
-                <div className="text-xs text-border mono">VERSION: ced042d</div>
-              </div>
+    <div className="min-h-screen bg-bg text-text">
+      <div className="sheet-border m-1 p-2">
+        <div className="border-box p-1">
+          {/* Header */}
+          <div className="border-box p-2 mb-2">
+            <div className="flex justify-between">
+              <div className="mono text-body">ROSHANBHATIA.COM</div>
+              <div className="mono text-xs">VERSION: CED042D</div>
             </div>
-            
-            {/* Main Content Area */}
-            <div className="col-span-12 grid grid-cols-12 gap-1">
-              <div className="col-span-12 cell-border p-3">
-                <div className="grid grid-cols-12 gap-1">
-                  <div className="col-span-12">
-                    <HomePage />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-
+          </div>
+          
+          {/* Main Content */}
+          <div className="border-box p-2">
+            <HomePage />
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ const ThemeToggle: React.FC = () => {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark')
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 'light'
+    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 'dark'
     setTheme(savedTheme)
     document.documentElement.setAttribute('data-theme', savedTheme)
   }, [])
@@ -21,9 +21,8 @@ const ThemeToggle: React.FC = () => {
     <button 
       onClick={toggleTheme}
       className="theme-toggle"
-      title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
     >
-      {theme === 'dark' ? '☀️' : '🌙'}
+      [{theme === 'dark' ? 'LIGHT' : 'DARK'}]
     </button>
   )
 }
@@ -88,7 +87,7 @@ linkedin: https://linkedin.com/in/roshanbhatia`)
 
   if (loading) {
     return (
-      <div className="text-body text-text mono">
+      <div className="text-body mono">
         [LOADING README...]
       </div>
     )
@@ -96,7 +95,7 @@ linkedin: https://linkedin.com/in/roshanbhatia`)
 
   if (error) {
     return (
-      <div className="text-body text-text mono">
+      <div className="text-body mono">
         [ERROR: {error}]
       </div>
     )
@@ -104,14 +103,14 @@ linkedin: https://linkedin.com/in/roshanbhatia`)
 
   if (!readme) {
     return (
-      <div className="text-body text-text mono">
+      <div className="text-body mono">
         [NO README CONTENT]
       </div>
     )
   }
 
   return (
-    <div className="mono text-sm leading-relaxed">
+    <div className="mono text-body">
       <pre className="whitespace-pre-wrap">{readme}</pre>
     </div>
   )
@@ -123,14 +122,12 @@ const HomePage: React.FC = () => {
   return (
     <>
       <ThemeToggle />
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <main className="p-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           <section className="content-section">
             <div className="content-card">
-              <div className="mb-4">
-                <span className="text-section text-accent">[</span>
-                <span className="text-section mx-2">README.MD</span>
-                <span className="text-section text-accent">]</span>
+              <div className="mb-2">
+                <span className="text-section">[README.MD]</span>
               </div>
               <GitHubReadme />
             </div>
@@ -138,10 +135,8 @@ const HomePage: React.FC = () => {
           
           <section className="content-section">
             <div className="content-card">
-              <div className="mb-4">
-                <span className="text-section text-accent">[</span>
-                <span className="text-section mx-2">WRITING</span>
-                <span className="text-section text-accent">]</span>
+              <div className="mb-2">
+                <span className="text-section">[WRITING]</span>
               </div>
               <WritingSection />
             </div>
