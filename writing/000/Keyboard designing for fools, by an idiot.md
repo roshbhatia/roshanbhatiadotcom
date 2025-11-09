@@ -1,5 +1,3 @@
-# Keyboard designing for fools, by an idiot
-
 In September my friend Tristan ([https://khedron.net](https://khedron.net/)) said he was designing a keyboard. He had spoken to our mutual friend Dede ([https://github.com/dededecline](https://github.com/dededecline)) who has created many keyboards (see https://github.com/dededecline/SST60) and found out that it was a lot simpler than he (and I) previously thought it was.
 
 Healthy competition is the foundation of every great friendship. So I decided that I would build a keyboard that was built faster and looked better than his.

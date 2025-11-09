@@ -136,7 +136,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
       // Fix image path handling - decode URL encoding from markdown and construct proper path
       const decodedPath = decodeURIComponent(path || '')
-      
+
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
           <img
@@ -152,7 +152,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
                 `/writing/000/${decodedPath}`,
                 `/writing/000/Keyboard designing for fools, by an idiot/${decodedPath}`
               ]
-              
+
               let currentPathIndex = 0
               const tryNextFallback = () => {
                 if (currentPathIndex < fallbackPaths.length) {
@@ -163,7 +163,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
                   }
                 }
               }
-              
+
               tryNextFallback()
             }}
           />
@@ -260,17 +260,17 @@ function WritingSection() {
   // Get the folder path from the selected writing slug
   const getImagePath = (imagePath: string) => {
     if (!selectedWriting) return `/writing/${imagePath}`
-    
+
     const slugParts = selectedWriting.slug.split('/')
     const folderPath = slugParts[0] || '' // Get "000" from "000/Keyboard designing..."
     const subfolderPath = slugParts[1] || '' // Get "Keyboard designing..." part
-    
+
     // Handle different image path formats
     if (imagePath.startsWith('/')) {
       // Absolute path from root
       return imagePath
     }
-    
+
     // Try multiple possible paths
     const possiblePaths = [
       `/writing/${folderPath}/${subfolderPath}/${imagePath}`, // Original path
@@ -278,7 +278,7 @@ function WritingSection() {
       `/writing/${imagePath}`, // Root writing level
       imagePath // Direct path as fallback
     ]
-    
+
     // Return the first path that seems most likely to work
     return possiblePaths[0] || imagePath
   }
@@ -308,9 +308,6 @@ function WritingSection() {
                   <h1 className="text-hero">
                     {selectedWriting.title}
                   </h1>
-                  <span className="text-small accent-text">
-                    [TECHNICAL ANALYSIS]
-                  </span>
                 </div>
 
                 <div className="flex gap-8 text-small secondary-text">

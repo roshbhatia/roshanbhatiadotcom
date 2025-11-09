@@ -13,12 +13,12 @@ const ThemeToggle: React.FC = () => {
       case 'gruvbox-light': return 'GRUV-L'
       case 'gruvbox-dark': return 'GRUV-D'
       case 'nord-dark': return 'NORD'
-      default: return 'MONO'
+      default: return 'GRUV-L'
     }
   }
 
   return (
-    <button 
+    <button
       onClick={cycleTheme}
       className="theme-toggle corner-markers measurement-indicators"
       style={{
@@ -48,7 +48,7 @@ function AppContent() {
           </div>
           <div className="industrial-divider mt-6"></div>
         </header>
-        
+
         {/* Main Content */}
         <main className="border-box p-8 technical-border">
           <HomePage />
