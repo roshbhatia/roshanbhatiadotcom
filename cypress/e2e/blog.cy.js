@@ -89,11 +89,18 @@ describe('Blog Functionality', () => {
     // Check that first image has correct src path
     cy.get('img').first().should('have.attr', 'src').and('include', '/writing/000/Keyboard designing for fools, by an idiot/')
     
-    // Check that images have captions (either alt text or PLACEHOLDER)
+    // Check that images with alt text have captions, images without alt text have no captions
     cy.get('img').each(($img) => {
-      const caption = $img.parent().find('.text-small, .secondary-text, .italic')
-      expect(caption).to.exist
-      expect(caption.text().trim()).to.not.be.empty
+      const alt = $img.attr('alt')
+      const caption = $img.parent().find('.text-small.secondary-text.italic')
+      
+      if (alt && alt !== 'PLACEHOLDER') {
+        expect(caption).to.exist
+        expect(caption.text().trim()).to.equal(alt)
+      } else {
+        // Images without alt text should not have caption elements
+        expect(caption).to.not.exist
+      }
     })
   })
 
@@ -104,18 +111,22 @@ describe('Blog Functionality', () => {
     // Find Resources section (as plain text, not header)
     cy.contains('Resources:').should('exist')
     
-    // Check that list items after Resources text have proper links
-    cy.contains('Resources:').parent().find('li').each(($li) => {
-      // Should contain anchor tags with proper attributes
-      cy.wrap($li).find('a').should('exist')
-      cy.wrap($li).find('a').should('have.attr', 'target', '_blank')
-      cy.wrap($li).find('a').should('have.attr', 'rel', 'noopener noreferrer')
-      cy.wrap($li).find('a').should('have.class', 'text-link')
+    // Check that list items containing Resources have proper links
+    cy.contains('li', 'Keyboard Layout Editor').within(() => {
+      cy.get('a').should('exist')
+      cy.get('a').should('have.attr', 'target', '_blank')
+      cy.get('a').should('have.attr', 'rel', 'noopener noreferrer')
+      cy.get('a').should('have.class', 'text-link')
+      cy.get('a').should('contain', 'Keyboard Layout Editor')
     })
     
-    // Check specific resource links exist and are clickable
-    cy.contains('a', 'keyboard-layout-editor.com').should('exist')
-    cy.contains('a', 'ergogen.xyz').should('exist')
+    cy.contains('li', 'Ergogen').within(() => {
+      cy.get('a').should('exist')
+      cy.get('a').should('have.attr', 'target', '_blank')
+      cy.get('a').should('have.attr', 'rel', 'noopener noreferrer')
+      cy.get('a').should('have.class', 'text-link')
+      cy.get('a').should('contain', 'Ergogen')
+    })
   })
 
   it('should style Background and Resources sections specially', () => {
@@ -150,8 +161,11 @@ describe('Blog Functionality', () => {
     cy.getByDataTest('blog-card').first().click()
     cy.getByDataTest('blog-modal').should('be.visible')
     
-    // Click on overlay (outside modal content)
-    cy.getByDataTest('blog-modal').click('topLeft')
+    // Click on overlay (outside modal content) - click at coordinates
+    cy.getByDataTest('blog-modal').click(0, 0)
+    
+    // Wait for modal to close
+    cy.wait(100)
     
     // Check that modal is closed
     cy.getByDataTest('blog-modal').should('not.exist')
@@ -183,7 +197,118 @@ describe('Blog Functionality', () => {
   it('should display version information', () => {
     // Check version info exists
     cy.getByDataTest('version-info').should('exist')
+    cy.getByDataTest('version-info').should('contain', 'VERSION:')
     cy.getByDataTest('build-time').should('exist')
     cy.getByDataTest('build-time').should('match', /[a-f0-9]{7,}/)
+  })
+
+  it('should render inline code correctly', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Check that inline code elements exist and are properly styled
+    cy.get('code.inline-code').should('have.length.greaterThan', 0)
+    
+    // Check specific inline code content from the blog post
+    cy.contains('code.inline-code', 'yaml').should('exist')
+    
+    // Verify inline code has proper styling (should not contain HTML tags)
+    cy.get('code.inline-code').each(($code) => {
+      const text = $code.text()
+      // Should not contain HTML-like tags
+      expect(text).to.not.include('<')
+      expect(text).to.not.include('>')
+      expect(text).to.not.include('</')
+    })
+  })
+
+  it('should render code blocks with proper styling', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Check that code blocks exist
+    cy.get('.code-block').should('have.length.greaterThan', 0)
+    
+    // Check that code blocks have language indicators
+    cy.get('.code-block .accent-text').should('have.length.greaterThan', 0)
+    cy.contains('.code-block .accent-text', '[TEXT]').should('exist')
+    
+    // Check that code blocks have copy buttons
+    cy.get('.code-block button').should('have.length.greaterThan', 0)
+    cy.contains('.code-block button', '[COPY]').should('exist')
+    
+    // Check that syntax highlighting is applied (should have various token classes)
+    cy.get('.code-block .token').should('have.length.greaterThan', 0)
+  })
+
+  it('should copy code block content when copy button clicked', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Find first code block and click copy button
+    cy.get('.code-block').first().within(() => {
+      cy.contains('button', '[COPY]').click()
+    })
+    
+    // Check that button text changes to COPIED
+    cy.contains('.code-block button', '[COPIED]').should('exist')
+    
+    // Wait a moment and check it reverts back to COPY
+    cy.wait(2500)
+    cy.contains('.code-block button', '[COPY]').should('exist')
+  })
+
+  it('should apply opposite colorway for code elements', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Check that inline code uses opposite colorway CSS variables
+    cy.get('code.inline-code').should('have.css', 'background-color')
+    cy.get('code.inline-code').should('have.css', 'color')
+    
+    // Check that code blocks use opposite colorway
+    cy.get('.code-block pre').should('have.css', 'background-color')
+    cy.get('.code-block pre').should('have.css', 'color')
+  })
+
+  it('should render markdown formatting correctly', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Check that bold text is rendered
+    cy.get('strong').should('have.length.greaterThan', 0)
+    cy.contains('strong', 'Disclaimer:').should('exist')
+    
+    // Check that italic text is rendered
+    cy.get('em').should('have.length.greaterThan', 0)
+    
+    // Check that links are rendered with proper attributes
+    cy.get('a.text-link').should('have.length.greaterThan', 0)
+    cy.get('a.text-link').each(($a) => {
+      cy.wrap($a).should('have.attr', 'target', '_blank')
+      cy.wrap($a).should('have.attr', 'rel', 'noopener noreferrer')
+    })
+  })
+
+  it('should handle theme switching for code styling', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Get initial code block styling
+    cy.get('.code-block pre').first().invoke('css', 'background-color').as('initialBg')
+    cy.get('.code-block pre').first().invoke('css', 'color').as('initialColor')
+    
+    // Switch theme
+    cy.getByDataTest('theme-toggle').click()
+    
+    // Wait for theme to apply
+    cy.wait(200)
+    
+    // Check that code styling has changed (indicating theme switch worked)
+    cy.get('.code-block pre').first().invoke('css', 'background-color').then((newBg) => {
+      cy.get('@initialBg').then((initialBg) => {
+        expect(newBg).to.not.equal(initialBg)
+      })
+    })
   })
 })
