@@ -134,16 +134,8 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const [alt, path] = imageMatch.slice(1)
 
-      // Fix image path handling - handle both URL-encoded and normal paths
-      let imagePath = path || ''
-      
-      // Try to decode if it looks URL-encoded
-      try {
-        imagePath = decodeURIComponent(imagePath)
-      } catch {
-        // If decoding fails, use original path
-        imagePath = path || ''
-      }
+      // Use image path as-is since files have normal spaces
+      const imagePath = path || ''
       
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
@@ -152,35 +144,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
             alt={alt || ''}
             className="w-full border-2 border-border"
             loading="lazy"
-            onError={(e) => {
-              console.error('Image failed to load:', getImagePath(imagePath))
-              console.error('Original path:', path)
-              console.error('Decoded path:', imagePath)
-              
-              // Try multiple fallback paths with both encoded and decoded versions
-              const fallbackPaths: string[] = [
-                `/writing/${imagePath}`, // Try decoded path first
-                `/writing/000/${imagePath}`,
-                `/writing/000/Keyboard designing for fools, by an idiot/${imagePath}`,
-                `/writing/${encodeURIComponent(imagePath)}`, // Try encoded version
-                `/writing/000/${encodeURIComponent(imagePath)}`,
-                `/writing/000/Keyboard designing for fools, by an idiot/${encodeURIComponent(imagePath)}`
-              ]
-              
-              let currentPathIndex = 0
-              const tryNextFallback = () => {
-                if (currentPathIndex < fallbackPaths.length) {
-                  const fallbackPath = fallbackPaths[currentPathIndex]
-                  if (fallbackPath && (e.target as HTMLImageElement).src !== fallbackPath) {
-                    console.log('Trying fallback:', fallbackPath)
-                    ;(e.target as HTMLImageElement).src = fallbackPath
-                    currentPathIndex++
-                  }
-                }
-              }
-              
-              tryNextFallback()
-            }}
+
           />
           {alt && (
             <div className="text-small mt-4 text-center secondary-text italic">
@@ -286,19 +250,8 @@ function WritingSection() {
       return imagePath
     }
 
-    // Try multiple possible paths with both encoded and decoded versions
-    const possiblePaths = [
-      `/writing/${folderPath}/${subfolderPath}/${imagePath}`, // Original path
-      `/writing/${folderPath}/${imagePath}`, // Folder level
-      `/writing/${imagePath}`, // Root writing level
-      imagePath, // Direct path as fallback
-      `/writing/${folderPath}/${subfolderPath}/${encodeURIComponent(imagePath)}`, // Encoded version
-      `/writing/${folderPath}/${encodeURIComponent(imagePath)}`, // Encoded folder level
-      `/writing/${encodeURIComponent(imagePath)}`, // Encoded root level
-    ]
-    
-    // Return the first path that seems most likely to work
-    return possiblePaths[0] || imagePath
+    // Return the correct path - images are in the subfolder, encode spaces for URLs
+    return `/writing/${folderPath}/${encodeURIComponent(subfolderPath)}/${encodeURIComponent(imagePath)}`
   }
 
   if (selectedWriting) {
