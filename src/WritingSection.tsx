@@ -300,9 +300,15 @@ function WritingSection() {
     // Handle URL encoded paths (like %20 for spaces) - decode them first
     const decodedPath = decodeURIComponent(imagePath)
     
-    // Return the correct path - images are in the subfolder
-    const fullPath = `/writing/${folderPath}/${subfolderPath}/${decodedPath}`
-    console.log('Image path:', fullPath)
+    // Also replace non-breaking spaces with regular spaces
+    const normalizedPath = decodedPath.replace(/\u00A0/g, ' ')
+    
+    // Return correct path - images are in subfolder
+    const fullPath = `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
+    console.log('Original imagePath:', imagePath)
+    console.log('Decoded path:', decodedPath)
+    console.log('Normalized path:', normalizedPath)
+    console.log('Full path:', fullPath)
     return fullPath
   }
 
