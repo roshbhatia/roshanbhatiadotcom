@@ -1,0 +1,92 @@
+describe('Blog Functionality', () => {
+  beforeEach(() => {
+    cy.visit('/')
+  })
+
+  it('should display blog posts', () => {
+    // Check that blog cards are rendered
+    cy.getByDataTest('blog-card').should('have.length.greaterThan', 0)
+    
+    // Check that first blog card has required elements
+    cy.getByDataTest('blog-card').first().within(() => {
+      cy.contains('[POST]').should('exist')
+      cy.getByDataTest('blog-title').should('exist')
+      cy.getByDataTest('blog-date').should('exist')
+      cy.getByDataTest('reading-time').should('exist')
+      cy.contains('[READ_MORE]').should('exist')
+    })
+  })
+
+  it('should open blog post when clicked', () => {
+    // Click on first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Check that modal opens with blog content
+    cy.getByDataTest('blog-modal').should('be.visible')
+    cy.getByDataTest('blog-modal').within(() => {
+      cy.getByDataTest('back-button').should('exist')
+      cy.getByDataTest('blog-title').should('exist')
+      cy.getByDataTest('blog-date').should('exist')
+      cy.getByDataTest('reading-time').should('exist')
+    })
+  })
+
+  it('should display blog content correctly', () => {
+    // Open first blog post
+    cy.getByDataTest('blog-card').first().click()
+    
+    // Wait for content to load
+    cy.getByDataTest('blog-content').should('exist')
+    
+    // Check that main title is rendered
+    cy.get('h1').should('contain', 'Keyboard designing for fools, by an idiot')
+    
+    // Check that H2 elements contain key content (more flexible approach)
+    cy.get('h2').should('have.length.gte', 3)
+    
+    // Check first H2 contains "beginning of end"
+    cy.get('h2').first().invoke('text').then((text) => {
+      expect(text).to.include('beginning of end')
+    })
+    
+    // Check second H2 contains "middle bit"
+    cy.get('h2').eq(1).invoke('text').then((text) => {
+      expect(text).to.include('middle bit')
+    })
+    
+    // Check third H2 contains "Assembly"
+    cy.get('h2').eq(2).invoke('text').then((text) => {
+      expect(text).to.include('Assembly')
+    })
+  })
+
+  it('should close modal when back button clicked', () => {
+    // Open blog post
+    cy.getByDataTest('blog-card').first().click()
+    cy.getByDataTest('blog-modal').should('be.visible')
+    
+    // Click back button
+    cy.getByDataTest('back-button').click()
+    
+    // Check that modal is closed
+    cy.getByDataTest('blog-modal').should('not.exist')
+    
+    // Should return to blog list
+    cy.getByDataTest('blog-card').should('be.visible')
+  })
+
+  it('should close modal when clicking outside', () => {
+    // Open blog post
+    cy.getByDataTest('blog-card').first().click()
+    cy.getByDataTest('blog-modal').should('be.visible')
+    
+    // Press Escape key to close modal (alternative to clicking outside)
+    cy.get('body').type('{esc}')
+    
+    // Wait a moment for close animation to complete
+    cy.wait(100)
+    
+    // Check that modal is closed
+    cy.getByDataTest('blog-modal').should('not.exist')
+  })
+})

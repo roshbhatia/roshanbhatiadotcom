@@ -48,8 +48,8 @@ platform and infrastructure
 designing for scale
 
 connect:
-github: https://github.com/roshbhatia
-linkedin: https://linkedin.com/in/roshanbhatia`)
+<a href="https://github.com/roshbhatia" target="_blank" rel="noopener noreferrer" style="color: var(--link); text-decoration: underline;">github: https://github.com/roshbhatia</a>
+<a href="https://linkedin.com/in/roshanbhatia" target="_blank" rel="noopener noreferrer" style="color: var(--link); text-decoration: underline;">linkedin: https://linkedin.com/in/roshanbhatia</a>`)
         setError(null)
       } finally {
         setLoading(false)
@@ -84,8 +84,11 @@ linkedin: https://linkedin.com/in/roshanbhatia`)
   }
 
   return (
-    <div className="mono text-body content-spacing grid-overlay">
-      <pre className="whitespace-pre-wrap">{readme}</pre>
+    <div className="mono text-body content-text">
+      <div 
+        className="whitespace-pre-wrap prose" 
+        dangerouslySetInnerHTML={{ __html: readme.replace(/\n/g, '<br>') }}
+      />
     </div>
   )
 }
@@ -98,7 +101,7 @@ const HomePage: React.FC = () => {
       <main className="p-8">
         <div className="technical-grid gap-8">
           <section className="content-section">
-            <div className="content-card schematic-section">
+            <div className="content-text">
               <div className="mb-6 breathing-room">
                 <span className="text-section accent-text">[README.MD]</span>
               </div>

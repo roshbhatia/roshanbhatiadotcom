@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { writings, Writing } from './writings.generated'
@@ -199,18 +199,18 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
   return (
-    <article className="content-card cursor-pointer schematic-section" onClick={() => {
+    <article className="content-card cursor-pointer schematic-section" data-test="blog-card" onClick={() => {
       console.log('Blog card clicked, slug:', post.slug)
       onSelect(post.slug)
     }}>
       <div className="flex justify-between mb-4">
         <div>
           <span className="text-small accent-text">[POST]</span>
-          <h3 className="text-body mt-2 primary-text">
+          <h3 className="text-body mt-2 primary-text" data-test="blog-title">
             {post.title}
           </h3>
         </div>
-        <span className="text-small secondary-text">
+        <span className="text-small secondary-text" data-test="blog-date">
           {new Date(post.date).toLocaleDateString('en-US', {
             month: 'short',
             day: 'numeric',
@@ -220,7 +220,7 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
       </div>
 
       <div className="flex justify-between">
-        <div className="text-small muted-text">
+        <div className="text-small muted-text" data-test="reading-time">
           {post.readingTime} MIN READ
         </div>
         <div className="text-small accent-text">
@@ -233,6 +233,17 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
 
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedPost) {
+        setSelectedPost(null)
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [selectedPost])
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
@@ -262,17 +273,22 @@ function WritingSection() {
     return (
       <div
         className="fixed inset-0 bg-bg z-50 overflow-y-auto engineering-grid"
+        data-test="blog-modal"
         onClick={(e) => {
+          console.log('Modal clicked, target:', e.target, 'currentTarget:', e.currentTarget)
           if (e.target === e.currentTarget) {
+            console.log('Closing modal - clicked on overlay')
             setSelectedPost(null)
           }
         }}
+
       >
         <div className="min-h-screen p-8">
           <div className="max-w-4xl mx-auto">
             <button
               onClick={() => setSelectedPost(null)}
               className="theme-toggle mb-8"
+              data-test="back-button"
             >
               [BACK]
             </button>
@@ -280,27 +296,27 @@ function WritingSection() {
             <article className="content-card schematic-container">
               <header className="mb-8">
                 <div className="flex justify-between mb-4">
-                  <h1 className="text-hero">
+                  <h1 className="text-hero" data-test="blog-title">
                     {selectedWriting.title}
                   </h1>
                 </div>
 
                 <div className="flex gap-8 text-small secondary-text">
-                  <div>
+                  <div data-test="blog-date">
                     {new Date(selectedWriting.date).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric'
                     })}
                   </div>
-                  <div>
+                  <div data-test="reading-time">
                     {selectedWriting.readingTime} MIN READ
                   </div>
                 </div>
                 <div className="industrial-divider"></div>
               </header>
 
-              <div className="prose">
+              <div className="prose" data-test="blog-content">
                 {parseMarkdown(selectedWriting.content, getImagePath)}
               </div>
             </article>
@@ -311,7 +327,7 @@ function WritingSection() {
   }
 
   return (
-    <div>
+    <div data-test="blog-list">
       <div className="grid gap-4">
         {writings.map((post) => (
           <BlogCard
