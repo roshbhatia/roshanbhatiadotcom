@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
-@import url('https://cdn.jsdelivr.net/gh/eigilnikolajsen/commit-mono@main/CommitMono.ttf');
+@import url('https://fonts.googleapis.com/css2?family=Kode+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -36,7 +34,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-family: 'Kode Mono', 'Courier New', monospace;
     line-height: 1.5;
     font-size: 15px;
     font-feature-settings: "liga" 1, "calt" 1;
@@ -44,7 +42,7 @@
   }
 
   .mono {
-    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-family: 'Kode Mono', 'Courier New', monospace;
   }
 
   .sans {
@@ -136,7 +134,7 @@
     font-style: italic;
   }
 
-  /* Engineering sheet aesthetic with numbered grid */
+  /* Engineering sheet aesthetic - clean grid */
   .engineering-grid {
     background-image:
       linear-gradient(var(--border) 1px, transparent 1px),
@@ -144,23 +142,6 @@
     background-size: 20px 20px;
     background-position: -1px -1px;
     position: relative;
-  }
-
-  .engineering-grid::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      linear-gradient(90deg, transparent 24px, var(--border) 25px, var(--border) 49px, transparent 50px),
-      linear-gradient(transparent 24px, var(--border) 25px, var(--border) 49px, transparent 50px);
-    background-size: 50px 50px;
-    background-position: 0 0, 25px 25px;
-    opacity: 0.3;
-    pointer-events: none;
-    z-index: 1;
   }
 
   .technical-border {

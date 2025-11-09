@@ -91,7 +91,8 @@ function parseMarkdown(content: string): React.ReactNode[] {
               .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
               .replace(/\*(.*?)\*/g, '<em>$1</em>')
               .replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>')
-              .split(/(<strong>.*?<\/strong>|<em>.*?<\/em>|<code class="inline-code">.*?<\/code>)/)
+              .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-accent hover:text-text transition-colors underline">$1</a>')
+              .split(/(<strong>.*?<\/strong>|<em>.*?<\/em>|<code class="inline-code">.*?<\/code>|<a[^>]*>.*?<\/a>)/)
               .map((part, index) => {
                 if (part.startsWith('<strong>')) {
                   return <strong key={index}>{part.replace(/<\/?strong>/g, '')}</strong>
@@ -101,6 +102,9 @@ function parseMarkdown(content: string): React.ReactNode[] {
                 }
                 if (part.startsWith('<code class="inline-code">')) {
                   return <code key={index} className="inline-code font-mono">{part.replace(/<\/?code class="inline-code">/g, '')}</code>
+                }
+                if (part.startsWith('<a')) {
+                  return <span key={index} dangerouslySetInnerHTML={{ __html: part }} />
                 }
                 return part
               })}
@@ -151,7 +155,7 @@ function parseMarkdown(content: string): React.ReactNode[] {
         <div key={elements.length} className="my-8">
           <div className="relative group">
             <img 
-              src={`/writing/000/${decodedPath}`}
+              src={getImagePath(decodedPath)}
               alt={alt || ''}
               className="w-full rounded-lg border border-border shadow-sm hover:shadow-md transition-shadow duration-200"
               loading="lazy"
@@ -254,6 +258,13 @@ function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
+  
+  // Get the folder path from the selected writing slug
+  const getImagePath = (imagePath: string) => {
+    if (!selectedWriting) return imagePath
+    const folderPath = selectedWriting.slug.split('/')[0] // Get "000" from "000/Keyboard designing..."
+    return `/writing/${folderPath}/${imagePath}`
+  }
 
   if (selectedWriting) {
     return (
