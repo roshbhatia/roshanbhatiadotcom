@@ -86,8 +86,8 @@ describe('Blog Functionality', () => {
     // Wait for images to load
     cy.get('img').should('have.length.greaterThan', 0)
     
-    // Check that first image has correct src path
-    cy.get('img').first().should('have.attr', 'src').and('include', '/writing/000/Keyboard designing for fools, by an idiot/')
+    // Check that first image has correct src path (new assets folder structure)
+    cy.get('img').first().should('have.attr', 'src').and('include', '/writing/000/assets/')
     
     // Check that images with alt text have captions, images without alt text have no captions
     cy.get('img').each(($img) => {
