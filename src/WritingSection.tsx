@@ -4,12 +4,11 @@ import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
 
-// Custom gruvbox syntax highlighting styles
+// Custom gruvbox syntax highlighting styles with better color contrast
 const gruvboxLightStyle = {
   'pre[class*="language-"]': {
     color: '#3c3836',
     background: '#f2e5bc',
-    textShadow: '0 1px rgba(0,0,0,0.3)',
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: '12px',
     lineHeight: '1.5',
@@ -21,7 +20,6 @@ const gruvboxLightStyle = {
   'code[class*="language-"]': {
     color: '#3c3836',
     background: '#f2e5bc',
-    textShadow: '0 1px rgba(0,0,0,0.3)',
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: '12px',
     lineHeight: '1.5',
@@ -35,20 +33,20 @@ const gruvboxLightStyle = {
     fontStyle: 'italic'
   },
   'token.string': {
-    color: '#79740e'
+    color: '#b8bb26'
   },
   'token.number': {
-    color: '#8f3f71'
+    color: '#d3869b'
   },
   'token.keyword': {
-    color: '#9d0006',
+    color: '#cc241d',
     fontWeight: 'bold'
   },
   'token.function': {
-    color: '#427b58'
+    color: '#458588'
   },
   'token.operator': {
-    color: '#9d0006'
+    color: '#cc241d'
   },
   'token.variable': {
     color: '#076678'
@@ -57,13 +55,13 @@ const gruvboxLightStyle = {
     color: '#b57614'
   },
   'token.tag': {
-    color: '#9d0006'
+    color: '#cc241d'
   },
   'token.attr-name': {
-    color: '#8f3f71'
+    color: '#d3869b'
   },
   'token.attr-value': {
-    color: '#79740e'
+    color: '#b8bb26'
   },
   'token.punctuation': {
     color: '#928374'
@@ -72,7 +70,7 @@ const gruvboxLightStyle = {
     color: '#076678'
   },
   'token.boolean': {
-    color: '#8f3f71'
+    color: '#d3869b'
   },
   'token.namespace': {
     color: '#b57614'
@@ -82,8 +80,7 @@ const gruvboxLightStyle = {
 const gruvboxDarkStyle = {
   'pre[class*="language-"]': {
     color: '#ebdbb2',
-    background: '#32302f',
-    textShadow: '0 1px rgba(0,0,0,0.3)',
+    background: '#1d2021',
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: '12px',
     lineHeight: '1.5',
@@ -94,8 +91,7 @@ const gruvboxDarkStyle = {
   },
   'code[class*="language-"]': {
     color: '#ebdbb2',
-    background: '#32302f',
-    textShadow: '0 1px rgba(0,0,0,0.3)',
+    background: '#1d2021',
     fontFamily: "'JetBrains Mono', monospace",
     fontSize: '12px',
     lineHeight: '1.5',
@@ -202,17 +198,29 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
       <SyntaxHighlighter
         language={language || 'text'}
         style={syntaxStyle}
-        customStyle={{
-          backgroundColor: theme === 'gruvbox-light' || theme === 'gruvbox-dark' ? undefined : 'var(--code-bg-opposite)',
-          color: theme === 'gruvbox-light' || theme === 'gruvbox-dark' ? undefined : 'var(--code-text-opposite)',
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '12px',
-          lineHeight: '1.5',
-          borderRadius: '0',
-          border: 'none',
-          padding: '16px',
-          margin: '0',
-        }}
+        customStyle={
+          theme === 'gruvbox-light' || theme === 'gruvbox-dark' 
+            ? {
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '12px',
+                lineHeight: '1.5',
+                borderRadius: '0',
+                border: 'none',
+                padding: '16px',
+                margin: '0',
+              }
+            : {
+                backgroundColor: 'var(--code-bg-opposite)',
+                color: 'var(--code-text-opposite)',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '12px',
+                lineHeight: '1.5',
+                borderRadius: '0',
+                border: 'none',
+                padding: '16px',
+                margin: '0',
+              }
+        }
         showLineNumbers
         lineNumberStyle={{
           color: 'var(--border)',
