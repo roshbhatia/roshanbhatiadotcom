@@ -4,6 +4,155 @@ import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
 
+// Custom gruvbox syntax highlighting styles
+const gruvboxLightStyle = {
+  'pre[class*="language-"]': {
+    color: '#3c3836',
+    background: '#f2e5bc',
+    textShadow: '0 1px rgba(0,0,0,0.3)',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'code[class*="language-"]': {
+    color: '#3c3836',
+    background: '#f2e5bc',
+    textShadow: '0 1px rgba(0,0,0,0.3)',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'token.comment': {
+    color: '#928374',
+    fontStyle: 'italic'
+  },
+  'token.string': {
+    color: '#79740e'
+  },
+  'token.number': {
+    color: '#8f3f71'
+  },
+  'token.keyword': {
+    color: '#9d0006',
+    fontWeight: 'bold'
+  },
+  'token.function': {
+    color: '#427b58'
+  },
+  'token.operator': {
+    color: '#9d0006'
+  },
+  'token.variable': {
+    color: '#076678'
+  },
+  'token.class-name': {
+    color: '#b57614'
+  },
+  'token.tag': {
+    color: '#9d0006'
+  },
+  'token.attr-name': {
+    color: '#8f3f71'
+  },
+  'token.attr-value': {
+    color: '#79740e'
+  },
+  'token.punctuation': {
+    color: '#928374'
+  },
+  'token.property': {
+    color: '#076678'
+  },
+  'token.boolean': {
+    color: '#8f3f71'
+  },
+  'token.namespace': {
+    color: '#b57614'
+  }
+}
+
+const gruvboxDarkStyle = {
+  'pre[class*="language-"]': {
+    color: '#ebdbb2',
+    background: '#32302f',
+    textShadow: '0 1px rgba(0,0,0,0.3)',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'code[class*="language-"]': {
+    color: '#ebdbb2',
+    background: '#32302f',
+    textShadow: '0 1px rgba(0,0,0,0.3)',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'token.comment': {
+    color: '#928374',
+    fontStyle: 'italic'
+  },
+  'token.string': {
+    color: '#b8bb26'
+  },
+  'token.number': {
+    color: '#d3869b'
+  },
+  'token.keyword': {
+    color: '#fb4934',
+    fontWeight: 'bold'
+  },
+  'token.function': {
+    color: '#8ec07c'
+  },
+  'token.operator': {
+    color: '#fb4934'
+  },
+  'token.variable': {
+    color: '#83a598'
+  },
+  'token.class-name': {
+    color: '#fabd2f'
+  },
+  'token.tag': {
+    color: '#fb4934'
+  },
+  'token.attr-name': {
+    color: '#d3869b'
+  },
+  'token.attr-value': {
+    color: '#b8bb26'
+  },
+  'token.punctuation': {
+    color: '#928374'
+  },
+  'token.property': {
+    color: '#83a598'
+  },
+  'token.boolean': {
+    color: '#d3869b'
+  },
+  'token.namespace': {
+    color: '#fabd2f'
+  }
+}
+
 interface CodeBlockProps {
   language: string | undefined
   children: string
@@ -26,9 +175,16 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // Use opposite colorway for better contrast
-  const isDarkTheme = theme === 'dark' || theme === 'gruvbox-dark' || theme === 'nord-dark'
-  const syntaxStyle = isDarkTheme ? vs : vscDarkPlus
+  // Use appropriate syntax highlighting style for each theme
+  let syntaxStyle
+  if (theme === 'gruvbox-light') {
+    syntaxStyle = gruvboxLightStyle
+  } else if (theme === 'gruvbox-dark') {
+    syntaxStyle = gruvboxDarkStyle
+  } else {
+    const isDarkTheme = theme === 'dark' || theme === 'nord-dark'
+    syntaxStyle = isDarkTheme ? vs : vscDarkPlus
+  }
 
   return (
     <div className="code-block my-8">
@@ -47,8 +203,8 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
         language={language || 'text'}
         style={syntaxStyle}
         customStyle={{
-          backgroundColor: 'var(--code-bg-opposite)',
-          color: 'var(--code-text-opposite)',
+          backgroundColor: theme === 'gruvbox-light' || theme === 'gruvbox-dark' ? undefined : 'var(--code-bg-opposite)',
+          color: theme === 'gruvbox-light' || theme === 'gruvbox-dark' ? undefined : 'var(--code-text-opposite)',
           fontFamily: "'JetBrains Mono', monospace",
           fontSize: '12px',
           lineHeight: '1.5',
@@ -163,9 +319,11 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
             className="w-full border-2 border-border"
             loading="lazy"
           />
-          <div className="text-small mt-4 text-center secondary-text italic">
-            {alt || 'PLACEHOLDER'}
-          </div>
+          {alt && (
+            <div className="text-small mt-4 text-center secondary-text italic">
+              {alt}
+            </div>
+          )}
         </div>
       )
       return
