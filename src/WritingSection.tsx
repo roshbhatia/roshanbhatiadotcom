@@ -138,6 +138,35 @@ function parseMarkdown(content: string): React.ReactNode[] {
       return
     }
 
+    // Handle images: ![alt text](path)
+    const imageMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/)
+    if (imageMatch) {
+      flushParagraph()
+      const [alt, path] = imageMatch.slice(1)
+      
+      // Decode URL-encoded paths for the actual file system
+      const decodedPath = decodeURIComponent(path || '')
+      
+      elements.push(
+        <div key={elements.length} className="my-8">
+          <div className="relative group">
+            <img 
+              src={`/writing/000/${decodedPath}`}
+              alt={alt || ''}
+              className="w-full rounded-lg border border-border shadow-sm hover:shadow-md transition-shadow duration-200"
+              loading="lazy"
+            />
+          </div>
+          {alt && (
+            <figcaption className="text-sm text-text/60 mt-3 text-center italic font-light leading-relaxed">
+              {alt}
+            </figcaption>
+          )}
+        </div>
+      )
+      return
+    }
+
     if (line.startsWith('# ')) {
       flushParagraph()
       elements.push(
