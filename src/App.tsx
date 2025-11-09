@@ -24,7 +24,7 @@ const ThemeToggle: React.FC = () => {
       className="theme-toggle corner-markers measurement-indicators"
       style={{
         position: 'fixed',
-        top: 'var(--space-lg)',
+        bottom: 'var(--space-lg)',
         right: 'var(--space-lg)',
         zIndex: 50
       }}

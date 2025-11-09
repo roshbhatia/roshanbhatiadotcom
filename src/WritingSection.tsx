@@ -9,6 +9,12 @@ interface CodeBlockProps {
   showCopy?: boolean
 }
 
+interface TOCItem {
+  id: string
+  title: string
+  level: number
+}
+
 function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
 
@@ -60,10 +66,11 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
   )
 }
 
-function parseMarkdown(content: string, getImagePath: (path: string) => string): React.ReactNode[] {
+function parseMarkdown(content: string, getImagePath: (path: string) => string): { elements: React.ReactNode[], toc: TOCItem[] } {
   console.log('parseMarkdown called with content length:', content.length)
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
+  const toc: TOCItem[] = []
   let currentParagraph: string[] = []
   let codeBlock: { language: string | undefined; content: string[] } | null = null
 
@@ -162,16 +169,22 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       )
     } else if (line.startsWith('## ')) {
       flushParagraph()
+      const title = line.slice(3)
+      const id = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
+      toc.push({ id, title, level: 2 })
       elements.push(
-        <h2 key={elements.length} className="text-section mb-6 mt-8">
-          {line.slice(3)}
+        <h2 key={elements.length} id={id} className="text-section mb-6 mt-8">
+          {title}
         </h2>
       )
     } else if (line.startsWith('### ')) {
       flushParagraph()
+      const title = line.slice(4)
+      const id = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
+      toc.push({ id, title, level: 3 })
       elements.push(
-        <h3 key={elements.length} className="text-body font-bold mb-4 mt-6">
-          {line.slice(4)}
+        <h3 key={elements.length} id={id} className="text-body font-bold mb-4 mt-6">
+          {title}
         </h3>
       )
     } else if (line.startsWith('- ')) {
@@ -194,7 +207,30 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
   })
 
   flushParagraph()
-  return elements
+  return { elements, toc }
+}
+
+function TOC({ toc }: { toc: TOCItem[] }) {
+  return (
+    <div className="content-text mb-8">
+      <div className="mb-4">
+        <span className="text-section accent-text">[TABLE OF CONTENTS]</span>
+      </div>
+      <nav className="text-body">
+        {toc.map((item, index) => (
+          <a
+            key={index}
+            href={`#${item.id}`}
+            className={`block mb-2 text-link hover:text-accent ${
+              item.level === 3 ? 'ml-6' : ''
+            }`}
+          >
+            {item.title}
+          </a>
+        ))}
+      </nav>
+    </div>
+  )
 }
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
@@ -247,7 +283,7 @@ function WritingSection() {
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
-  // Get the folder path from the selected writing slug
+  // Get folder path from the selected writing slug
   const getImagePath = (imagePath: string) => {
     if (!selectedWriting) return `/writing/${imagePath}`
 
@@ -261,14 +297,21 @@ function WritingSection() {
       return imagePath
     }
 
-    // Return the correct path - images are in the subfolder, encode spaces for URLs
-    return `/writing/${folderPath}/${encodeURIComponent(subfolderPath)}/${encodeURIComponent(imagePath)}`
+    // Handle URL encoded paths (like %20 for spaces) - decode them first
+    const decodedPath = decodeURIComponent(imagePath)
+    
+    // Return the correct path - images are in the subfolder
+    const fullPath = `/writing/${folderPath}/${subfolderPath}/${decodedPath}`
+    console.log('Image path:', fullPath)
+    return fullPath
   }
 
   if (selectedWriting) {
     console.log('Selected writing found:', selectedWriting.title)
     console.log('Content length:', selectedWriting.content?.length)
     console.log('First 100 chars:', selectedWriting.content?.substring(0, 100))
+    
+    const { elements, toc } = parseMarkdown(selectedWriting.content, getImagePath)
     
     return (
       <div
@@ -316,8 +359,10 @@ function WritingSection() {
                 <div className="industrial-divider"></div>
               </header>
 
+              {toc.length > 0 && <TOC toc={toc} />}
+
               <div className="prose" data-test="blog-content">
-                {parseMarkdown(selectedWriting.content, getImagePath)}
+                {elements}
               </div>
             </article>
           </div>
