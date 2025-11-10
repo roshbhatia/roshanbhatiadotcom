@@ -5,7 +5,7 @@ date: "2025-11-08"
 
 In September, my friend [Tristan](https://khedron.net/) said he was designing a keyboard. He had spoken to our mutual friend [Dede](https://github.com/dededecline) who has created many keyboards (see https://github.com/dededecline/SST60) and found out that it was a lot simpler than he (and I) previously thought it was.
 
-Clowing on each other is the core of our friendship, so, I decided to make one too.
+Clowning on each other is the core of our friendship, so, I decided to make one too.
 
 **Disclaimer:** I am not an expert in keyboard design, ergonomics, PCB design, CAD, or firmware. I got a C in my high school physics class. I write `yaml` for a living. So take every fact I state here with a grain of salt.
 
