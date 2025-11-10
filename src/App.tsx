@@ -46,7 +46,7 @@ function AppContent() {
         <header className="border-box p-8 mb-8 technical-border corner-markers">
           <div className="flex justify-between items-center">
             <div className="mono text-hero primary-text">ROSHANBHATIA.COM</div>
-            <div className="mono text-small secondary-text" data-test="version-info">VERSION: <span data-test="build-time">{COMMIT_SHA || 'no-sha'}</span></div>
+            <div className="mono text-small secondary-text" data-test="version-info">VERSION: <span data-test="build-time">{COMMIT_SHA}</span></div>
           </div>
           <div className="industrial-divider mt-6"></div>
         </header>

@@ -1,8 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { ShikiHighlighter } from 'react-shiki'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
+
+interface CodeBlockProps {
+  language: string | undefined
+  children: string
+  showCopy?: boolean
+}
 
 interface TOCItem {
   id: string
@@ -10,8 +15,9 @@ interface TOCItem {
   level: number
 }
 
-function CodeBlockComponent({ language, children }: { language?: string; children: string }) {
+function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
   const [copied, setCopied] = useState(false)
+  const { theme } = useTheme()
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(children)
@@ -19,16 +25,36 @@ function CodeBlockComponent({ language, children }: { language?: string; childre
     setTimeout(() => setCopied(false), 2000)
   }
 
+  // Determine Shiki theme based on current theme
+  const getShikiTheme = () => {
+    switch (theme) {
+      case 'dark':
+        return 'github-dark'
+      case 'light':
+        return 'github-light'
+      case 'gruvbox-light':
+        return 'gruvbox-light'
+      case 'gruvbox-dark':
+        return 'gruvbox-dark'
+      case 'nord-dark':
+        return 'nord'
+      default:
+        return 'github-dark'
+    }
+  }
+
   return (
     <div className="code-block my-8">
       <div className="border-box p-6 flex justify-between items-center technical-border">
         <span className="mono text-small accent-text">[{(language || 'text').toUpperCase()}]</span>
-        <button
-          onClick={handleCopy}
-          className="mono text-small theme-toggle"
-        >
-          [{copied ? 'COPIED' : 'COPY'}]
-        </button>
+        {showCopy && (
+          <button
+            onClick={handleCopy}
+            className="mono text-small theme-toggle"
+          >
+            [{copied ? 'COPIED' : 'COPY'}]
+          </button>
+        )}
       </div>
       <div 
         className="relative overflow-hidden"
@@ -40,21 +66,12 @@ function CodeBlockComponent({ language, children }: { language?: string; childre
           margin: '0',
         }}
       >
-        <SyntaxHighlighter
+        <ShikiHighlighter
+          theme={getShikiTheme()}
           language={language || 'text'}
-          style={oneDark}
-          customStyle={{
-            backgroundColor: 'var(--code-bg-opposite)',
-            margin: '0',
-            padding: '1rem',
-            borderRadius: '0',
-            border: 'none',
-          }}
-          PreTag="pre"
-          className="overflow-x-auto"
         >
           {children}
-        </SyntaxHighlighter>
+        </ShikiHighlighter>
       </div>
     </div>
   )
@@ -111,14 +128,15 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
   lines.forEach((line) => {
     if (line.startsWith('```')) {
-if (codeBlock) {
+      if (codeBlock) {
         elements.push(
-          <CodeBlockComponent
+          <CodeBlock
             key={elements.length}
             language={codeBlock.language || 'text'}
+            showCopy={false}
           >
             {codeBlock.content.join('\n')}
-          </CodeBlockComponent>
+          </CodeBlock>
         )
         codeBlock = null
       } else {
@@ -249,8 +267,6 @@ function TOC({ toc }: { toc: TOCItem[] }) {
           <a
             key={index}
             href={`#${item.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
             className={`block mb-2 text-link hover:text-accent ${
               item.level === 3 ? 'ml-6' : ''
             }`}
@@ -324,27 +340,31 @@ function WritingSection() {
   // Get folder path from the selected writing slug
   const getImagePath = (imagePath: string) => {
     if (!selectedWriting) return `/writing/${imagePath}`
-    
-    const folderPath = selectedWriting.slug // Just "000", "001", etc.
-    
+
+    const slugParts = selectedWriting.slug.split('/')
+    const folderPath = slugParts[0] || '' // Get "000" from "000/Keyboard designing..."
+    const subfolderPath = slugParts[1] || '' // Get "Keyboard designing..." part
+
     // Handle different image path formats
     if (imagePath.startsWith('/')) {
       // Absolute path from root
       return imagePath
     }
-    
+
     // Handle URL encoded paths (like %20 for spaces) - decode them first
     const decodedPath = decodeURIComponent(imagePath)
     
     // Also replace non-breaking spaces with regular spaces
     const normalizedPath = decodedPath.replace(/\u00A0/g, ' ')
     
-    // New structure: images are in assets/ folder
-    // Check if path already includes 'assets/' to avoid double assets
-    if (normalizedPath.startsWith('assets/')) {
+    // Check if path already includes subfolder name
+    if (normalizedPath.startsWith(subfolderPath + '/')) {
+      // Path already includes subfolder, just add base folder
       return `/writing/${folderPath}/${normalizedPath}`
+    } else {
+      // Path is just filename, add both folder and subfolder
+      return `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
     }
-    return `/writing/${folderPath}/assets/${normalizedPath}`
   }
 
   if (selectedWriting) {
@@ -355,12 +375,14 @@ function WritingSection() {
       <div
         className="fixed inset-0 bg-bg z-50 overflow-y-auto engineering-grid"
         data-test="blog-modal"
-        onClick={() => {
-          // Close modal if clicking on the overlay
-          setSelectedPost(null)
+        onClick={(e) => {
+          if (e.target === e.currentTarget) {
+            setSelectedPost(null)
+          }
         }}
+
       >
-        <div className="min-h-screen p-8" onClick={(e) => e.stopPropagation()}>
+        <div className="min-h-screen p-8">
           <div className="max-w-4xl mx-auto">
             <button
               onClick={() => setSelectedPost(null)}
