@@ -334,16 +334,48 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
 
+  // Handle URL hash on mount and when it changes
+  useEffect(() => {
+    const checkHash = () => {
+      const hash = window.location.hash.slice(1) // Remove the #
+      if (hash.startsWith('writing/')) {
+        const slug = hash.replace('writing/', '')
+        const writing = writings.find(w => w.slug === slug)
+        if (writing) {
+          setSelectedPost(slug)
+        }
+      } else if (hash === '') {
+        setSelectedPost(null)
+      }
+    }
+
+    // Check on mount
+    checkHash()
+
+    // Listen for hash changes (back/forward navigation)
+    window.addEventListener('hashchange', checkHash)
+    return () => window.removeEventListener('hashchange', checkHash)
+  }, [])
+
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && selectedPost) {
-        setSelectedPost(null)
+        window.location.hash = ''
       }
     }
 
     document.addEventListener('keydown', handleEscape)
     return () => document.removeEventListener('keydown', handleEscape)
   }, [selectedPost])
+
+  // Update URL when post selection changes
+  const openPost = (slug: string) => {
+    window.location.hash = `writing/${slug}`
+  }
+
+  const closePost = () => {
+    window.location.hash = ''
+  }
 
   const selectedWriting = writings.find(w => w.slug === selectedPost)
 
@@ -371,7 +403,7 @@ function WritingSection() {
         data-test="blog-modal"
         onClick={(e) => {
           if (e.target === e.currentTarget) {
-            setSelectedPost(null)
+            closePost()
           }
         }}
 
@@ -379,7 +411,7 @@ function WritingSection() {
         <div className="min-h-screen p-8">
           <div className="max-w-4xl mx-auto">
             <button
-              onClick={() => setSelectedPost(null)}
+              onClick={closePost}
               className="theme-toggle mb-8"
               data-test="back-button"
             >
@@ -428,7 +460,7 @@ function WritingSection() {
           <BlogCard
             key={post.slug}
             post={post}
-            onSelect={setSelectedPost}
+            onSelect={openPost}
           />
         ))}
       </div>

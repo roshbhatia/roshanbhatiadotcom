@@ -178,7 +178,7 @@ describe('Build Script - File Safety', () => {
     const result = parseMetadata(content)
 
     expect(result.metadata.title).toBeDefined()
-    expect(result.metadata.title).toBe('Keyboard designing for fools, by an idiot')
+    expect(result.metadata.title).toBe('Keyboard designing for the egotistical')
     expect(result.metadata.date).toBeDefined()
   })
 })
