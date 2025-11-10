@@ -1,11 +1,7 @@
 ---
-title: "Keyboard designing for fools, by an idiot"
+title: "Keyboard designing for the egotistical"
 date: "2025-11-08"
-description: "A journey through custom keyboard design, from layout to PCB to firmware - complete with mistakes, expensive lessons, and wrist pain solutions"
-tags: ["hardware", "keyboards", "diy", "pcb-design"]
 ---
-
-# Keyboard designing for fools, by an idiot
 
 In September, my friend [Tristan](https://khedron.net/) said he was designing a keyboard. He had spoken to our mutual friend [Dede](https://github.com/dededecline) who has created many keyboards (see https://github.com/dededecline/SST60) and found out that it was a lot simpler than he (and I) previously thought it was.
 
@@ -163,7 +159,9 @@ This part is straightforward. Stick stuff together and it works.
 
 I'm never doing this again. I dunked on Tristan, but at what cost?! (The cost was $550).
 
-One nice thing about this is that 75% of the way through, Tristan gave me his ZSA Voyager at the exact moment I decided to get a Corne keyboard, which is one of the more popular more extreme ergonomic keyboards. My wrists hurt even less now!
+The major realization I had is that ergonomic philosophy has been tackled by people who know what they're doing. I'm not one of them!
+
+Fortunately: 75% of the way through this project, Tristan gave me his ZSA Voyager at the exact moment I decided to get a Corne keyboard, which is one of the more popular more extreme ergonomic keyboards. Both the Corne and Voyager are designed to be ortholinear, column staggered keyboards, which let you move your fingers in a much more natural way compared to a traditional keyboard.
 
 I use the Voyager at home (with the new trackball attachment) with the same amount of keys and layout as I assigned to my Corne, which I now use at work.
 
