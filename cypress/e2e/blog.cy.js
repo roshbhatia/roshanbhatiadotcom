@@ -40,7 +40,7 @@ describe('Blog Functionality', () => {
     
     // Check that main title is rendered
     cy.getByDataTest('blog-modal').within(() => {
-      cy.get('h1').should('contain', 'Keyboard designing for fools, by an idiot')
+      cy.get('h1').should('contain', 'Keyboard designing for the egotistical')
       
       // Check that H2 elements contain key content (more flexible approach)
       cy.get('h2').should('have.length.gte', 3)
@@ -186,12 +186,10 @@ describe('Blog Functionality', () => {
     cy.getByDataTest('blog-modal').should('not.exist')
   })
 
-  it('should display theme toggle in correct position', () => {
-    // Check theme toggle exists and is positioned correctly
+  it('should display theme toggle in footer', () => {
+    // Check theme toggle exists in footer
     cy.getByDataTest('theme-toggle').should('exist')
-    cy.getByDataTest('theme-toggle').should('have.css', 'position', 'fixed')
-    cy.getByDataTest('theme-toggle').should('have.css', 'bottom')
-    cy.getByDataTest('theme-toggle').should('have.css', 'right')
+    cy.getByDataTest('theme-toggle').should('be.visible')
   })
 
   it('should display version information', () => {

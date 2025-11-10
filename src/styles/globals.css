@@ -143,13 +143,13 @@
 
   /* Enhanced spacing system */
   :root {
-    --space-xs: 6px;
-    --space-sm: 12px;
-    --space-md: 20px;
-    --space-lg: 32px;
-    --space-xl: 48px;
-    --space-2xl: 64px;
-    --space-3xl: 96px;
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 56px;
+    --space-2xl: 80px;
+    --space-3xl: 120px;
   }
 
   /* Web 1.0 Graph paper grid with mathematical elements */
@@ -173,45 +173,9 @@
       0 0, 0 0;     /* Major grid */
   }
 
-  .engineering-grid::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      /* Mathematical parabola */
-      radial-gradient(ellipse at 20% 30%, var(--accent) 1px, transparent 2px),
-      radial-gradient(ellipse at 80% 70%, var(--accent) 1px, transparent 2px),
-      /* Diagonal lines */
-      linear-gradient(45deg, transparent 48%, var(--grid-color) 49%, var(--grid-color) 51%, transparent 52%),
-      linear-gradient(-45deg, transparent 48%, var(--grid-color) 49%, var(--grid-color) 51%, transparent 52%);
-    background-size: 
-      200px 200px,
-      150px 150px,
-      40px 40px,
-      40px 40px;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.15;
-  }
+  /* Removed decorative dots and diagonal patterns */
 
-  .engineering-grid::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      /* Grid intersection dots */
-      radial-gradient(circle, var(--grid-major) 1px, transparent 1px);
-    background-size: 20px 20px;
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0.3;
-  }
+  /* Removed grid intersection dots */
 
   .technical-border {
     border: 2px solid var(--border);
@@ -796,17 +760,9 @@
         75px 75px;   /* Major grid */
     }
     
-    .engineering-grid::before {
-      background-size: 
-        150px 150px,
-        100px 100px,
-        30px 30px,
-        30px 30px;
-    }
+    /* Removed mobile decorative patterns */
     
-    .engineering-grid::after {
-      background-size: 15px 15px;
-    }
+    /* Removed mobile grid dots */
     
     /* Adjust spacing for mobile */
     :root {
@@ -843,9 +799,7 @@
         60px 60px;   /* Major grid */
     }
     
-    .engineering-grid::after {
-      background-size: 12px 12px;
-    }
+    /* Removed small screen grid dots */
   }
 
   /* Shiki code block styling */

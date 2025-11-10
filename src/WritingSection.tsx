@@ -2,6 +2,9 @@ import { useState, useEffect, useMemo } from 'react'
 import { codeToHtml } from 'shiki'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
+import ImageZoom from './components/ImageZoom'
+import { Footer } from './App'
+import { updateMetaTags, resetMetaTags } from './utils/metaTags'
 
 interface CodeBlockProps {
   language: string | undefined
@@ -182,11 +185,10 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
-          <img
+          <ImageZoom
             src={getImagePath(path || '')}
             alt={alt || ''}
             className="w-full border-2 border-border"
-            loading="lazy"
           />
           {alt && alt.trim() && (
             <div className="text-small mt-4 text-center secondary-text italic">
@@ -368,6 +370,23 @@ function WritingSection() {
     return () => document.removeEventListener('keydown', handleEscape)
   }, [selectedPost])
 
+  // Update meta tags when post selection changes
+  useEffect(() => {
+    if (selectedPost) {
+      const writing = writings.find(w => w.slug === selectedPost)
+      if (writing) {
+        updateMetaTags({
+          title: `${writing.title} - Roshan Bhatia`,
+          description: writing.excerpt,
+          url: `https://roshanbhatia.com/#writing/${writing.slug}`,
+          type: 'article'
+        })
+      }
+    } else {
+      resetMetaTags()
+    }
+  }, [selectedPost])
+
   // Update URL when post selection changes
   const openPost = (slug: string) => {
     window.location.hash = `writing/${slug}`
@@ -447,6 +466,8 @@ function WritingSection() {
                 {elements}
               </div>
             </article>
+
+            <Footer />
           </div>
         </div>
       </div>

@@ -41,9 +41,9 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-bg text-text engineering-grid" data-theme={theme}>
-      <div className="sheet-border m-8 p-8 schematic-container measurement-indicators">
+      <div className="sheet-border m-4 p-6 md:m-6 md:p-8 schematic-container measurement-indicators max-w-7xl mx-auto">
         {/* Main Content */}
-        <main className="border-box p-8 technical-border">
+        <main className="border-box p-6 md:p-8 technical-border">
           <HomePage />
         </main>
 
@@ -59,3 +59,4 @@ function App() {
 }
 
 export default App
+export { Footer }
