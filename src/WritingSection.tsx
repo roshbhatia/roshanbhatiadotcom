@@ -1,7 +1,153 @@
 import { useState, useEffect } from 'react'
-import { ShikiHighlighter } from 'react-shiki'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus, vs } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
+
+// Custom gruvbox syntax highlighting styles with better color contrast
+const gruvboxLightStyle = {
+  'pre[class*="language-"]': {
+    color: '#3c3836',
+    background: '#f2e5bc',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'code[class*="language-"]': {
+    color: '#3c3836',
+    background: '#f2e5bc',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'token.comment': {
+    color: '#928374',
+    fontStyle: 'italic'
+  },
+  'token.string': {
+    color: '#b8bb26'
+  },
+  'token.number': {
+    color: '#d3869b'
+  },
+  'token.keyword': {
+    color: '#cc241d',
+    fontWeight: 'bold'
+  },
+  'token.function': {
+    color: '#458588'
+  },
+  'token.operator': {
+    color: '#cc241d'
+  },
+  'token.variable': {
+    color: '#076678'
+  },
+  'token.class-name': {
+    color: '#b57614'
+  },
+  'token.tag': {
+    color: '#cc241d'
+  },
+  'token.attr-name': {
+    color: '#d3869b'
+  },
+  'token.attr-value': {
+    color: '#b8bb26'
+  },
+  'token.punctuation': {
+    color: '#928374'
+  },
+  'token.property': {
+    color: '#076678'
+  },
+  'token.boolean': {
+    color: '#d3869b'
+  },
+  'token.namespace': {
+    color: '#b57614'
+  }
+}
+
+const gruvboxDarkStyle = {
+  'pre[class*="language-"]': {
+    color: '#ebdbb2',
+    background: '#1d2021',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'code[class*="language-"]': {
+    color: '#ebdbb2',
+    background: '#1d2021',
+    fontFamily: "'JetBrains Mono', monospace",
+    fontSize: '12px',
+    lineHeight: '1.5',
+    borderRadius: '0',
+    border: 'none',
+    padding: '16px',
+    margin: '0',
+  },
+  'token.comment': {
+    color: '#928374',
+    fontStyle: 'italic'
+  },
+  'token.string': {
+    color: '#b8bb26'
+  },
+  'token.number': {
+    color: '#d3869b'
+  },
+  'token.keyword': {
+    color: '#fb4934',
+    fontWeight: 'bold'
+  },
+  'token.function': {
+    color: '#8ec07c'
+  },
+  'token.operator': {
+    color: '#fb4934'
+  },
+  'token.variable': {
+    color: '#83a598'
+  },
+  'token.class-name': {
+    color: '#fabd2f'
+  },
+  'token.tag': {
+    color: '#fb4934'
+  },
+  'token.attr-name': {
+    color: '#d3869b'
+  },
+  'token.attr-value': {
+    color: '#b8bb26'
+  },
+  'token.punctuation': {
+    color: '#928374'
+  },
+  'token.property': {
+    color: '#83a598'
+  },
+  'token.boolean': {
+    color: '#d3869b'
+  },
+  'token.namespace': {
+    color: '#fabd2f'
+  }
+}
 
 interface CodeBlockProps {
   language: string | undefined
@@ -25,22 +171,15 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // Determine Shiki theme based on current theme
-  const getShikiTheme = () => {
-    switch (theme) {
-      case 'dark':
-        return 'github-dark'
-      case 'light':
-        return 'github-light'
-      case 'gruvbox-light':
-        return 'gruvbox-light'
-      case 'gruvbox-dark':
-        return 'gruvbox-dark'
-      case 'nord-dark':
-        return 'nord'
-      default:
-        return 'github-dark'
-    }
+  // Use appropriate syntax highlighting style for each theme
+  let syntaxStyle
+  if (theme === 'gruvbox-light') {
+    syntaxStyle = gruvboxLightStyle
+  } else if (theme === 'gruvbox-dark') {
+    syntaxStyle = gruvboxDarkStyle
+  } else {
+    const isDarkTheme = theme === 'dark' || theme === 'nord-dark'
+    syntaxStyle = isDarkTheme ? vs : vscDarkPlus
   }
 
   return (
@@ -56,23 +195,43 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
           </button>
         )}
       </div>
-      <div 
-        className="relative overflow-hidden"
-        style={{
-          backgroundColor: 'var(--code-bg-opposite)',
-          borderRadius: '0',
-          border: 'none',
-          padding: '0',
-          margin: '0',
+      <SyntaxHighlighter
+        language={language || 'text'}
+        style={syntaxStyle}
+        customStyle={
+          theme === 'gruvbox-light' || theme === 'gruvbox-dark' 
+            ? {
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '12px',
+                lineHeight: '1.5',
+                borderRadius: '0',
+                border: 'none',
+                padding: '16px',
+                margin: '0',
+              }
+            : {
+                backgroundColor: 'var(--code-bg-opposite)',
+                color: 'var(--code-text-opposite)',
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '12px',
+                lineHeight: '1.5',
+                borderRadius: '0',
+                border: 'none',
+                padding: '16px',
+                margin: '0',
+              }
+        }
+        showLineNumbers
+        lineNumberStyle={{
+          color: 'var(--border)',
+          paddingRight: '10px',
+          userSelect: 'none',
+          minWidth: '20px',
+          fontSize: '10px',
         }}
       >
-        <ShikiHighlighter
-          theme={getShikiTheme()}
-          language={language || 'text'}
-        >
-          {children}
-        </ShikiHighlighter>
-      </div>
+        {children}
+      </SyntaxHighlighter>
     </div>
   )
 }
