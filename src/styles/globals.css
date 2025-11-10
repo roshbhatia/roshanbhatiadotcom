@@ -826,4 +826,17 @@
     display: inline-block;
     width: 100%;
   }
+
+  /* Medium Zoom styles */
+  .medium-zoom-overlay {
+    z-index: 100;
+  }
+
+  .medium-zoom-image {
+    z-index: 101;
+  }
+
+  .medium-zoom-image--opened {
+    cursor: zoom-out !important;
+  }
 }

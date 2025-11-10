@@ -98,32 +98,30 @@ connect:
 const HomePage: React.FC = () => {
   return (
     <>
-      <main className="p-8">
-        <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
-        <div className="technical-grid gap-8">
-          <section className="content-section" data-test="readme-section">
-            <div className="content-text">
-              <div className="mb-6 breathing-room">
-                <h2 className="text-section accent-text" data-test="readme-title">[README.MD]</h2>
-              </div>
-              <div className="breathing-room">
-                <GitHubReadme />
-              </div>
+      <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
+      <div className="technical-grid gap-8">
+        <section className="content-section" data-test="readme-section">
+          <div className="content-text">
+            <div className="mb-6 breathing-room">
+              <h2 className="text-section accent-text" data-test="readme-title">[README.MD]</h2>
             </div>
-          </section>
-          
-          <section className="content-section" data-test="writing-section">
-            <div className="content-card schematic-section">
-              <div className="mb-6 breathing-room">
-                <h2 className="text-section accent-text" data-test="writing-title">[WRITING]</h2>
-              </div>
-              <div className="breathing-room">
-                <WritingSection />
-              </div>
+            <div className="breathing-room">
+              <GitHubReadme />
             </div>
-          </section>
-        </div>
-      </main>
+          </div>
+        </section>
+        
+        <section className="content-section" data-test="writing-section">
+          <div className="content-card schematic-section">
+            <div className="mb-6 breathing-room">
+              <h2 className="text-section accent-text" data-test="writing-title">[WRITING]</h2>
+            </div>
+            <div className="breathing-room">
+              <WritingSection />
+            </div>
+          </div>
+        </section>
+      </div>
     </>
   )
 }

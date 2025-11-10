@@ -13,8 +13,11 @@ const ImageZoom: React.FC<ImageZoomProps> = ({ src, alt, className }) => {
 
   useEffect(() => {
     if (imgRef.current && !zoomRef.current) {
+      // Get computed background color from CSS variable
+      const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#000000'
+      
       zoomRef.current = mediumZoom(imgRef.current, {
-        background: 'var(--bg)',
+        background: bgColor,
         margin: 24,
       })
     }
