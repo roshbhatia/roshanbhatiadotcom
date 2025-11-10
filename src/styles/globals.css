@@ -847,4 +847,29 @@
       background-size: 12px 12px;
     }
   }
+
+  /* Shiki code block styling */
+  .shiki-wrapper pre {
+    margin: 0 !important;
+    padding: 16px !important;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    border-radius: 0 !important;
+  }
+
+  .shiki-wrapper code {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 12px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: inherit !important;
+  }
+
+  .shiki-wrapper .line {
+    display: inline-block;
+    width: 100%;
+  }
 }

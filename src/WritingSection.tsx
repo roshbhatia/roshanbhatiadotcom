@@ -170,11 +170,11 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
         <div key={elements.length} className="my-8 content-spacing technical-border">
           <img
             src={getImagePath(path || '')}
-            alt={alt || 'PLACEHOLDER'}
+            alt={alt || ''}
             className="w-full border-2 border-border"
             loading="lazy"
           />
-          {alt && (
+          {alt && alt.trim() && (
             <div className="text-small mt-4 text-center secondary-text italic">
               {alt}
             </div>
@@ -313,16 +313,6 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
         </div>
       </div>
       
-      {/* Hardlink for direct access */}
-      <div className="mt-4 pt-4 border-t border-border">
-        <a 
-          href={`#${post.slug}`}
-          className="text-small text-link hover:text-accent transition-colors"
-          onClick={(e) => e.stopPropagation()}
-        >
-          🔗 Direct link: /{post.slug}
-        </a>
-      </div>
     </article>
   )
 }
@@ -347,30 +337,14 @@ function WritingSection() {
   const getImagePath = (imagePath: string) => {
     if (!selectedWriting) return `/writing/${imagePath}`
 
-    const slugParts = selectedWriting.slug.split('/')
-    const folderPath = slugParts[0] || '' // Get "000" from "000/Keyboard designing..."
-    const subfolderPath = slugParts[1] || '' // Get "Keyboard designing..." part
-
-    // Handle different image path formats
+    // Handle absolute paths
     if (imagePath.startsWith('/')) {
-      // Absolute path from root
       return imagePath
     }
 
-    // Handle URL encoded paths (like %20 for spaces) - decode them first
-    const decodedPath = decodeURIComponent(imagePath)
-    
-    // Also replace non-breaking spaces with regular spaces
-    const normalizedPath = decodedPath.replace(/\u00A0/g, ' ')
-    
-    // Check if path already includes subfolder name
-    if (normalizedPath.startsWith(subfolderPath + '/')) {
-      // Path already includes subfolder, just add base folder
-      return `/writing/${folderPath}/${normalizedPath}`
-    } else {
-      // Path is just filename, add both folder and subfolder
-      return `/writing/${folderPath}/${subfolderPath}/${normalizedPath}`
-    }
+    // For relative paths, just prepend the writing folder
+    // imagePath is already in format "assets/image.png"
+    return `/writing/${selectedWriting.slug}/${imagePath}`
   }
 
   if (selectedWriting) {
