@@ -82,18 +82,18 @@ describe('Blog Functionality', () => {
   it('should display images with correct paths and captions', () => {
     // Open first blog post
     cy.getByDataTest('blog-card').first().click()
-    
+
     // Wait for images to load
     cy.get('img').should('have.length.greaterThan', 0)
-    
+
     // Check that first image has correct src path
-    cy.get('img').first().should('have.attr', 'src').and('include', '/writing/000/Keyboard designing for fools, by an idiot/')
-    
+    cy.get('img').first().should('have.attr', 'src').and('include', '/writing/000/assets/')
+
     // Check that images with alt text have captions, images without alt text have no captions
     cy.get('img').each(($img) => {
       const alt = $img.attr('alt')
       const caption = $img.parent().find('.text-small.secondary-text.italic')
-      
+
       if (alt && alt !== 'PLACEHOLDER') {
         expect(caption).to.exist
         expect(caption.text().trim()).to.equal(alt)
@@ -225,20 +225,20 @@ describe('Blog Functionality', () => {
   it('should render code blocks with proper styling', () => {
     // Open first blog post
     cy.getByDataTest('blog-card').first().click()
-    
+
     // Check that code blocks exist
     cy.get('.code-block').should('have.length.greaterThan', 0)
-    
+
     // Check that code blocks have language indicators
     cy.get('.code-block .accent-text').should('have.length.greaterThan', 0)
-    cy.contains('.code-block .accent-text', '[TEXT]').should('exist')
-    
+    cy.contains('.code-block .accent-text', '[PYTHON]').should('exist')
+
     // Check that code blocks have copy buttons
     cy.get('.code-block button').should('have.length.greaterThan', 0)
     cy.contains('.code-block button', '[COPY]').should('exist')
-    
-    // Check that syntax highlighting is applied (should have various token classes)
-    cy.get('.code-block .token').should('have.length.greaterThan', 0)
+
+    // Check that syntax highlighting is applied (Shiki generates pre.shiki elements)
+    cy.get('.code-block .shiki-wrapper').should('have.length.greaterThan', 0)
   })
 
   it('should copy code block content when copy button clicked', () => {
@@ -261,14 +261,14 @@ describe('Blog Functionality', () => {
   it('should apply opposite colorway for code elements', () => {
     // Open first blog post
     cy.getByDataTest('blog-card').first().click()
-    
+
     // Check that inline code uses opposite colorway CSS variables
     cy.get('code.inline-code').should('have.css', 'background-color')
     cy.get('code.inline-code').should('have.css', 'color')
-    
-    // Check that code blocks use opposite colorway
-    cy.get('.code-block pre').should('have.css', 'background-color')
-    cy.get('.code-block pre').should('have.css', 'color')
+
+    // Check that code blocks have styling (Shiki inlines styles)
+    cy.get('.code-block .shiki-wrapper').should('exist')
+    cy.get('.code-block .shiki-wrapper pre').should('have.css', 'background-color')
   })
 
   it('should render markdown formatting correctly', () => {
@@ -293,19 +293,21 @@ describe('Blog Functionality', () => {
   it('should handle theme switching for code styling', () => {
     // Open first blog post
     cy.getByDataTest('blog-card').first().click()
-    
+
+    // Wait for code to render
+    cy.get('.code-block .shiki-wrapper pre').first().should('exist')
+
     // Get initial code block styling
-    cy.get('.code-block pre').first().invoke('css', 'background-color').as('initialBg')
-    cy.get('.code-block pre').first().invoke('css', 'color').as('initialColor')
-    
+    cy.get('.code-block .shiki-wrapper pre').first().invoke('css', 'background-color').as('initialBg')
+
     // Switch theme
     cy.getByDataTest('theme-toggle').click()
-    
-    // Wait for theme to apply
-    cy.wait(200)
-    
+
+    // Wait for theme to apply and code to re-render
+    cy.wait(500)
+
     // Check that code styling has changed (indicating theme switch worked)
-    cy.get('.code-block pre').first().invoke('css', 'background-color').then((newBg) => {
+    cy.get('.code-block .shiki-wrapper pre').first().invoke('css', 'background-color').then((newBg) => {
       cy.get('@initialBg').then((initialBg) => {
         expect(newBg).to.not.equal(initialBg)
       })
