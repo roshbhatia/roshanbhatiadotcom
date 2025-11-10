@@ -41,7 +41,6 @@ With the benefit of hindsight: I should have copied a more traditional split lay
 **Background knowledge**:
 
 - Most keyboards are wired pretty simply — each key's switch has a uniquely assigned row and column combination, which corresponds to two pins on the microcontroller, which means you can write your firmware code to watch for that specific combination and output a character.
-- I didn't realize I needed a ground pour, but fortunately I messed up my order from JCLPCB (with a separate issue), so they cancelled and sent me a message, letting me fix some other issues I introduced.
 
 **Resources**:
 
@@ -56,15 +55,15 @@ After deciding on a layout, the next step was to choose one of two routes — ha
 
 Handwiring is objectively simpler and easier — you straight up just have some switches, a microcontroller, and solder connections directly to the microcontroller. If you have cables that intersect, they can just go over/around each other. No big deal here, but you do loosely commit yourself to soldering wires directly to the microcontroller.
 
-A PCB introduces a few more variables into the mix — when traces (which are akin to wires) intersect, you need to account for that by punching holes through the board (called a 'via'). And you run the possibility of energy/heat sticking around on the board, so you need a big area of copper to help dissipate it called a "ground pour". I don't think a simple PCB like this actually needs one for relatively simple keyboards, but ultimately I was scared and added one anyways.
+A PCB introduces a few more variables into the mix — when traces (which are akin to wires) intersect, you need to account for that by punching holes through the board (called a 'via'). And you run the possibility of energy/heat sticking around on the board, so you need a big area of copper to help dissipate it called a "ground pour". I don't think a simple PCB like this actually needs one for relatively simple keyboards, but I was scared and added one anyways.
 
-I decided to ultimately go with a PCB because I was scared of soldering — it's simple, I've done it before, but I have a hand tremor that makes playing the Wii difficult so I didn't want to commit to getting frustrated when I solder the wrong bit 4 times in a row.
+I decided to go with a PCB because I was scared of soldering — it's simple, I've done it before, but I have a hand tremor that makes playing the Wii difficult so I didn't want to commit to getting frustrated when I solder the wrong bit 4 times in a row.
 
 ### Designing the PCB
 
-The first major choice around the PCB design was choosing a microcontroller. The RPI Pico 2 is now the gold standard for little projects like this — it's cheap, it's well supported by every major keyboard firmware project, and it's geared towards beginners. I looked at other microcontrollers but ultimately for this project there wasn't any need to really evaluate any other products given the overwhelming support for these.
+The first major choice around the PCB design was choosing a microcontroller. The RPI Pico 2 is now the gold standard for little projects like this — it's cheap, it's well supported by every major keyboard firmware project, and it's geared towards beginners. I looked at other microcontrollers but for this project there wasn't any need to really evaluate any other products given the overwhelming support for these.
 
-Then I moved to thinking about wiring. This isn't particularly interesting, you just draw rows and columns and choose pins on the microcontroller to assign them to. I changed this a bit as I worked for some of the more uniquely placed keys but ultimately this stayed the same and didn't change too much. You can use tools like [https://kbfirmware.com/](https://kbfirmware.com/) if you have fewer keys to autogenerate firmware and a wiring matrix for you, but it only supports certain microcontrollers. While I didn't use the generated artifact from the site, I found it useful to conceptulaize how the matrix should look as they provide you with a visualization on the site itself.
+Then I moved to thinking about wiring. This isn't particularly interesting, you just draw rows and columns and choose pins on the microcontroller to assign them to. I changed this a bit as I worked for some of the more uniquely placed keys but this stayed the same and didn't change too much. You can use tools like [https://kbfirmware.com/](https://kbfirmware.com/) if you have fewer keys to autogenerate firmware and a wiring matrix for you, but it only supports certain microcontrollers. While I didn't use the generated artifact from the site, I found it useful to conceptulaize how the matrix should look as they provide you with a visualization on the site itself.
 
 I ended up using [KeyboardToolsXYZ](https://keyboard-tools.xyz/) to generate a (unwired) Kicad project file to start with. For the more dev inclined, Kicad has a Python based scripting engine that can be used for automating placements of "footprints" (think reusable components: diodes, the microcontroller, or your key switches) but it's something I encountered issues with. Rather than needing to script anything yourself, the KeyboardToolsXYZ just takes your KLE JSON and automates placing these footprints in a blank file for you.
 
@@ -116,7 +115,7 @@ Writing firmware is also similarly straightforward. There's two major options ri
 
 QMK and ZMK require you to write some more low level code. I don't have an issue with this but the setup seemed a lot more complex than I thought it would have ended up being purely because of the number of features that QMK/ZMK support, like dynamic layout editing.
 
-Ultimately I went with a third option — KMK. It's powered by CircuitPython, which is geared more towards beginners. Ultimately I chose it because it was simple and supported by my controller, which is what I wanted! My `main.py` is as follows, which just imports some data-only files that contain the mappings I mentioned earlier.
+I went with a third option — KMK. It's powered by CircuitPython, which is geared more towards beginners. I chose it because it was simple and supported by my controller, which is what I wanted! My `main.py` is as follows, which just imports some data-only files that contain the mappings I mentioned earlier.
 
 ```python
 from kmk.kmk_keyboard import KMKKeyboard
