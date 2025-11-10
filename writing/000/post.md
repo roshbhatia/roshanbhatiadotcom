@@ -159,7 +159,7 @@ This part is straightforward. Stick stuff together and it works.
 
 I'm never doing this again. I dunked on Tristan, but at what cost?! (The cost was $550).
 
-The major realization I had is that ergonomic philosophy has been tackled by people who know what they're doing. I'm not one of them!
+The biggest realization I had is that ergonomic philosophy has been tackled by people who know what they're doing. I'm not one of them!
 
 Fortunately: 75% of the way through this project, Tristan gave me his ZSA Voyager at the exact moment I decided to get a Corne keyboard, which is one of the more popular more extreme ergonomic keyboards. Both the Corne and Voyager are designed to be ortholinear, column staggered keyboards, which let you move your fingers in a much more natural way compared to a traditional keyboard.
 
