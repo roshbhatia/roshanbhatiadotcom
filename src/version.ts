@@ -1,3 +1,3 @@
 // Auto-generated at build time
-export const COMMIT_SHA = '322e45b';
+export const COMMIT_SHA = 'd684be1';
 export const BUILD_TIME = new Date().toISOString();

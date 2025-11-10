@@ -70,15 +70,29 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
           </button>
         )}
       </div>
-      <div
-        className="shiki-wrapper"
-        style={{
-          fontFamily: "'JetBrains Mono', monospace",
-          fontSize: '12px',
-          lineHeight: '1.5',
-        }}
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      {html ? (
+        <div
+          className="shiki-wrapper"
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '12px',
+            lineHeight: '1.5',
+          }}
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      ) : (
+        <pre
+          style={{
+            fontFamily: "'JetBrains Mono', monospace",
+            fontSize: '12px',
+            lineHeight: '1.5',
+            padding: '16px',
+            overflow: 'auto',
+          }}
+        >
+          <code>{children}</code>
+        </pre>
+      )}
     </div>
   )
 }

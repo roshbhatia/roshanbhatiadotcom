@@ -123,3 +123,33 @@ export const writings: Writing[] = ${JSON.stringify(writings, null, 2)}
 
 fs.writeFileSync(path.join(__dirname, '../src/writings.generated.ts'), output)
 console.log(`Generated ${writings.length} writings`)
+
+// Copy assets to public/writing folder so they can be served
+const writingsDir = path.join(__dirname, '../writing')
+const publicWritingDir = path.join(__dirname, '../public/writing')
+if (!fs.existsSync(publicWritingDir)) {
+  fs.mkdirSync(publicWritingDir, { recursive: true })
+}
+
+for (const folder of fs.readdirSync(writingsDir)) {
+  const folderPath = path.join(writingsDir, folder)
+  if (!fs.statSync(folderPath).isDirectory() || !/^\d{3}$/.test(folder)) continue
+
+  const assetsPath = path.join(folderPath, 'assets')
+  if (fs.existsSync(assetsPath)) {
+    const publicFolderPath = path.join(publicWritingDir, folder)
+    if (!fs.existsSync(publicFolderPath)) {
+      fs.mkdirSync(publicFolderPath, { recursive: true })
+    }
+
+    const publicAssetsPath = path.join(publicFolderPath, 'assets')
+    // Remove old assets if they exist
+    if (fs.existsSync(publicAssetsPath)) {
+      fs.rmSync(publicAssetsPath, { recursive: true, force: true })
+    }
+
+    // Copy new assets
+    fs.cpSync(assetsPath, publicAssetsPath, { recursive: true })
+    console.log(`Copied assets for ${folder}`)
+  }
+}
