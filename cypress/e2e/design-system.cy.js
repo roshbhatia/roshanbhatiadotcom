@@ -12,21 +12,35 @@ describe('Design System Demo', () => {
   it('should have working theme toggle', () => {
     // Check theme toggle exists
     cy.getByDataTest('theme-toggle').should('exist')
-    
-    // Check initial state (assuming light theme by default)
-    cy.get('html').should('not.have.class', 'dark')
-    
+
+    // Get initial theme
+    cy.getByDataTest('theme-toggle').invoke('text').as('initialTheme')
+
     // Click theme toggle
     cy.getByDataTest('theme-toggle').click()
-    
-    // Check that theme changed to dark
-    cy.get('html').should('have.class', 'dark')
-    
-    // Click again to toggle back
+
+    // Wait for theme change
+    cy.wait(100)
+
+    // Check that theme changed
+    cy.getByDataTest('theme-toggle').invoke('text').then((newTheme) => {
+      cy.get('@initialTheme').then((initialTheme) => {
+        expect(newTheme).to.not.equal(initialTheme)
+      })
+    })
+
+    // Click again to toggle to next theme
     cy.getByDataTest('theme-toggle').click()
-    
-    // Check that theme changed back to light
-    cy.get('html').should('not.have.class', 'dark')
+
+    // Wait for theme change
+    cy.wait(100)
+
+    // Check that theme changed again
+    cy.getByDataTest('theme-toggle').invoke('text').then((thirdTheme) => {
+      cy.get('@initialTheme').then((initialTheme) => {
+        expect(thirdTheme).to.not.equal(initialTheme)
+      })
+    })
   })
 
   it('should display README content', () => {

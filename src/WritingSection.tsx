@@ -304,33 +304,29 @@ function TOC({ toc }: { toc: TOCItem[] }) {
 }
 
 function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
+  const dateStr = new Date(post.date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  })
+
   return (
-    <article className="content-card cursor-pointer schematic-section" data-test="blog-card"     onClick={() => onSelect(post.slug)}>
-      <div className="flex flex-col sm:flex-row sm:justify-between mb-4 gap-2 sm:gap-0">
-        <div className="flex-1">
-          <span className="text-small accent-text">[POST]</span>
-          <h3 className="text-body mt-2 primary-text text-lg sm:text-base" data-test="blog-title">
-            {post.title}
-          </h3>
-        </div>
+    <article
+      className="py-3 cursor-pointer hover:bg-code-bg transition-colors border-l-2 border-transparent hover:border-accent pl-4 mono"
+      data-test="blog-card"
+      onClick={() => onSelect(post.slug)}
+    >
+      <div className="flex items-baseline gap-4">
         <span className="text-small secondary-text whitespace-nowrap" data-test="blog-date">
-          {new Date(post.date).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-          })}
+          {dateStr}
+        </span>
+        <h3 className="text-body flex-1" data-test="blog-title">
+          {post.title}
+        </h3>
+        <span className="text-small muted-text whitespace-nowrap" data-test="reading-time">
+          {post.readingTime}min
         </span>
       </div>
-
-      <div className="flex flex-col sm:flex-row sm:justify-between gap-2 sm:gap-0">
-        <div className="text-small muted-text" data-test="reading-time">
-          {post.readingTime} MIN READ
-        </div>
-        <div className="text-small accent-text">
-          [READ_MORE]
-        </div>
-      </div>
-      
     </article>
   )
 }
@@ -430,16 +426,14 @@ function WritingSection() {
   }
 
   return (
-    <div data-test="blog-list">
-      <div className="grid gap-4">
-        {writings.map((post) => (
-          <BlogCard
-            key={post.slug}
-            post={post}
-            onSelect={openPost}
-          />
-        ))}
-      </div>
+    <div data-test="blog-list" className="space-y-1">
+      {writings.map((post) => (
+        <BlogCard
+          key={post.slug}
+          post={post}
+          onSelect={openPost}
+        />
+      ))}
     </div>
   )
 }

@@ -60,35 +60,20 @@ connect:
   }, [])
 
   if (loading) {
-    return (
-      <div className="text-body mono content-spacing technical-border">
-        <div className="accent-text">[LOADING README...]</div>
-      </div>
-    )
+    return <div className="mono">loading...</div>
   }
 
   if (error) {
-    return (
-      <div className="text-body mono content-spacing technical-border">
-        <div className="accent-text">[ERROR: {error}]</div>
-      </div>
-    )
+    return <div className="mono">error: {error}</div>
   }
 
   if (!readme) {
-    return (
-      <div className="text-body mono content-spacing technical-border">
-        <div className="muted-text">[NO README CONTENT]</div>
-      </div>
-    )
+    return <div className="mono">no content</div>
   }
 
   return (
-    <div className="mono text-body content-text">
-      <div 
-        className="whitespace-pre-wrap prose" 
-        dangerouslySetInnerHTML={{ __html: readme.replace(/\n/g, '<br>') }}
-      />
+    <div className="mono whitespace-pre-wrap">
+      <div dangerouslySetInnerHTML={{ __html: readme.replace(/\n/g, '<br>') }} />
     </div>
   )
 }
@@ -99,26 +84,20 @@ const HomePage: React.FC = () => {
   return (
     <>
       <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
-      <div className="technical-grid gap-8">
-        <section className="content-section" data-test="readme-section">
-          <div className="content-text">
-            <div className="mb-6 breathing-room">
-              <h2 className="text-section accent-text" data-test="readme-title">[README.MD]</h2>
-            </div>
-            <div className="breathing-room">
-              <GitHubReadme />
-            </div>
+      <div className="space-y-12">
+        <section data-test="readme-section">
+          <h2 className="text-section accent-text mb-6" data-test="readme-title">README.MD</h2>
+          <div className="text-body">
+            <GitHubReadme />
           </div>
         </section>
-        
-        <section className="content-section" data-test="writing-section">
-          <div className="content-card schematic-section">
-            <div className="mb-6 breathing-room">
-              <h2 className="text-section accent-text" data-test="writing-title">[WRITING]</h2>
-            </div>
-            <div className="breathing-room">
-              <WritingSection />
-            </div>
+
+        <div className="border-t border-border my-8"></div>
+
+        <section data-test="writing-section">
+          <h2 className="text-section accent-text mb-6" data-test="writing-title">WRITING</h2>
+          <div className="text-body">
+            <WritingSection />
           </div>
         </section>
       </div>
