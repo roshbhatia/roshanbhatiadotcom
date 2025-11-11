@@ -35,21 +35,38 @@ function BlogPostModal({ writing, elements, toc, onClose, Footer }: BlogPostModa
   const TOC = () => {
     if (toc.length === 0) return null;
 
+    const getTreePrefix = (index: number, level: number, nextLevel?: number) => {
+      const isLast = index === toc.length - 1 || (nextLevel !== undefined && nextLevel < level);
+      const indent = '│   '.repeat(level - 2);
+
+      if (level === 2) {
+        return isLast ? '└── ' : '├── ';
+      } else {
+        return indent + (isLast ? '└── ' : '├── ');
+      }
+    };
+
     return (
       <nav className="mb-8 content-card" aria-label="Table of Contents">
         <h2 className="text-section mb-4">[TABLE OF CONTENTS]</h2>
-        <ul className="space-y-2">
-          {toc.map((item) => (
-            <li key={item.id} style={{ marginLeft: `${(item.level - 1) * 20}px` }}>
-              <a
-                href={`#${item.id}`}
-                className="text-link hover:accent-text mono text-body"
-              >
-                {item.title}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="mono text-small">
+          {toc.map((item, index) => {
+            const nextLevel = index < toc.length - 1 ? toc[index + 1].level : undefined;
+            const prefix = getTreePrefix(index, item.level, nextLevel);
+
+            return (
+              <div key={item.id} className="leading-relaxed">
+                <span className="secondary-text">{prefix}</span>
+                <a
+                  href={`#${item.id}`}
+                  className="text-link hover:accent-text"
+                >
+                  {item.title}
+                </a>
+              </div>
+            );
+          })}
+        </div>
       </nav>
     );
   };

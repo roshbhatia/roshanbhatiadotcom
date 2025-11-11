@@ -86,14 +86,20 @@ const HomePage: React.FC = () => {
       <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section data-test="readme-section" className="content-card">
-          <h2 className="text-section accent-text mb-6" data-test="readme-title">[README.MD]</h2>
+          <div className="flex items-center gap-2 mb-6">
+            <span className="mono text-small secondary-text">$</span>
+            <h2 className="text-section accent-text mono" data-test="readme-title">cat README.MD</h2>
+          </div>
           <div className="text-body">
             <GitHubReadme />
           </div>
         </section>
 
         <section data-test="writing-section" className="content-card">
-          <h2 className="text-section accent-text mb-6" data-test="writing-title">[WRITING]</h2>
+          <div className="flex items-center gap-2 mb-6">
+            <span className="mono text-small secondary-text">$</span>
+            <h2 className="text-section accent-text mono" data-test="writing-title">ls WRITING/</h2>
+          </div>
           <div className="text-body">
             <WritingSection />
           </div>

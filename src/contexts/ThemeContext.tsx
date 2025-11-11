@@ -15,7 +15,7 @@ export const useTheme = () => {
   if (context === undefined) {
     // Return default theme for SSR/static generation
     return {
-      theme: 'dark',
+      theme: 'light',
       toggleTheme: () => {},
       cycleTheme: () => {}
     }
@@ -30,7 +30,7 @@ interface ThemeProviderProps {
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme
-    return savedTheme || 'dark'
+    return savedTheme || 'light'
   })
 
   useEffect(() => {

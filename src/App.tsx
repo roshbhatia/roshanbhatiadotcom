@@ -41,7 +41,16 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-bg text-text" data-theme={theme}>
-      <div className="max-w-4xl mx-auto p-8">
+      <div className="max-w-5xl p-8 pl-12">
+        {/* Shell prompt header */}
+        <div className="mono text-small mb-8">
+          <span className="accent-text">roshan@bhatia</span>
+          <span className="secondary-text">:</span>
+          <span className="text-text">~</span>
+          <span className="secondary-text">$</span>
+          <span className="cursor-blink ml-1"></span>
+        </div>
+
         {/* Main Content */}
         <main>
           <HomePage />
