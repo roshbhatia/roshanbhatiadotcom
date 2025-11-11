@@ -15,14 +15,12 @@ describe('Page Structure and Navigation', () => {
     cy.getByDataTest('theme-toggle').should('be.visible')
 
     // Get initial data-theme attribute from root div
-    cy.get('[data-theme]').invoke('attr', 'data-theme').as('initialTheme')
+    cy.get('[data-theme]').invoke('attr', 'data-theme').then((initialTheme) => {
+      // Click theme toggle
+      cy.getByDataTest('theme-toggle').click()
 
-    // Click theme toggle
-    cy.getByDataTest('theme-toggle').click()
-
-    // Verify data-theme attribute changed
-    cy.get('@initialTheme').then((initialTheme) => {
-      cy.get('[data-theme]').invoke('attr', 'data-theme').should('not.equal', initialTheme)
+      // Wait for theme to update and verify data-theme attribute changed
+      cy.get('[data-theme]').should('have.attr', 'data-theme').and('not.equal', initialTheme)
     })
   })
 

@@ -10,9 +10,10 @@ interface BlogPostModalProps {
   elements: React.ReactNode[];
   toc: Array<{ id: string; title: string; level: number }>;
   onClose: () => void;
+  Footer: React.ComponentType;
 }
 
-function BlogPostModal({ writing, elements, toc, onClose }: BlogPostModalProps) {
+function BlogPostModal({ writing, elements, toc, onClose, Footer }: BlogPostModalProps) {
   const { close } = useModals();
 
   const handleClose = () => {
@@ -119,6 +120,8 @@ function BlogPostModal({ writing, elements, toc, onClose }: BlogPostModalProps) 
               {elements}
             </div>
           </article>
+
+          <Footer />
         </div>
       </div>
     </div>

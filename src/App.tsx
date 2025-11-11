@@ -1,6 +1,7 @@
 import React from 'react'
 import HomePage from '@/pages/HomePage.tsx'
 import { useTheme } from './contexts/ThemeContext'
+import { useModals } from '@components/page/ModalContext'
 import { COMMIT_SHA } from './version'
 import './styles/globals.css'
 
@@ -38,25 +39,29 @@ const Footer: React.FC = () => {
 
 function AppContent() {
   const { theme } = useTheme()
+  const { modalStack } = useModals()
+  const hasOpenModals = modalStack.length > 0
 
   return (
     <div className="min-h-screen bg-bg text-text flex flex-col" data-theme={theme}>
-      {/* Windows 95 style title bar - fixed at top */}
-      <div className="sticky top-0 z-50 bg-code-bg border-b-2 border-border flex items-center justify-end px-2 py-1">
-        <div className="flex items-center gap-1">
-          <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">_</button>
-          <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">□</button>
-          <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">×</button>
+      {/* Windows 95 style title bar - fixed at top, hidden when modal is open */}
+      {!hasOpenModals && (
+        <div className="sticky top-0 z-50 bg-code-bg border-b-2 border-border flex items-center justify-end px-2 py-1">
+          <div className="flex items-center gap-1">
+            <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">_</button>
+            <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">□</button>
+            <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">×</button>
+          </div>
         </div>
-      </div>
+      )}
       <div className="flex-1 max-w-6xl mx-auto p-8 w-full">
         {/* Main Content */}
         <main>
           <HomePage />
         </main>
 
-        {/* Footer */}
-        <Footer />
+        {/* Footer - hidden when modal is open */}
+        {!hasOpenModals && <Footer />}
       </div>
     </div>
   )

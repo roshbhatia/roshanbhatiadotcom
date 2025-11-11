@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { codeToHtml } from 'shiki'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
+import { Footer } from './App'
 import { updateMetaTags, resetMetaTags } from './utils/metaTags'
 import { useModals } from '@components/page/ModalContext'
 import BlogPostModal from '@components/modals/BlogPostModal'
@@ -406,7 +407,8 @@ function WritingSection() {
             writing: selectedWriting,
             elements,
             toc,
-            onClose: closePost
+            onClose: closePost,
+            Footer
           })
           modalKeyRef.current = key
         }
