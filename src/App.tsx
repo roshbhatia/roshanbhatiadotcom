@@ -48,6 +48,17 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-bg text-text" data-theme={theme}>
+      {/* Windows 95 style title bar */}
+      <div className="bg-code-bg border-b-2 border-border flex items-center justify-between px-2 py-1">
+        <div className="flex items-center gap-2">
+          <span className="mono text-small">Terminal - visitor@roshanbhatia.com</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">_</button>
+          <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">□</button>
+          <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">×</button>
+        </div>
+      </div>
       <div className="max-w-5xl p-8 pl-12">
         {/* Version echo command */}
         <div className="mono text-small mb-2">
