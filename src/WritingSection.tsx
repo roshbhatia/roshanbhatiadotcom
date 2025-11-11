@@ -32,7 +32,7 @@ function CodeBlock({ language, children, showCopy = true }: CodeBlockProps) {
 
   useEffect(() => {
     const getShikiTheme = () => {
-      switch(theme) {
+      switch (theme) {
         case 'gruvbox-light':
           return 'gruvbox-light'
         case 'gruvbox-dark':
@@ -213,10 +213,10 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const title = line.slice(3)
       const id = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
-      
+
       // Special styling for Background/Resources sections
       const isSpecialSection = title.toLowerCase().includes('background') || title.toLowerCase().includes('resources')
-      
+
       toc.push({ id, title, level: 2 })
       elements.push(
         <h2 key={elements.length} id={id} className={`text-section mb-6 mt-8 ${isSpecialSection ? 'accent-text industrial-divider pb-2' : ''}`}>
@@ -227,10 +227,10 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
       flushParagraph()
       const title = line.slice(4)
       const id = title.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-')
-      
+
       // Special styling for Background/Resources sections
       const isSpecialSection = title.toLowerCase().includes('background') || title.toLowerCase().includes('resources')
-      
+
       toc.push({ id, title, level: 3 })
       elements.push(
         <h3 key={elements.length} id={id} className={`text-body font-bold mb-4 mt-6 ${isSpecialSection ? 'accent-text industrial-divider pb-2' : ''}`}>
@@ -258,7 +258,7 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
           }
           return part
         })
-      
+
       elements.push(
         <li key={elements.length} className="text-body mb-2 ml-6">
           {processedText}
@@ -291,9 +291,8 @@ function TOC({ toc }: { toc: TOCItem[] }) {
           <a
             key={index}
             href={`#${item.id}`}
-            className={`block mb-2 text-link hover:text-accent ${
-              item.level === 3 ? 'ml-6' : ''
-            }`}
+            className={`block mb-2 text-link hover:text-accent ${item.level === 3 ? 'ml-6' : ''
+              }`}
           >
             {item.title}
           </a>
@@ -493,7 +492,7 @@ function WritingSection() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="fuzzy search..."
+            placeholder="filter posts..."
             className="flex-1 bg-transparent outline-none border-none text-text"
             style={{ caretColor: 'var(--accent)' }}
           />
