@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="space-y-8">
         <section data-test="readme-section" className="content-card">
           <div className="mono text-small mb-2">
             <span className="accent-text">visitor@roshanbhatia.com</span>
@@ -106,13 +106,13 @@ const HomePage: React.FC = () => {
             <span className="secondary-text" data-test="readme-title">$ cat readme.md</span>
           </div>
           <div className="mono text-small secondary-text mb-4">
-            ┌{'─'.repeat(50)}┐
+            ┌{'─'.repeat(80)}┐
           </div>
           <div className="text-body">
             <GitHubReadme />
           </div>
           <div className="mono text-small secondary-text mt-4">
-            └{'─'.repeat(50)}┘
+            └{'─'.repeat(80)}┘
           </div>
         </section>
 
@@ -124,13 +124,13 @@ const HomePage: React.FC = () => {
             <span className="secondary-text" data-test="writing-title">$ ./get-writing.sh --interactive --recent</span>
           </div>
           <div className="mono text-small secondary-text mb-4">
-            ┌{'─'.repeat(50)}┐
+            ┌{'─'.repeat(80)}┐
           </div>
           <div className="text-body">
             <WritingSection />
           </div>
           <div className="mono text-small secondary-text mt-4">
-            └{'─'.repeat(50)}┘
+            └{'─'.repeat(80)}┘
           </div>
         </section>
       </div>

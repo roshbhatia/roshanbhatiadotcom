@@ -19,8 +19,8 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <footer className="mt-12 pt-6 border-t border-border">
-      <div className="flex justify-between items-center text-small mb-4">
+    <footer className="sticky bottom-0 z-50 mt-12 pt-6 pb-4 border-t border-border bg-bg">
+      <div className="flex justify-between items-center text-small max-w-6xl mx-auto px-8">
         <div className="mono secondary-text" data-test="version-info">
           [v{COMMIT_SHA}]
         </div>
@@ -32,13 +32,6 @@ const Footer: React.FC = () => {
           [{getThemeDisplay(theme)}]
         </button>
       </div>
-      <div className="mono text-small">
-        <span className="accent-text">visitor@roshanbhatia.com</span>
-        <span className="secondary-text">:</span>
-        <span className="text-text">~</span>
-        <span className="secondary-text">$</span>
-        <span className="cursor-blink ml-1"></span>
-      </div>
     </footer>
   )
 }
@@ -47,19 +40,16 @@ function AppContent() {
   const { theme } = useTheme()
 
   return (
-    <div className="min-h-screen bg-bg text-text" data-theme={theme}>
-      {/* Windows 95 style title bar */}
-      <div className="bg-code-bg border-b-2 border-border flex items-center justify-between px-2 py-1">
-        <div className="flex items-center gap-2">
-          <span className="mono text-small">Terminal - visitor@roshanbhatia.com</span>
-        </div>
+    <div className="min-h-screen bg-bg text-text flex flex-col" data-theme={theme}>
+      {/* Windows 95 style title bar - fixed at top */}
+      <div className="sticky top-0 z-50 bg-code-bg border-b-2 border-border flex items-center justify-end px-2 py-1">
         <div className="flex items-center gap-1">
           <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">_</button>
           <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">□</button>
           <button className="mono text-small px-3 py-0 border border-border bg-cell-bg hover:bg-code-bg">×</button>
         </div>
       </div>
-      <div className="max-w-5xl p-8 pl-12">
+      <div className="flex-1 max-w-6xl mx-auto p-8 w-full">
         {/* Version echo command */}
         <div className="mono text-small mb-2">
           <span className="accent-text">visitor@roshanbhatia.com</span>
