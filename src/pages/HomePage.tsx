@@ -103,7 +103,7 @@ const HomePage: React.FC = () => {
             <span className="accent-text">visitor@roshanbhatia.com</span>
             <span className="secondary-text">:</span>
             <span className="text-text">~</span>
-            <span className="secondary-text" data-test="readme-title">$ cat readme.md</span>
+            <span className="secondary-text" data-test="readme-title">$ ./prettyprint.sh README.md</span>
           </div>
           <div className="mono text-small secondary-text mb-4">
             ┌{'─'.repeat(80)}┐
