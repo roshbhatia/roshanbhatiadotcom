@@ -99,9 +99,11 @@ const HomePage: React.FC = () => {
       <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section data-test="readme-section" className="content-card">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="mono text-small secondary-text">$</span>
-            <h2 className="text-section accent-text mono" data-test="readme-title">[README.MD]</h2>
+          <div className="mono text-small mb-2">
+            <span className="accent-text">visitor@roshanbhatia.com</span>
+            <span className="secondary-text">:</span>
+            <span className="text-text">~</span>
+            <span className="secondary-text" data-test="readme-title">$ cat readme.md</span>
           </div>
           <div className="mono text-small secondary-text mb-4">
             ┌{'─'.repeat(50)}┐
@@ -115,9 +117,11 @@ const HomePage: React.FC = () => {
         </section>
 
         <section data-test="writing-section" className="content-card">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="mono text-small secondary-text">$</span>
-            <h2 className="text-section accent-text mono" data-test="writing-title">[WRITING]</h2>
+          <div className="mono text-small mb-2">
+            <span className="accent-text">visitor@roshanbhatia.com</span>
+            <span className="secondary-text">:</span>
+            <span className="text-text">~</span>
+            <span className="secondary-text" data-test="writing-title">$ ./get-writing.sh --interactive --recent</span>
           </div>
           <div className="mono text-small secondary-text mb-4">
             ┌{'─'.repeat(50)}┐

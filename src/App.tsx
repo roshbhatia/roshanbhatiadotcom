@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="mt-12 pt-6 border-t border-border">
-      <div className="flex justify-between items-center text-small">
+      <div className="flex justify-between items-center text-small mb-4">
         <div className="mono secondary-text" data-test="version-info">
           [v{COMMIT_SHA}]
         </div>
@@ -32,6 +32,13 @@ const Footer: React.FC = () => {
           [{getThemeDisplay(theme)}]
         </button>
       </div>
+      <div className="mono text-small">
+        <span className="accent-text">visitor@roshanbhatia.com</span>
+        <span className="secondary-text">:</span>
+        <span className="text-text">~</span>
+        <span className="secondary-text">$</span>
+        <span className="cursor-blink ml-1"></span>
+      </div>
     </footer>
   )
 }
@@ -42,18 +49,12 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-bg text-text" data-theme={theme}>
       <div className="max-w-5xl p-8 pl-12">
-        {/* Shell prompt header */}
+        {/* Version echo command */}
         <div className="mono text-small mb-2">
           <span className="accent-text">visitor@roshanbhatia.com</span>
           <span className="secondary-text">:</span>
           <span className="text-text">~</span>
-          <span className="secondary-text">$</span>
-          <span className="cursor-blink ml-1"></span>
-        </div>
-
-        {/* Version echo command */}
-        <div className="mono text-small mb-2 secondary-text">
-          $ echo WebsiteVersion:$(git rev-parse HEAD)
+          <span className="secondary-text">$ echo WebsiteVersion:$(git rev-parse HEAD)</span>
         </div>
         <div className="mono text-small mb-8">
           WebsiteVersion:{COMMIT_SHA}
