@@ -1,10 +1,12 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { codeToHtml } from 'shiki'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
 import ImageZoom from './components/ImageZoom'
 import { Footer } from './App'
 import { updateMetaTags, resetMetaTags } from './utils/metaTags'
+import { useModals } from '@components/page/ModalContext'
+import BlogPostModal from '@components/modals/BlogPostModal'
 
 interface CodeBlockProps {
   language: string | undefined
@@ -335,6 +337,8 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
 
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
+  const { open, close } = useModals()
+  const modalKeyRef = useRef<string | null>(null)
 
   // Handle URL hash on mount and when it changes
   useEffect(() => {
@@ -359,17 +363,6 @@ function WritingSection() {
     return () => window.removeEventListener('hashchange', checkHash)
   }, [])
 
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedPost) {
-        window.location.hash = ''
-      }
-    }
-
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [selectedPost])
-
   // Update meta tags when post selection changes
   useEffect(() => {
     if (selectedPost) {
@@ -387,6 +380,46 @@ function WritingSection() {
     }
   }, [selectedPost])
 
+  // Open modal when selectedPost changes
+  useEffect(() => {
+    if (selectedPost) {
+      const selectedWriting = writings.find(w => w.slug === selectedPost)
+      if (selectedWriting) {
+        // Close any existing modal first
+        if (modalKeyRef.current) {
+          close(modalKeyRef.current)
+        }
+
+        // Get folder path from the selected writing slug
+        const getImagePath = (imagePath: string) => {
+          // Handle absolute paths
+          if (imagePath.startsWith('/')) {
+            return imagePath
+          }
+          // For relative paths, just prepend the writing folder
+          return `/writing/${selectedWriting.slug}/${imagePath}`
+        }
+
+        const { elements, toc } = parseMarkdown(selectedWriting.content, getImagePath)
+
+        const key = open(BlogPostModal, {
+          writing: selectedWriting,
+          elements,
+          toc,
+          onClose: closePost,
+          Footer
+        })
+        modalKeyRef.current = key
+      }
+    } else {
+      // Close modal when selectedPost is null
+      if (modalKeyRef.current) {
+        close(modalKeyRef.current)
+        modalKeyRef.current = null
+      }
+    }
+  }, [selectedPost, open, close])
+
   // Update URL when post selection changes
   const openPost = (slug: string) => {
     window.location.hash = `writing/${slug}`
@@ -394,84 +427,6 @@ function WritingSection() {
 
   const closePost = () => {
     window.location.hash = ''
-  }
-
-  const selectedWriting = writings.find(w => w.slug === selectedPost)
-
-  // Get folder path from the selected writing slug
-  const getImagePath = (imagePath: string) => {
-    if (!selectedWriting) return `/writing/${imagePath}`
-
-    // Handle absolute paths
-    if (imagePath.startsWith('/')) {
-      return imagePath
-    }
-
-    // For relative paths, just prepend the writing folder
-    // imagePath is already in format "assets/image.png"
-    return `/writing/${selectedWriting.slug}/${imagePath}`
-  }
-
-  if (selectedWriting) {
-    
-    const { elements, toc } = parseMarkdown(selectedWriting.content, getImagePath)
-    
-    return (
-      <div
-        className="fixed inset-0 bg-bg z-50 overflow-y-auto engineering-grid"
-        data-test="blog-modal"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            closePost()
-          }
-        }}
-
-      >
-        <div className="min-h-screen p-8">
-          <div className="max-w-4xl mx-auto">
-            <button
-              onClick={closePost}
-              className="theme-toggle mb-8"
-              data-test="back-button"
-            >
-              [BACK]
-            </button>
-
-            <article className="content-card schematic-container">
-              <header className="mb-8">
-                <div className="flex justify-between mb-4">
-                  <h1 className="text-hero" data-test="blog-title">
-                    {selectedWriting.title}
-                  </h1>
-                </div>
-
-                <div className="flex gap-8 text-small secondary-text">
-                  <div data-test="blog-date">
-                    {new Date(selectedWriting.date).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric'
-                    })}
-                  </div>
-                  <div data-test="reading-time">
-                    {selectedWriting.readingTime} MIN READ
-                  </div>
-                </div>
-                <div className="industrial-divider"></div>
-              </header>
-
-              {toc.length > 0 && <TOC toc={toc} />}
-
-              <div className="prose" data-test="blog-content">
-                {elements}
-              </div>
-            </article>
-
-            <Footer />
-          </div>
-        </div>
-      </div>
-    )
   }
 
   return (

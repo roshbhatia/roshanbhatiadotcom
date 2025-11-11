@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { ModalProvider } from '@components/page/ModalContext'
+import ModalStack from '@components/ModalStack'
 import './styles/globals.css'
 
 // Get root element
@@ -13,9 +15,12 @@ if (!rootElement) {
 // Create React root
 const root = createRoot(rootElement)
 
-// Render app with theme provider
+// Render app with theme and modal providers
 root.render(
   <ThemeProvider>
-    <App />
+    <ModalProvider>
+      <App />
+      <ModalStack />
+    </ModalProvider>
   </ThemeProvider>
 )
