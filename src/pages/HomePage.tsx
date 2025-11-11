@@ -99,38 +99,33 @@ const HomePage: React.FC = () => {
       <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
       <div className="space-y-8">
         <section data-test="readme-section" className="content-card">
-          <div className="mono text-small mb-2">
+          <div className="mono text-small mb-4">
             <span className="accent-text">visitor@roshanbhatia.com</span>
             <span className="secondary-text">:</span>
             <span className="text-text">~</span>
-            <span className="secondary-text" data-test="readme-title">$ ./prettyprint.sh README.md</span>
-          </div>
-          <div className="mono text-small secondary-text mb-4">
-            ┌{'─'.repeat(80)}┐
+            <span className="secondary-text" data-test="readme-title">$ cat readme.md</span>
           </div>
           <div className="text-body">
             <GitHubReadme />
           </div>
-          <div className="mono text-small secondary-text mt-4">
-            └{'─'.repeat(80)}┘
+          <div className="mono text-small mt-4">
+            <span className="accent-text">visitor@roshanbhatia.com</span>
+            <span className="secondary-text">:</span>
+            <span className="text-text">~</span>
+            <span className="secondary-text">$</span>
+            <span className="cursor-blink ml-1"></span>
           </div>
         </section>
 
         <section data-test="writing-section" className="content-card">
-          <div className="mono text-small mb-2">
+          <div className="mono text-small mb-4">
             <span className="accent-text">visitor@roshanbhatia.com</span>
             <span className="secondary-text">:</span>
             <span className="text-text">~</span>
             <span className="secondary-text" data-test="writing-title">$ ./get-writing.sh --interactive --recent</span>
           </div>
-          <div className="mono text-small secondary-text mb-4">
-            ┌{'─'.repeat(80)}┐
-          </div>
           <div className="text-body">
             <WritingSection />
-          </div>
-          <div className="mono text-small secondary-text mt-4">
-            └{'─'.repeat(80)}┘
           </div>
         </section>
       </div>

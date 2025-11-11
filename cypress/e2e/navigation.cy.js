@@ -6,23 +6,23 @@ describe('Page Structure and Navigation', () => {
   it('should display main navigation sections', () => {
     // Check that main sections exist
     cy.getByDataTest('main-title').should('contain', 'ROSHAN BHATIA')
-    cy.get('h2').should('have.length.gte', 2) // At least README.MD and WRITING sections
+    cy.getByDataTest('readme-section').should('be.visible')
+    cy.getByDataTest('writing-section').should('be.visible')
   })
 
   it('should have working theme toggle', () => {
     // Check theme toggle exists and is clickable
     cy.getByDataTest('theme-toggle').should('be.visible')
 
-    // Get initial background color to verify theme changes
-    cy.get('body').invoke('css', 'background-color').as('initialBg')
+    // Get initial data-theme attribute from root div
+    cy.get('[data-theme]').invoke('attr', 'data-theme').as('initialTheme')
 
     // Click theme toggle
     cy.getByDataTest('theme-toggle').click()
 
-    // Wait and verify background changed (proves theme switched)
-    cy.wait(300)
-    cy.get('@initialBg').then((initialBg) => {
-      cy.get('body').invoke('css', 'background-color').should('not.equal', initialBg)
+    // Verify data-theme attribute changed
+    cy.get('@initialTheme').then((initialTheme) => {
+      cy.get('[data-theme]').invoke('attr', 'data-theme').should('not.equal', initialTheme)
     })
   })
 
