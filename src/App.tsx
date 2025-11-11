@@ -50,17 +50,6 @@ function AppContent() {
         </div>
       </div>
       <div className="flex-1 max-w-6xl mx-auto p-8 w-full">
-        {/* Version echo command */}
-        <div className="mono text-small mb-2">
-          <span className="accent-text">visitor@roshanbhatia.com</span>
-          <span className="secondary-text">:</span>
-          <span className="text-text">~</span>
-          <span className="secondary-text">$ echo WebsiteVersion:$(git rev-parse HEAD)</span>
-        </div>
-        <div className="mono text-small mb-8">
-          WebsiteVersion:{COMMIT_SHA}
-        </div>
-
         {/* Main Content */}
         <main>
           <HomePage />
