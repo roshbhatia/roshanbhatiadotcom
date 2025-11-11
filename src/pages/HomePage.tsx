@@ -71,9 +71,22 @@ connect:
     return <div className="mono">no content</div>
   }
 
+  // Format as shell output with line numbers
+  const lines = readme.split('\n')
+
   return (
-    <div className="mono whitespace-pre-wrap">
-      <div dangerouslySetInnerHTML={{ __html: readme.replace(/\n/g, '<br>') }} />
+    <div className="mono text-small">
+      {lines.map((line, index) => (
+        <div key={index} className="flex">
+          <span className="secondary-text mr-4" style={{ minWidth: '2ch', textAlign: 'right' }}>
+            {index + 1}
+          </span>
+          <span
+            className="flex-1"
+            dangerouslySetInnerHTML={{ __html: line || '&nbsp;' }}
+          />
+        </div>
+      ))}
     </div>
   )
 }

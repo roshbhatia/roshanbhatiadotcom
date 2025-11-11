@@ -303,27 +303,38 @@ function TOC({ toc }: { toc: TOCItem[] }) {
   )
 }
 
-function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) => void }) {
+function BlogCard({ post, onSelect, index, isHighlighted }: {
+  post: Writing;
+  onSelect: (slug: string) => void;
+  index: number;
+  isHighlighted: boolean;
+}) {
   const dateStr = new Date(post.date).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  })
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).replace(/\//g, '-')
 
   return (
     <article
-      className="py-3 cursor-pointer hover:bg-code-bg transition-colors border-l-2 border-transparent hover:border-accent pl-4 mono"
+      className={`py-1 cursor-pointer mono text-small ${isHighlighted ? 'bg-code-bg accent-text' : ''}`}
       data-test="blog-card"
       onClick={() => onSelect(post.slug)}
     >
-      <div className="flex items-baseline gap-4">
-        <span className="text-small secondary-text whitespace-nowrap" data-test="blog-date">
+      <div className="flex items-baseline gap-2">
+        <span className="secondary-text" style={{ minWidth: '3ch', textAlign: 'right' }}>
+          {index + 1}
+        </span>
+        <span className="secondary-text">│</span>
+        <span className="secondary-text whitespace-nowrap" data-test="blog-date" style={{ minWidth: '10ch' }}>
           {dateStr}
         </span>
-        <h3 className="text-body flex-1" data-test="blog-title">
+        <span className="secondary-text">│</span>
+        <h3 className="flex-1" data-test="blog-title">
           {post.title}
         </h3>
-        <span className="text-small muted-text whitespace-nowrap" data-test="reading-time">
+        <span className="secondary-text">│</span>
+        <span className="muted-text whitespace-nowrap" data-test="reading-time" style={{ minWidth: '6ch' }}>
           {post.readingTime}min
         </span>
       </div>
@@ -333,8 +344,11 @@ function BlogCard({ post, onSelect }: { post: Writing; onSelect: (slug: string) 
 
 function WritingSection() {
   const [selectedPost, setSelectedPost] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [highlightedIndex, setHighlightedIndex] = useState(0)
   const { open, close } = useModals()
   const modalKeyRef = useRef<string | null>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
   // Handle URL hash on mount and when it changes
   useEffect(() => {
@@ -424,15 +438,95 @@ function WritingSection() {
     window.location.hash = ''
   }
 
+  // Simple fuzzy filter
+  const filteredWritings = useMemo(() => {
+    if (!searchQuery.trim()) return writings
+
+    const query = searchQuery.toLowerCase()
+    return writings.filter(post =>
+      post.title.toLowerCase().includes(query) ||
+      post.excerpt.toLowerCase().includes(query)
+    )
+  }, [searchQuery])
+
+  // Reset highlighted index when filter changes
+  useEffect(() => {
+    setHighlightedIndex(0)
+  }, [filteredWritings.length])
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault()
+        searchInputRef.current?.focus()
+        return
+      }
+
+      // Only handle these keys when search is focused
+      if (document.activeElement === searchInputRef.current) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault()
+          setHighlightedIndex(prev => Math.min(prev + 1, filteredWritings.length - 1))
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault()
+          setHighlightedIndex(prev => Math.max(prev - 1, 0))
+        } else if (e.key === 'Enter') {
+          e.preventDefault()
+          if (filteredWritings[highlightedIndex]) {
+            openPost(filteredWritings[highlightedIndex].slug)
+          }
+        } else if (e.key === 'Escape') {
+          e.preventDefault()
+          setSearchQuery('')
+          searchInputRef.current?.blur()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [filteredWritings, highlightedIndex])
+
   return (
-    <div data-test="blog-list" className="space-y-1">
-      {writings.map((post) => (
-        <BlogCard
-          key={post.slug}
-          post={post}
-          onSelect={openPost}
-        />
-      ))}
+    <div data-test="blog-list">
+      {/* FZF-style search */}
+      <div className="mb-4 border border-border p-2 bg-code-bg">
+        <div className="flex items-center gap-2 mono text-small">
+          <span className="accent-text">›</span>
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="fuzzy search..."
+            className="flex-1 bg-transparent outline-none border-none text-text"
+            style={{ caretColor: 'var(--accent)' }}
+          />
+          <span className="secondary-text text-small">
+            {filteredWritings.length}/{writings.length}
+          </span>
+        </div>
+      </div>
+
+      {/* Post list */}
+      <div className="space-y-0">
+        {filteredWritings.map((post, index) => (
+          <BlogCard
+            key={post.slug}
+            post={post}
+            index={index}
+            isHighlighted={index === highlightedIndex}
+            onSelect={openPost}
+          />
+        ))}
+      </div>
+
+      {filteredWritings.length === 0 && (
+        <div className="mono text-small secondary-text py-4 text-center">
+          no matches found
+        </div>
+      )}
     </div>
   )
 }
