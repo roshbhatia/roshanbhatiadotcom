@@ -44,7 +44,7 @@ function AppContent() {
       <div className="max-w-5xl p-8 pl-12">
         {/* Shell prompt header */}
         <div className="mono text-small mb-8">
-          <span className="accent-text">roshan@bhatia</span>
+          <span className="accent-text">roshan@platforms.nike.inc</span>
           <span className="secondary-text">:</span>
           <span className="text-text">~</span>
           <span className="secondary-text">$</span>

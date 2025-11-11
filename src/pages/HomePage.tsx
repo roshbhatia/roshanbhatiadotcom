@@ -12,17 +12,17 @@ const GitHubReadme: React.FC = () => {
         // Try CORS proxy approach
         const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
         const githubUrl = 'https://raw.githubusercontent.com/roshbhatia/roshanbhatia/main/README.md'
-        
+
         const response = await fetch(proxyUrl + githubUrl, {
           headers: {
             'X-Requested-With': 'XMLHttpRequest'
           }
         })
-        
+
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`)
         }
-        
+
         const content = await response.text()
         setReadme(content)
         setError(null)
@@ -83,12 +83,12 @@ connect:
 const HomePage: React.FC = () => {
   return (
     <>
-      <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
+      <h1 className="sr-only" data-test="main-title">~</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section data-test="readme-section" className="content-card">
           <div className="flex items-center gap-2 mb-6">
             <span className="mono text-small secondary-text">$</span>
-            <h2 className="text-section accent-text mono" data-test="readme-title">cat README.MD</h2>
+            <h2 className="text-section accent-text mono" data-test="readme-title">[README.MD]</h2>
           </div>
           <div className="text-body">
             <GitHubReadme />
@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
         <section data-test="writing-section" className="content-card">
           <div className="flex items-center gap-2 mb-6">
             <span className="mono text-small secondary-text">$</span>
-            <h2 className="text-section accent-text mono" data-test="writing-title">ls WRITING/</h2>
+            <h2 className="text-section accent-text mono" data-test="writing-title">[WRITING]</h2>
           </div>
           <div className="text-body">
             <WritingSection />
