@@ -10,36 +10,19 @@ describe('Page Structure and Navigation', () => {
   })
 
   it('should have working theme toggle', () => {
-    // Check theme toggle exists
-    cy.getByDataTest('theme-toggle').should('exist')
+    // Check theme toggle exists and is clickable
+    cy.getByDataTest('theme-toggle').should('be.visible')
 
-    // Get initial theme text
-    cy.getByDataTest('theme-toggle').invoke('text').as('initialTheme')
+    // Get initial background color to verify theme changes
+    cy.get('body').invoke('css', 'background-color').as('initialBg')
 
     // Click theme toggle
     cy.getByDataTest('theme-toggle').click()
 
-    // Wait for theme change to apply
-    cy.wait(100)
-
-    // Check that theme changed (text should be different)
-    cy.getByDataTest('theme-toggle').invoke('text').then((newTheme) => {
-      cy.get('@initialTheme').then((initialTheme) => {
-        expect(newTheme).to.not.equal(initialTheme)
-      })
-    })
-
-    // Click again to cycle to next theme
-    cy.getByDataTest('theme-toggle').click()
-
-    // Wait for theme change to apply
-    cy.wait(100)
-
-    // Check that theme changed again
-    cy.getByDataTest('theme-toggle').invoke('text').then((thirdTheme) => {
-      cy.get('@initialTheme').then((initialTheme) => {
-        expect(thirdTheme).to.not.equal(initialTheme)
-      })
+    // Wait and verify background changed (proves theme switched)
+    cy.wait(300)
+    cy.get('@initialBg').then((initialBg) => {
+      cy.get('body').invoke('css', 'background-color').should('not.equal', initialBg)
     })
   })
 

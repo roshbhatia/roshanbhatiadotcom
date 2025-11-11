@@ -381,31 +381,30 @@ function WritingSection() {
     if (selectedPost) {
       const selectedWriting = writings.find(w => w.slug === selectedPost)
       if (selectedWriting) {
-        // Close any existing modal first
-        if (modalKeyRef.current) {
-          close(modalKeyRef.current)
-        }
-
-        // Get folder path from the selected writing slug
-        const getImagePath = (imagePath: string) => {
-          // Handle absolute paths
-          if (imagePath.startsWith('/')) {
-            return imagePath
+        // Only open a new modal if one isn't already open
+        // This prevents flickering when clicking the same post
+        if (!modalKeyRef.current) {
+          // Get folder path from the selected writing slug
+          const getImagePath = (imagePath: string) => {
+            // Handle absolute paths
+            if (imagePath.startsWith('/')) {
+              return imagePath
+            }
+            // For relative paths, just prepend the writing folder
+            return `/writing/${selectedWriting.slug}/${imagePath}`
           }
-          // For relative paths, just prepend the writing folder
-          return `/writing/${selectedWriting.slug}/${imagePath}`
+
+          const { elements, toc } = parseMarkdown(selectedWriting.content, getImagePath)
+
+          const key = open(BlogPostModal, {
+            writing: selectedWriting,
+            elements,
+            toc,
+            onClose: closePost,
+            Footer
+          })
+          modalKeyRef.current = key
         }
-
-        const { elements, toc } = parseMarkdown(selectedWriting.content, getImagePath)
-
-        const key = open(BlogPostModal, {
-          writing: selectedWriting,
-          elements,
-          toc,
-          onClose: closePost,
-          Footer
-        })
-        modalKeyRef.current = key
       }
     } else {
       // Close modal when selectedPost is null

@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
     <footer className="mt-12 pt-6 border-t border-border">
       <div className="flex justify-between items-center text-small">
         <div className="mono secondary-text" data-test="version-info">
-          v{COMMIT_SHA}
+          [v{COMMIT_SHA}]
         </div>
         <button
           onClick={cycleTheme}
