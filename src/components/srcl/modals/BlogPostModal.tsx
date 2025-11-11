@@ -91,7 +91,7 @@ function BlogPostModal({ writing, elements, toc, onClose, Footer }: BlogPostModa
             [BACK]
           </button>
 
-          <article className="content-card schematic-container">
+          <article className="content-card">
             <header className="mb-8">
               <div className="flex justify-between mb-4">
                 <h1 className="text-hero" data-test="blog-title">

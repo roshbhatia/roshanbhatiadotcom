@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { codeToHtml } from 'shiki'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
-import ImageZoom from './components/ImageZoom'
 import { Footer } from './App'
 import { updateMetaTags, resetMetaTags } from './utils/metaTags'
 import { useModals } from '@components/page/ModalContext'
@@ -187,10 +186,11 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
 
       elements.push(
         <div key={elements.length} className="my-8 content-spacing technical-border">
-          <ImageZoom
+          <img
             src={getImagePath(path || '')}
             alt={alt || ''}
             className="w-full border-2 border-border"
+            loading="lazy"
           />
           {alt && alt.trim() && (
             <div className="text-small mt-4 text-center secondary-text italic">

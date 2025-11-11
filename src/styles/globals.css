@@ -319,21 +319,11 @@
 
   /* Enhanced content styling - Web 1.0 aesthetic */
   .content-card {
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     padding: var(--space-xl);
     background: var(--cell-bg);
     position: relative;
     margin-bottom: var(--space-lg);
-  }
-
-  .content-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--grid-major);
   }
 
   /* Text content should not have grid background */
@@ -861,5 +851,50 @@
     content: '█';
     animation: blink 1s infinite;
     margin-left: 2px;
+  }
+
+  /* CRT scanline effect */
+  @keyframes scanline {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(100vh);
+    }
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(0, 0, 0, 0.05) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.3;
+  }
+
+  /* Add subtle screen glow effect */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      ellipse at center,
+      transparent 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
+    z-index: 9997;
   }
 }

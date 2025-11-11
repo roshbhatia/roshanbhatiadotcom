@@ -83,25 +83,37 @@ connect:
 const HomePage: React.FC = () => {
   return (
     <>
-      <h1 className="sr-only" data-test="main-title">~</h1>
+      <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <section data-test="readme-section" className="content-card">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-4">
             <span className="mono text-small secondary-text">$</span>
             <h2 className="text-section accent-text mono" data-test="readme-title">[README.MD]</h2>
+          </div>
+          <div className="mono text-small secondary-text mb-4">
+            ┌{'─'.repeat(50)}┐
           </div>
           <div className="text-body">
             <GitHubReadme />
           </div>
+          <div className="mono text-small secondary-text mt-4">
+            └{'─'.repeat(50)}┘
+          </div>
         </section>
 
         <section data-test="writing-section" className="content-card">
-          <div className="flex items-center gap-2 mb-6">
+          <div className="flex items-center gap-2 mb-4">
             <span className="mono text-small secondary-text">$</span>
             <h2 className="text-section accent-text mono" data-test="writing-title">[WRITING]</h2>
           </div>
+          <div className="mono text-small secondary-text mb-4">
+            ┌{'─'.repeat(50)}┐
+          </div>
           <div className="text-body">
             <WritingSection />
+          </div>
+          <div className="mono text-small secondary-text mt-4">
+            └{'─'.repeat(50)}┘
           </div>
         </section>
       </div>
