@@ -1,0 +1,104 @@
+// SRCL Theme Bridge
+// This file maps existing CSS variables to SRCL component theme variables
+
+:root,
+[data-theme='dark'] {
+  // Map existing theme variables to SRCL theme variables
+  --theme-background: var(--bg);
+  --theme-background-modal: var(--cell-bg);
+  --theme-background-modal-footer: var(--cell-bg);
+  --theme-background-input: var(--code-bg);
+  --theme-border: var(--border);
+  --theme-border-subdued: var(--cell-border);
+  --theme-text: var(--text);
+  --theme-button: var(--text);
+  --theme-button-text: var(--bg);
+  --theme-button-foreground: var(--cell-bg);
+  --theme-button-background: var(--cell-bg);
+  --theme-focused-foreground: var(--accent);
+  --theme-focused-foreground-subdued: var(--grid-color);
+  --theme-overlay: rgba(0, 0, 0, 0.4);
+
+  // Typography
+  --font-family: 'JetBrains Mono', 'Courier New', monospace;
+  --font-family-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --font-family-serif: Georgia, Times New Roman, serif;
+  --theme-line-height-base: 1.25;
+  --font-size: 16px;
+
+  // Z-index system for modals and overlays
+  --z-index-page: 1;
+  --z-index-page-select: 3;
+  --z-index-page-tooltips: 4;
+  --z-index-page-popover: 5;
+  --z-index-page-dropdown-menus: 6;
+  --z-index-page-modals: 10;
+}
+
+[data-theme='light'] {
+  --theme-background: var(--bg);
+  --theme-background-modal: var(--cell-bg);
+  --theme-background-modal-footer: var(--cell-bg);
+  --theme-background-input: var(--code-bg);
+  --theme-border: var(--border);
+  --theme-border-subdued: var(--cell-border);
+  --theme-text: var(--text);
+  --theme-button: var(--text);
+  --theme-button-text: var(--bg);
+  --theme-button-foreground: var(--cell-bg);
+  --theme-button-background: var(--cell-bg);
+  --theme-focused-foreground: var(--accent);
+  --theme-focused-foreground-subdued: var(--grid-color);
+  --theme-overlay: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='gruvbox-light'] {
+  --theme-background: var(--bg);
+  --theme-background-modal: var(--cell-bg);
+  --theme-background-modal-footer: var(--cell-bg);
+  --theme-background-input: var(--code-bg);
+  --theme-border: var(--border);
+  --theme-border-subdued: var(--cell-border);
+  --theme-text: var(--text);
+  --theme-button: var(--text);
+  --theme-button-text: var(--bg);
+  --theme-button-foreground: var(--cell-bg);
+  --theme-button-background: var(--cell-bg);
+  --theme-focused-foreground: var(--accent);
+  --theme-focused-foreground-subdued: var(--grid-color);
+  --theme-overlay: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='gruvbox-dark'] {
+  --theme-background: var(--bg);
+  --theme-background-modal: var(--cell-bg);
+  --theme-background-modal-footer: var(--cell-bg);
+  --theme-background-input: var(--code-bg);
+  --theme-border: var(--border);
+  --theme-border-subdued: var(--cell-border);
+  --theme-text: var(--text);
+  --theme-button: var(--text);
+  --theme-button-text: var(--bg);
+  --theme-button-foreground: var(--cell-bg);
+  --theme-button-background: var(--cell-bg);
+  --theme-focused-foreground: var(--accent);
+  --theme-focused-foreground-subdued: var(--grid-color);
+  --theme-overlay: rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='nord-dark'] {
+  --theme-background: var(--bg);
+  --theme-background-modal: var(--cell-bg);
+  --theme-background-modal-footer: var(--cell-bg);
+  --theme-background-input: var(--code-bg);
+  --theme-border: var(--border);
+  --theme-border-subdued: var(--cell-border);
+  --theme-text: var(--text);
+  --theme-button: var(--text);
+  --theme-button-text: var(--bg);
+  --theme-button-foreground: var(--cell-bg);
+  --theme-button-background: var(--cell-bg);
+  --theme-focused-foreground: var(--accent);
+  --theme-focused-foreground-subdued: var(--grid-color);
+  --theme-overlay: rgba(0, 0, 0, 0.4);
+}
