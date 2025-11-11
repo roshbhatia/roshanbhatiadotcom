@@ -47,7 +47,7 @@ function AppContent() {
           <span className="accent-text">roshan@platforms.nike.inc</span>
           <span className="secondary-text">:</span>
           <span className="text-text">~</span>
-          <span className="secondary-text">$</span>
+          <span className="secondary-text">$ ./readme.sh; ./writing.sh</span>
           <span className="cursor-blink ml-1"></span>
         </div>
 
