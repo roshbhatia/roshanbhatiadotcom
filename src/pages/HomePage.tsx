@@ -103,7 +103,7 @@ const HomePage: React.FC = () => {
             <span className="accent-text">visitor@roshanbhatia.com</span>
             <span className="secondary-text">:</span>
             <span className="text-text">~</span>
-            <span className="secondary-text" data-test="readme-title">$ cat readme.md</span>
+            <span className="secondary-text" data-test="readme-title">$ /usr/local/bin/prettyprint $XDG_DATA_HOME/README.md</span>
           </div>
           <div className="text-body">
             <GitHubReadme />

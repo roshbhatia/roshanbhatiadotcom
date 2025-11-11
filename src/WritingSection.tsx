@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { codeToHtml } from 'shiki'
 import { writings, Writing } from './writings.generated'
 import { useTheme } from './contexts/ThemeContext'
-import { Footer } from './App'
 import { updateMetaTags, resetMetaTags } from './utils/metaTags'
 import { useModals } from '@components/page/ModalContext'
 import BlogPostModal from '@components/modals/BlogPostModal'
@@ -324,7 +323,7 @@ function BlogCard({ post, onSelect, index, isHighlighted }: {
         <span className="secondary-text whitespace-nowrap" data-test="blog-date" style={{ minWidth: '10ch' }}>
           {dateStr}
         </span>
-        <h3 className="flex-1" data-test="blog-title">
+        <h3 className="flex-1 text-link hover:accent-text" data-test="blog-title">
           {post.title}
         </h3>
         <span className="muted-text whitespace-nowrap" data-test="reading-time" style={{ minWidth: '8ch', textAlign: 'right' }}>
@@ -407,8 +406,7 @@ function WritingSection() {
             writing: selectedWriting,
             elements,
             toc,
-            onClose: closePost,
-            Footer
+            onClose: closePost
           })
           modalKeyRef.current = key
         }

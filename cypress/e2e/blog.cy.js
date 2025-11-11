@@ -310,4 +310,25 @@ describe('Blog Functionality', () => {
       })
     })
   })
+
+  it('should not duplicate footer when viewing a blog post', () => {
+    // Check that footer exists exactly once on homepage
+    cy.getByDataTest('theme-toggle').should('have.length', 1)
+    cy.getByDataTest('version-info').should('have.length', 1)
+
+    // Open a blog post
+    cy.getByDataTest('blog-card').first().click()
+    cy.getByDataTest('blog-title', { timeout: 5000 }).should('be.visible')
+
+    // Check that footer still exists exactly once (not duplicated)
+    cy.getByDataTest('theme-toggle').should('have.length', 1)
+    cy.getByDataTest('version-info').should('have.length', 1)
+
+    // Close the modal
+    cy.getByDataTest('back-button').click()
+
+    // Check that footer still exists exactly once after closing
+    cy.getByDataTest('theme-toggle').should('have.length', 1)
+    cy.getByDataTest('version-info').should('have.length', 1)
+  })
 })
