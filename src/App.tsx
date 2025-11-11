@@ -43,12 +43,20 @@ function AppContent() {
     <div className="min-h-screen bg-bg text-text" data-theme={theme}>
       <div className="max-w-5xl p-8 pl-12">
         {/* Shell prompt header */}
-        <div className="mono text-small mb-8">
-          <span className="accent-text">roshan@platforms.nike.inc</span>
+        <div className="mono text-small mb-2">
+          <span className="accent-text">visitor@roshanbhatia.com</span>
           <span className="secondary-text">:</span>
           <span className="text-text">~</span>
-          <span className="secondary-text">$ ./readme.sh; ./writing.sh</span>
+          <span className="secondary-text">$</span>
           <span className="cursor-blink ml-1"></span>
+        </div>
+
+        {/* Version echo command */}
+        <div className="mono text-small mb-2 secondary-text">
+          $ echo WebsiteVersion:$(git rev-parse HEAD)
+        </div>
+        <div className="mono text-small mb-8">
+          WebsiteVersion:{COMMIT_SHA}
         </div>
 
         {/* Main Content */}
