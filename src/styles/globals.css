@@ -832,11 +832,11 @@
 
   /* Medium Zoom styles */
   .medium-zoom-overlay {
-    z-index: 100;
+    z-index: 9999;
   }
 
   .medium-zoom-image {
-    z-index: 101;
+    z-index: 10000;
   }
 
   .medium-zoom-image--opened {
