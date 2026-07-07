@@ -29,10 +29,11 @@ const GitHubReadme: React.FC = () => {
       } catch (err) {
         console.error('Failed to fetch README:', err)
         // Fallback to static content
-        setReadme(`kubernetes controllers @Nike-Inc (Senior Software Engineer)
+        setReadme(`backend, platform, and site reliability @pinginc (Staff Software Engineer)
 
 formerly:
 
+kubernetes controllers @Nike-Inc (Senior Software Engineer/Software Engineer II)
 backend, platform, and site reliability @pinginc (Senior Software Engineer)
 observability integrations and site reliabililty @VirtualInstruments (Software Engineer, Site Reliability Engineer)
 
