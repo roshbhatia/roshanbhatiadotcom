@@ -1,230 +1,171 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+// Imports the real implementation. The previous version of this file pasted a
+// copy of parseMetadata inline and asserted against the copy, so the actual
+// build script could break with every test still green.
+import {
+  parseFrontmatter,
+  readingTimeFrom,
+  excerptFrom,
+  optimizedName,
+  renderPost,
+} from './generate-writings.mjs'
 
-// Helper to parse metadata (extracted from generate-writings.js)
-function parseMetadata(content) {
-  const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n/
-  const match = content.match(frontmatterRegex)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const POST_000 = path.join(__dirname, '../writing/000/post.md')
 
-  if (match) {
-    const frontmatter = match[1]
-    const markdownContent = content.slice(match[0].length)
+describe('parseFrontmatter', () => {
+  it('splits frontmatter from content', () => {
+    const { metadata, content } = parseFrontmatter(
+      '---\ntitle: "Test Post"\ndate: "2025-01-01"\n---\n\n# Test Post\n\nBody.'
+    )
+    expect(metadata.title).toBe('Test Post')
+    expect(metadata.date).toBe('2025-01-01')
+    expect(content).toContain('# Test Post')
+    expect(content.startsWith('---')).toBe(false)
+  })
 
-    const metadata = {}
-    frontmatter.split('\n').forEach(line => {
-      const colonIndex = line.indexOf(':')
-      if (colonIndex > 0) {
-        const key = line.slice(0, colonIndex).trim()
-        const value = line.slice(colonIndex + 1).trim().replace(/^["']|["']$/g, '')
-        metadata[key] = value
-      }
+  it('keeps a --- separator that appears in the body', () => {
+    const { content } = parseFrontmatter('---\ntitle: "T"\n---\n\nBefore\n\n---\n\nAfter')
+    expect(content).toContain('---')
+    expect(content).toContain('After')
+  })
+
+  it('falls back to the first heading when there is no frontmatter', () => {
+    const { metadata } = parseFrontmatter('# My Title\n\nSome content.')
+    expect(metadata.title).toBe('My Title')
+  })
+
+  it('keeps colons and brackets in values', () => {
+    const { metadata } = parseFrontmatter(
+      '---\ntitle: "Test: Special & Characters"\ndescription: "[brackets] and {braces}"\n---\n\nx'
+    )
+    expect(metadata.title).toBe('Test: Special & Characters')
+    expect(metadata.description).toBe('[brackets] and {braces}')
+  })
+})
+
+describe('readingTimeFrom', () => {
+  it('is at least one minute', () => {
+    expect(readingTimeFrom('a few words')).toBe(1)
+  })
+
+  it('ignores fenced code so a long snippet cannot inflate the estimate', () => {
+    const prose = 'word '.repeat(400)
+    const withCode = `${prose}\n\n\`\`\`python\n${'x = 1\n'.repeat(500)}\`\`\``
+    expect(readingTimeFrom(withCode)).toBe(readingTimeFrom(prose))
+  })
+})
+
+describe('excerptFrom', () => {
+  it('strips markdown syntax', () => {
+    const excerpt = excerptFrom('See [this link](https://example.com) and `code` and **bold**.')
+    expect(excerpt).toBe('See this link and code and bold.')
+    expect(excerpt).not.toContain('](')
+    expect(excerpt).not.toContain('**')
+  })
+
+  it('skips headings, images, and separators', () => {
+    expect(excerptFrom('# Title\n\n![alt](a.png)\n\n---\n\nThe real opening line.')).toBe(
+      'The real opening line.'
+    )
+  })
+
+  it('cuts on a word boundary, not mid-word', () => {
+    const excerpt = excerptFrom(`${'alpha '.repeat(60)}omega`, 50)
+    expect(excerpt.endsWith('…')).toBe(true)
+    expect(excerpt).not.toMatch(/alph…$/)
+  })
+})
+
+describe('optimizedName', () => {
+  it('maps raster sources onto the generated webp', () => {
+    expect(optimizedName('a.png')).toBe('a.webp')
+    expect(optimizedName('b.JPG')).toBe('b.webp')
+    expect(optimizedName('c.jpeg')).toBe('c.webp')
+  })
+
+  it('leaves other files alone', () => {
+    expect(optimizedName('d.svg')).toBe('d.svg')
+    expect(optimizedName('e.gif')).toBe('e.gif')
+  })
+})
+
+describe('renderPost', () => {
+  it('wraps list items in a list', async () => {
+    const { html } = await renderPost({ markdown: '- one\n- two\n', slug: '000' })
+    expect(html).toContain('<ul>')
+    expect(html).toContain('<li>one</li>')
+  })
+
+  it('renders constructs the old runtime parser dropped', async () => {
+    const { html } = await renderPost({
+      markdown: '> quoted\n\n1. first\n2. second\n\n#### deep heading\n',
+      slug: '000',
     })
-
-    return { metadata, content: markdownContent }
-  }
-
-  const titleMatch = content.match(/^#\s+(.+)$/m)
-  const title = titleMatch ? titleMatch[1] : 'Untitled'
-
-  return {
-    metadata: { title },
-    content
-  }
-}
-
-describe('Build Script - Frontmatter Parsing', () => {
-  it('should parse YAML frontmatter correctly', () => {
-    const content = `---
-title: "Test Post"
-date: "2025-01-01"
-description: "Test description"
----
-
-# Test Post
-
-This is test content.`
-
-    const result = parseMetadata(content)
-
-    expect(result.metadata.title).toBe('Test Post')
-    expect(result.metadata.date).toBe('2025-01-01')
-    expect(result.metadata.description).toBe('Test description')
-    expect(result.content).toContain('# Test Post')
-    expect(result.content).not.toContain('---')
+    expect(html).toContain('<blockquote>')
+    expect(html).toContain('<ol>')
+    expect(html).toContain('<h4')
   })
 
-  it('should not modify original content after frontmatter', () => {
-    const originalContent = `# Test Post
-
-This is a test paragraph with **bold** and *italic* text.
-
-\`\`\`python
-print("Hello, world!")
-\`\`\`
-
-More content here.`
-
-    const contentWithFrontmatter = `---
-title: "Test Post"
----
-
-${originalContent}`
-
-    const result = parseMetadata(contentWithFrontmatter)
-
-    expect(result.content).toBe(originalContent)
+  it('links bare URLs', async () => {
+    const { html } = await renderPost({ markdown: 'see https://example.com now', slug: '000' })
+    expect(html).toContain('href="https://example.com"')
   })
 
-  it('should handle content without frontmatter', () => {
-    const content = `# My Title
-
-Some content here.`
-
-    const result = parseMetadata(content)
-
-    expect(result.metadata.title).toBe('My Title')
-    expect(result.content).toBe(content)
+  it('resolves relative images against the post folder and points at the webp', async () => {
+    const { html } = await renderPost({ markdown: '![A caption](assets/x.png)', slug: '007' })
+    expect(html).toContain('src="/writing/007/assets/x.webp"')
+    expect(html).toContain('<figcaption>A caption</figcaption>')
+    // Caption and alt would otherwise duplicate for screen reader users.
+    expect(html).toContain('alt=""')
   })
 
-  it('should not modify code blocks in content', () => {
-    const codeContent = `\`\`\`python
-from kmk.kmk_keyboard import KMKKeyboard
-print("Test")
-\`\`\``
-
-    const fullContent = `---
-title: "Code Test"
----
-
-# Code Test
-
-${codeContent}`
-
-    const result = parseMetadata(fullContent)
-
-    expect(result.content).toContain(codeContent)
+  it('gives colliding headings distinct ids', async () => {
+    const { html, toc } = await renderPost({ markdown: '## Setup\n\n## Setup\n', slug: '000' })
+    const ids = toc.map((item) => item.id)
+    expect(new Set(ids).size).toBe(ids.length)
+    expect(html).toContain('id="setup"')
+    expect(html).toContain('id="setup-1"')
   })
 
-  it('should handle special characters in metadata values', () => {
-    const content = `---
-title: "Test: Special & Characters"
-description: "A post with [brackets] and {braces}"
----
+  it('builds a table of contents from h2 and h3 only', async () => {
+    const { toc } = await renderPost({
+      markdown: '# One\n\n## Two\n\n### Three\n\n#### Four\n',
+      slug: '000',
+    })
+    expect(toc.map((item) => item.level)).toEqual([2, 3])
+  })
 
-Content here.`
-
-    const result = parseMetadata(content)
-
-    expect(result.metadata.title).toBe('Test: Special & Characters')
-    expect(result.metadata.description).toBe('A post with [brackets] and {braces}')
+  it('marks external links safe and does not emit raw HTML from a post', async () => {
+    const { html } = await renderPost({
+      markdown: '[x](https://example.com)\n\n<script>alert(1)</script>\n',
+      slug: '000',
+    })
+    expect(html).toContain('rel="noopener noreferrer"')
+    expect(html).not.toContain('<script>')
   })
 })
 
-describe('Build Script - File Safety', () => {
-  const testWritingDir = path.join(__dirname, '../writing/000')
-  const testPostPath = path.join(testWritingDir, 'post.md')
-  let originalContent = ''
-  let originalMtime = null
+describe('the real post', () => {
+  it('still parses and renders', async () => {
+    const raw = fs.readFileSync(POST_000, 'utf8')
+    const { metadata, content } = parseFrontmatter(raw)
+    expect(metadata.title).toBe('Keyboard designing for the egotistical')
+    expect(metadata.date).toBeDefined()
 
-  beforeEach(() => {
-    // Read original file before test
-    if (fs.existsSync(testPostPath)) {
-      originalContent = fs.readFileSync(testPostPath, 'utf8')
-      const stats = fs.statSync(testPostPath)
-      originalMtime = stats.mtimeMs
-    }
+    const { html, toc } = await renderPost({ markdown: content, slug: '000' })
+    expect(html).toContain('<figure class="post-figure">')
+    expect(html).toContain('class="shiki')
+    expect(toc.length).toBeGreaterThan(0)
   })
 
-  afterEach(() => {
-    // Verify file hasn't been modified
-    if (fs.existsSync(testPostPath)) {
-      const currentContent = fs.readFileSync(testPostPath, 'utf8')
-      expect(currentContent).toBe(originalContent)
-    }
-  })
-
-  it('should not modify source markdown files when reading', () => {
-    if (!fs.existsSync(testPostPath)) {
-      return
-    }
-
-    // Read the file (simulating what the build script does)
-    const content = fs.readFileSync(testPostPath, 'utf8')
-
-    // Parse it
-    const result = parseMetadata(content)
-
-    // Verify we got data
-    expect(result.metadata).toBeDefined()
-    expect(result.content).toBeDefined()
-  })
-
-  it('should find post.md file in writing/000 directory', () => {
-    expect(fs.existsSync(testWritingDir)).toBe(true)
-    expect(fs.existsSync(testPostPath)).toBe(true)
-  })
-
-  it('should have valid frontmatter in post.md', () => {
-    if (!fs.existsSync(testPostPath)) {
-      return
-    }
-
-    const content = fs.readFileSync(testPostPath, 'utf8')
-    const result = parseMetadata(content)
-
-    expect(result.metadata.title).toBeDefined()
-    expect(result.metadata.title).toBe('Keyboard designing for the egotistical')
-    expect(result.metadata.date).toBeDefined()
-  })
-})
-
-describe('Build Script - Content Integrity', () => {
-  it('should preserve image paths in markdown', () => {
-    const content = `---
-title: "Test"
----
-
-# Test
-
-![Alt text](assets/image.png)
-
-![Another image](assets/subfolder/image2.jpg)`
-
-    const result = parseMetadata(content)
-
-    expect(result.content).toContain('![Alt text](assets/image.png)')
-    expect(result.content).toContain('![Another image](assets/subfolder/image2.jpg)')
-  })
-
-  it('should preserve links in markdown', () => {
-    const content = `---
-title: "Test"
----
-
-Check out [this link](https://example.com) and [another](https://test.com).`
-
-    const result = parseMetadata(content)
-
-    expect(result.content).toContain('[this link](https://example.com)')
-    expect(result.content).toContain('[another](https://test.com)')
-  })
-
-  it('should preserve formatting (bold, italic, code)', () => {
-    const content = `---
-title: "Test"
----
-
-This has **bold**, *italic*, and \`inline code\`.`
-
-    const result = parseMetadata(content)
-
-    expect(result.content).toContain('**bold**')
-    expect(result.content).toContain('*italic*')
-    expect(result.content).toContain('`inline code`')
+  it('is not modified by reading it', () => {
+    const before = fs.readFileSync(POST_000, 'utf8')
+    parseFrontmatter(before)
+    expect(fs.readFileSync(POST_000, 'utf8')).toBe(before)
   })
 })
