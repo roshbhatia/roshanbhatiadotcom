@@ -1,135 +1,74 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import WritingSection from '../WritingSection'
+import { aboutLines } from '../content/about'
 
-const GitHubReadme: React.FC = () => {
-  const [readme, setReadme] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+const Prompt: React.FC<{ command?: string; cursor?: boolean; testId?: string }> = ({
+  command,
+  cursor,
+  testId,
+}) => (
+  <div className="mono text-small">
+    <span className="accent-text">visitor@roshanbhatia.com</span>
+    <span className="secondary-text">:</span>
+    <span className="text-text">~</span>
+    <span className="secondary-text" data-test={testId}>
+      ${command ? ` ${command}` : ''}
+    </span>
+    {cursor && <span className="cursor-blink ml-1" aria-hidden="true" />}
+  </div>
+)
 
-  useEffect(() => {
-    const fetchReadme = async () => {
-      try {
-        // Try CORS proxy approach
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        const githubUrl = 'https://raw.githubusercontent.com/roshbhatia/roshanbhatia/main/README.md'
-
-        const response = await fetch(proxyUrl + githubUrl, {
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        })
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`)
-        }
-
-        const content = await response.text()
-        setReadme(content)
-        setError(null)
-      } catch (err) {
-        console.error('Failed to fetch README:', err)
-        // Fallback to static content
-        setReadme(`backend, platform, and site reliability @pinginc (Staff Software Engineer)
-
-formerly:
-
-kubernetes controllers @Nike-Inc (Senior Software Engineer/Software Engineer II)
-backend, platform, and site reliability @pinginc (Senior Software Engineer)
-observability integrations and site reliabililty @VirtualInstruments (Software Engineer, Site Reliability Engineer)
-
-also formerly (but short lived):
-
-kubernetes controllers, multicloud k8s, react @shipyard (Senior Software Engineer)
-site reliability working on multicloud and baremetal Kubernetes @dgraph-io (Site Reliability Engineer)
-
-i like:
-
-distributed systems
-platform and infrastructure
-designing for scale
-
-connect:
-<a href="https://github.com/roshbhatia" target="_blank" rel="noopener noreferrer" style="color: var(--link); text-decoration: underline;">github: https://github.com/roshbhatia</a>
-<a href="https://linkedin.com/in/roshanbhatia" target="_blank" rel="noopener noreferrer" style="color: var(--link); text-decoration: underline;">linkedin: https://linkedin.com/in/roshanbhatia</a>`)
-        setError(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchReadme()
-  }, [])
-
-  if (loading) {
-    return <div className="mono">loading...</div>
-  }
-
-  if (error) {
-    return <div className="mono">error: {error}</div>
-  }
-
-  if (!readme) {
-    return <div className="mono">no content</div>
-  }
-
-  // Format as shell output with line numbers
-  const lines = readme.split('\n')
-
-  return (
-    <div className="mono text-small">
-      {lines.map((line, index) => (
-        <div key={index} className="flex">
-          <span className="secondary-text mr-4" style={{ minWidth: '2ch', textAlign: 'right' }}>
-            {index + 1}
-          </span>
-          <span
-            className="flex-1"
-            dangerouslySetInnerHTML={{ __html: line || '&nbsp;' }}
-          />
-        </div>
-      ))}
-    </div>
-  )
-}
-
-
+const About: React.FC = () => (
+  <div className="mono text-small">
+    {aboutLines.map((line, index) => (
+      <div key={index} className="flex">
+        <span
+          className="secondary-text mr-4 shrink-0"
+          style={{ minWidth: '2ch', textAlign: 'right' }}
+          aria-hidden="true"
+        >
+          {index + 1}
+        </span>
+        <span className={line.label ? 'muted-text' : undefined}>
+          {line.link ? (
+            <a
+              href={line.link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-link"
+            >
+              {line.link.text}
+            </a>
+          ) : (
+            line.text ?? ' '
+          )}
+        </span>
+      </div>
+    ))}
+  </div>
+)
 
 const HomePage: React.FC = () => {
   return (
     <>
-      <h1 className="sr-only" data-test="main-title">ROSHAN BHATIA</h1>
-      <div className="space-y-8">
-        <section data-test="readme-section" className="content-card">
-          <div className="mono text-small mb-4">
-            <span className="accent-text">visitor@roshanbhatia.com</span>
-            <span className="secondary-text">:</span>
-            <span className="text-text">~</span>
-            <span className="secondary-text" data-test="readme-title">$ /usr/local/bin/prettyprint $XDG_DATA_HOME/README.md</span>
-          </div>
-          <div className="text-body">
-            <GitHubReadme />
-          </div>
-          <div className="mono text-small mt-4">
-            <span className="accent-text">visitor@roshanbhatia.com</span>
-            <span className="secondary-text">:</span>
-            <span className="text-text">~</span>
-            <span className="secondary-text">$</span>
-            <span className="cursor-blink ml-1"></span>
-          </div>
-        </section>
+      <h1 className="sr-only" data-test="main-title">Roshan Bhatia</h1>
 
-        <section data-test="writing-section" className="content-card">
-          <div className="mono text-small mb-4">
-            <span className="accent-text">visitor@roshanbhatia.com</span>
-            <span className="secondary-text">:</span>
-            <span className="text-text">~</span>
-            <span className="secondary-text" data-test="writing-title">$ ./get-writing.sh --interactive --recent</span>
-          </div>
-          <div className="text-body">
-            <WritingSection />
-          </div>
-        </section>
-      </div>
+      <section data-test="readme-section" className="content-card">
+        <div className="mb-4">
+          <Prompt command="prettyprint README.md" testId="readme-title" />
+        </div>
+        <About />
+        <div className="mt-4">
+          <Prompt cursor />
+        </div>
+      </section>
+
+      <section data-test="writing-section" className="content-card">
+        <div className="mb-4">
+          <Prompt command="ls -t ./writing | fzf" testId="writing-title" />
+        </div>
+        <WritingSection />
+      </section>
     </>
   )
 }
