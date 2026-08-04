@@ -25,15 +25,7 @@
     "allowJs": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@components/*": [
-        "./src/components/srcl/*"
-      ],
-      "@common/*": [
-        "./src/common/*"
-      ]
+      "@/*": ["./src/*"]
     },
     "incremental": true
   },
