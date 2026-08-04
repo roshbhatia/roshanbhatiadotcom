@@ -67,9 +67,11 @@ describe('Reading a post', () => {
     cy.getByDataTest('blog-content').should('not.exist')
   })
 
-  it('goes back to the index on Escape', () => {
-    cy.visit('/#writing/000')
-    cy.get('body').type('{esc}')
+  it('goes back to the index with browser Back', () => {
+    cy.visit('/')
+    cy.getByDataTest('blog-card').last().click()
+    cy.getByDataTest('blog-content').should('be.visible')
+    cy.go('back')
     cy.getByDataTest('blog-list').should('be.visible')
   })
 

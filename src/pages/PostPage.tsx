@@ -41,13 +41,9 @@ const PostPage: React.FC<{ post: Writing }> = ({ post }) => {
     window.scrollTo(0, 0)
   }, [post.slug])
 
-  useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') goToIndex()
-    }
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [])
+  // No Escape-to-close handler. That was modal semantics; this is a page, so
+  // Back is the way out, and Escape already means "clear the filter" on the
+  // index. A global key that means two things is worse than one that means one.
 
   return (
     <article className="content-card">
