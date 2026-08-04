@@ -1,16 +1,10 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-# Run unit tests to validate blog post content hasn't been modified
+npm run typecheck
 npm run test:unit
 
-# Check if any blog post content files are being modified
+# Blog post prose has no other backup, so say out loud when a commit touches it.
 if git diff --cached --name-only | grep -q "writing/.*post.md"; then
   echo ""
-  echo "⚠️  WARNING: You are committing changes to blog post content files!"
-  echo "   Please verify that you intentionally want to modify the content."
-  echo ""
-  echo "   Files being modified:"
+  echo "NOTE: this commit changes blog post content:"
   git diff --cached --name-only | grep "writing/.*post.md"
   echo ""
 fi
