@@ -11,27 +11,27 @@ function BlogCard({
 }) {
   return (
     // A button, not a div with onClick: the row has to be reachable by Tab and
-    // activated by Enter or Space.
+    // activated by Enter or Space. The selected state lives in CSS keyed on
+    // aria-current, so the cue and the announcement cannot drift apart.
     <button
       type="button"
-      className={`w-full text-left py-1 mono text-small flex items-baseline gap-2 ${
-        isHighlighted ? 'bg-code-bg accent-text' : 'hover:bg-code-bg'
-      }`}
+      className="post-row mono text-small"
+      aria-current={isHighlighted ? 'true' : undefined}
       data-test="blog-card"
       onClick={() => goToWriting(post.slug)}
     >
       <span
-        className="secondary-text whitespace-nowrap shrink-0"
+        className="post-row-date secondary-text whitespace-nowrap shrink-0"
         data-test="blog-date"
         style={{ minWidth: '10ch' }}
       >
         {post.date}
       </span>
-      <span className="flex-1 text-link" data-test="blog-title">
+      <span className="post-row-title flex-1 text-link" data-test="blog-title">
         {post.title}
       </span>
       <span
-        className="muted-text whitespace-nowrap shrink-0"
+        className="post-row-time muted-text whitespace-nowrap shrink-0"
         data-test="reading-time"
         style={{ minWidth: '8ch', textAlign: 'right' }}
       >
@@ -100,7 +100,7 @@ function WritingSection() {
 
   return (
     <div data-test="blog-list">
-      <div className="mb-4 border border-border p-2 bg-code-bg">
+      <div className="mb-4 border border-border p-2 bg-surface">
         <div className="flex items-center gap-2 mono text-small">
           <span className="accent-text" aria-hidden="true">
             ›

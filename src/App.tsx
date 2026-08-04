@@ -30,7 +30,7 @@ function App() {
       {/* Window chrome. Purely ornamental, so it is hidden from assistive tech
           instead of announcing three unlabelled buttons that do nothing. */}
       <div
-        className="sticky top-0 z-50 bg-code-bg border-b-2 border-border flex items-center justify-end px-2 py-1"
+        className="sticky top-0 z-50 bg-surface border-b-2 border-border flex items-center justify-end px-2 py-1"
         aria-hidden="true"
       >
         <div className="flex items-center gap-1 mono text-small secondary-text">
