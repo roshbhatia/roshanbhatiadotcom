@@ -1,96 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/commit-mono@1.0.0/css/commit-mono.min.css');
-/* SRCL Theme Bridge - maps existing theme variables to SRCL components */
-@import './srcl/theme-bridge.scss';
+/* Fonts are requested from index.html with preconnect, not with @import.
+   A CSS @import is discovered only after this stylesheet parses, so the two
+   font requests were serialised behind it and blocked first paint. The
+   JetBrains Mono import was also unused: every rule here asks for CommitMono
+   and falls back to Courier New. */
+@import './theme-bridge.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --bg: #000000;
-    --text: #00ff00;
-    --border: #00ff00;
-    --accent: #00ff00;
-    --link: #00ffff;
-    --visited: #ff00ff;
-    --cell-bg: #000000;
-    --cell-border: #00ff00;
-    --code-bg: #111111;
-    --code-text: #00ff00;
-    --code-bg-opposite: #f6f8fa;
-    --code-text-opposite: #24292e;
-    --grid-color: #00ff0015;
-    --grid-major: #00ff0030;
+  /* One theme, two modes.
+     There used to be five themes (dark, light, gruvbox-light, gruvbox-dark,
+     nord-dark) behind a cycle button, which meant five palettes to keep
+     legible and five Shiki themes to match. Dark is the phosphor terminal;
+     light is its Win95 daylight counterpart. */
+  :root,
+  [data-theme='dark'] {
+    --bg: #0a0a0a;
+    --text: #33ff33;
+    --border: #1f7a1f;
+    --accent: #66ff66;
+    --link: #4de6e6;
+    --visited: #d98cd9;
+    --cell-bg: #101010;
+    --cell-border: #1f7a1f;
+    --code-bg: #141414;
+    --code-text: #b8ffb8;
+    /* Dimmed text is a real colour, not opacity on top of a background:
+       opacity made every "secondary" string depend on what sat behind it. */
+    --text-secondary: #29cc29;
+    --text-muted: #1f991f;
+    --grid-color: #33ff3315;
+    --grid-major: #33ff3330;
   }
 
   [data-theme='light'] {
     --bg: #c0c0c0;
     --text: #000000;
-    --border: #808080;
+    --border: #5c5c5c;
     --accent: #000080;
-    --link: #0000ff;
-    --visited: #800080;
-    --cell-bg: #d3d3d3;
-    --cell-border: #808080;
-    --code-bg: #a9a9a9;
-    --code-text: #000000;
-    --code-bg-opposite: #111111;
-    --code-text-opposite: #00ff00;
-    --grid-color: #80808020;
-    --grid-major: #80808040;
-  }
-
-  [data-theme='gruvbox-light'] {
-    --bg: #fbf1c7;
-    --text: #3c3836;
-    --border: #928374;
-    --accent: #9d0006;
-    --link: #076678;
-    --visited: #8f3f71;
-    --cell-bg: #f9f5d7;
-    --cell-border: #d5c4a1;
-    --code-bg: #f2e5bc;
-    --code-text: #3c3836;
-    --code-bg-opposite: #1d2021;
-    --code-text-opposite: #ebdbb2;
-    --grid-color: #92837420;
-    --grid-major: #92837440;
-  }
-
-  [data-theme='gruvbox-dark'] {
-    --bg: #1d2021;
-    --text: #ebdbb2;
-    --border: #665c54;
-    --accent: #fb4934;
-    --link: #83a598;
-    --visited: #d3869b;
-    --cell-bg: #282828;
-    --cell-border: #3c3836;
-    --code-bg: #32302f;
-    --code-text: #ebdbb2;
-    --code-bg-opposite: #f2e5bc;
-    --code-text-opposite: #3c3836;
-    --grid-color: #665c5420;
-    --grid-major: #665c5440;
-  }
-
-  [data-theme='nord-dark'] {
-    --bg: #2e3440;
-    --text: #d8dee9;
-    --border: #4c566a;
-    --accent: #88c0d0;
-    --link: #5e81ac;
-    --visited: #b48ead;
-    --cell-bg: #3b4252;
-    --cell-border: #434c5e;
-    --code-bg: #434c5e;
-    --code-text: #d8dee9;
-    --code-bg-opposite: #f8f9fa;
-    --code-text-opposite: #2e3440;
-    --grid-color: #4c566a20;
-    --grid-major: #4c566a40;
+    --link: #0000cc;
+    --visited: #660066;
+    --cell-bg: #d4d0c8;
+    --cell-border: #5c5c5c;
+    --code-bg: #e8e8e4;
+    --code-text: #1a1a1a;
+    --text-secondary: #333333;
+    --text-muted: #4d4d4d;
+    --grid-color: #5c5c5c20;
+    --grid-major: #5c5c5c40;
   }
 
   * {
@@ -256,10 +215,9 @@
   }
 
   .secondary-text {
-    color: var(--text);
+    color: var(--text-secondary);
     font-size: 12px;
     font-weight: 300; /* Light weight */
-    opacity: 0.8;
   }
 
   .accent-text {
@@ -268,26 +226,27 @@
   }
 
   .muted-text {
-    color: var(--text);
+    color: var(--text-muted);
     font-weight: 300; /* Light weight */
-    opacity: 0.6;
   }
 
-  /* Enhanced code styling */
+  /* Inline code sits in the theme, not against it. This used to swap to the
+     opposite colourway, so a dark page got light-on-white code fragments
+     mid-sentence and every inline `token` flashed at the reader. */
   code {
     font-family: 'CommitMono', monospace;
-    background: var(--code-bg-opposite);
-    color: var(--code-text-opposite);
-    padding: 3px 6px;
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 2px 5px;
     font-size: 12px;
     border: 1px solid var(--border);
     border-radius: 2px;
   }
 
   .inline-code {
-    color: var(--code-text-opposite);
-    background: var(--code-bg-opposite);
-    padding: 3px 6px;
+    color: var(--code-text);
+    background: var(--code-bg);
+    padding: 2px 5px;
     font-size: 12px;
     border: 1px solid var(--border);
     border-radius: 2px;
@@ -318,9 +277,11 @@
   }
 
   /* Enhanced content styling - Web 1.0 aesthetic */
+  /* Was --space-xl (56px) on every side, which pushed the writing list most of
+     a screen down and left the terminal output floating in the middle of it. */
   .content-card {
     border: 2px solid var(--border);
-    padding: var(--space-xl);
+    padding: var(--space-md) var(--space-lg);
     background: var(--cell-bg);
     position: relative;
     margin-bottom: var(--space-lg);
@@ -795,42 +756,97 @@
     /* Removed small screen grid dots */
   }
 
-  /* Shiki code block styling */
-  .shiki-wrapper pre {
-    margin: 0 !important;
-    padding: 16px !important;
+  /* ---- Post content rendered at build time by generate-writings.mjs ---- */
+
+  .code-block {
+    border: 1px solid var(--border);
+    margin: var(--space-lg) 0;
+  }
+
+  .code-block-label {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    padding: 4px 10px;
+    border-bottom: 1px solid var(--border);
+    background: var(--cell-bg);
+  }
+
+  .code-block .shiki {
+    margin: 0;
+    padding: 16px;
     overflow-x: auto;
-    font-family: 'CommitMono', monospace !important;
-    font-size: 12px !important;
-    line-height: 1.5 !important;
-    border-radius: 0 !important;
+    font-family: 'CommitMono', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 0;
   }
 
-  .shiki-wrapper code {
-    font-family: 'CommitMono', monospace !important;
-    font-size: 12px !important;
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    color: inherit !important;
+  .code-block .shiki code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 12px;
   }
 
-  .shiki-wrapper .line {
-    display: inline-block;
+  /* Shiki emits both palettes as custom properties, so the theme switch is a
+     CSS concern and no highlighter has to ship to the browser. */
+  .shiki,
+  .shiki span {
+    color: var(--shiki-light);
+    background-color: var(--shiki-light-bg);
+  }
+
+  [data-theme='dark'] .shiki,
+  [data-theme='dark'] .shiki span {
+    color: var(--shiki-dark);
+    background-color: var(--shiki-dark-bg);
+  }
+
+  .post-figure {
+    margin: var(--space-xl) 0;
+    border: 2px solid var(--border);
+    padding: var(--space-sm);
+    background: var(--cell-bg);
+  }
+
+  .post-figure img {
+    display: block;
     width: 100%;
+    height: auto;
   }
 
-  /* Medium Zoom styles */
-  .medium-zoom-overlay {
-    z-index: 9999;
+  .post-figure figcaption {
+    margin-top: var(--space-sm);
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+    color: var(--text-secondary);
   }
 
-  .medium-zoom-image {
-    z-index: 10000;
+  /* A wide table scrolls in its own box rather than widening the page. */
+  .table-scroll {
+    overflow-x: auto;
+    margin: var(--space-lg) 0;
+    border: 1px solid var(--border);
   }
 
-  .medium-zoom-image--opened {
-    cursor: zoom-out !important;
+  .table-scroll table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12px;
+  }
+
+  .table-scroll th,
+  .table-scroll td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    text-align: left;
+  }
+
+  .table-scroll th {
+    background: var(--cell-bg);
+    font-weight: 700;
   }
 
   /* Terminal-style blinking cursor */
@@ -853,105 +869,32 @@
     margin-left: 2px;
   }
 
-  /* CRT screen effect */
-  @keyframes flicker {
-    0% {
-      opacity: 0.97;
+  /* A cursor that blinks forever is decoration, so let it stop on request.
+     WCAG 2.2.2: anything that moves for more than five seconds needs a way out. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
     }
-    5% {
-      opacity: 0.98;
-    }
-    10% {
-      opacity: 0.94;
-    }
-    15% {
-      opacity: 0.97;
-    }
-    20% {
-      opacity: 0.96;
-    }
-    25% {
-      opacity: 0.98;
-    }
-    30% {
-      opacity: 0.95;
-    }
-    35% {
-      opacity: 0.97;
-    }
-    40% {
-      opacity: 0.96;
-    }
-    45% {
-      opacity: 0.98;
-    }
-    50% {
-      opacity: 0.95;
-    }
-    55% {
-      opacity: 0.96;
-    }
-    60% {
-      opacity: 0.98;
-    }
-    65% {
-      opacity: 0.97;
-    }
-    70% {
-      opacity: 0.95;
-    }
-    75% {
-      opacity: 0.98;
-    }
-    80% {
-      opacity: 0.96;
-    }
-    85% {
-      opacity: 0.97;
-    }
-    90% {
-      opacity: 0.98;
-    }
-    95% {
-      opacity: 0.95;
-    }
-    100% {
-      opacity: 0.97;
+
+    .cursor-blink::after {
+      opacity: 1;
     }
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.15),
-      rgba(0, 0, 0, 0.15) 1px,
-      transparent 1px,
-      transparent 2px
-    );
-    pointer-events: none;
-    z-index: 9999;
-    animation: flicker 0.15s infinite;
+  /* Keyboard users need to see where they are. Nothing defined one before. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0.3) 100%
-    );
-    pointer-events: none;
-    z-index: 9998;
-  }
+  /* The CRT scanline and vignette overlays lived here. Commit 4c6d641 claimed
+     to remove them but only removed the classes that referenced them; the
+     body::before / body::after rules stayed. They covered the whole viewport at
+     z-index 9999/9998, above the modal stack (which renders at z-index 10+), so
+     every blog post was read through a flickering grille, and the flicker
+     animation ran forever with no reduced-motion escape. */
 }

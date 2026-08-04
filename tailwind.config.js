@@ -4,8 +4,11 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        mono: ['JetBrains Mono', 'Courier New', 'monospace'],
+        mono: ['CommitMono', 'JetBrains Mono', 'Courier New', 'monospace'],
       },
+      // Keys are kebab-case because Tailwind uses them verbatim: a `codeBg`
+      // key only answers to `bg-codeBg`, so the `bg-code-bg` in the markup
+      // silently resolved to nothing and the highlight backgrounds vanished.
       colors: {
         bg: 'var(--bg)',
         text: 'var(--text)',
@@ -13,12 +16,11 @@ export default {
         accent: 'var(--accent)',
         link: 'var(--link)',
         visited: 'var(--visited)',
-        codeBg: 'var(--code-bg)',
-        codeText: 'var(--code-text)',
+        'cell-bg': 'var(--cell-bg)',
+        'cell-border': 'var(--cell-border)',
+        'code-bg': 'var(--code-bg)',
+        'code-text': 'var(--code-text)',
       },
-      // Remove animations for Web 1.0
-      keyframes: {},
-      animation: {},
     },
   },
   plugins: [],
