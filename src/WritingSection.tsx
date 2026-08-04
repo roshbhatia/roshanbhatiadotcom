@@ -280,32 +280,9 @@ function parseMarkdown(content: string, getImagePath: (path: string) => string):
   return { elements, toc }
 }
 
-function TOC({ toc }: { toc: TOCItem[] }) {
-  return (
-    <div className="content-text mb-8">
-      <div className="mb-4">
-        <span className="text-section accent-text">[TABLE OF CONTENTS]</span>
-      </div>
-      <nav className="text-body">
-        {toc.map((item, index) => (
-          <a
-            key={index}
-            href={`#${item.id}`}
-            className={`block mb-2 text-link hover:text-accent ${item.level === 3 ? 'ml-6' : ''
-              }`}
-          >
-            {item.title}
-          </a>
-        ))}
-      </nav>
-    </div>
-  )
-}
-
-function BlogCard({ post, onSelect, index, isHighlighted }: {
+function BlogCard({ post, onSelect, isHighlighted }: {
   post: Writing;
   onSelect: (slug: string) => void;
-  index: number;
   isHighlighted: boolean;
 }) {
   const dateStr = new Date(post.date).toLocaleDateString('en-US', {
@@ -508,7 +485,6 @@ function WritingSection() {
           <BlogCard
             key={post.slug}
             post={post}
-            index={index}
             isHighlighted={index === highlightedIndex}
             onSelect={openPost}
           />

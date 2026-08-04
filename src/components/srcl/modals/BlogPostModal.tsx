@@ -51,7 +51,7 @@ function BlogPostModal({ writing, elements, toc, onClose, Footer }: BlogPostModa
         <h2 className="text-section mb-4">[TABLE OF CONTENTS]</h2>
         <div className="mono text-small">
           {toc.map((item, index) => {
-            const nextLevel = index < toc.length - 1 ? toc[index + 1].level : undefined;
+            const nextLevel = toc[index + 1]?.level;
             const prefix = getTreePrefix(index, item.level, nextLevel);
 
             return (
