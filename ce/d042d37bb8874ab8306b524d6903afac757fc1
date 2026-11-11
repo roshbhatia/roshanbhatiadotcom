@@ -1,0 +1,18 @@
+public/favicon.svg
+  h_9ee7ffa72fd255 1-6
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 237,320
+src/styles/globals.css
+  h_9ee7ffa72fd255 9,14-15,17-18,331,336
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ced042d37bb8874ab8306b524d6903afac757fc1",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
