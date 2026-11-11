@@ -1,0 +1,33 @@
+cypress/e2e/blog.cy.js
+  s_a43a0238d530f5::t_102bc14fbef375 22-26,41,142,157,160,172,194,200,221-224,227,233-234,240,242-244,250-253,259-261,267-270,273-278,280-282,288-291,293-294,297,299-300,302,305-306,308-309
+cypress/e2e/design-system.cy.js
+  s_a43a0238d530f5::t_4897748a0053f2 13-14,16-17,22-25
+cypress/e2e/navigation.cy.js
+  s_a43a0238d530f5::t_2c3f1c080c5ce2 13-14,16-17,22-25
+src/App.tsx
+  s_a43a0238d530f5::t_afccd57005323f 25
+src/WritingSection.tsx
+  s_a43a0238d530f5::t_aa3152e09a1f24 384-394,397,399-407
+src/pages/HomePage.tsx
+  s_a43a0238d530f5::t_71d1b48f0671d0 87-89,95-96
+src/version.ts
+  s_a43a0238d530f5::t_0de749442684da 2
+src/writings.generated.ts
+  s_a43a0238d530f5::t_8b0ad13b6586e8 18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8641f955aecb7298aa2fef5b923eb580650b6ef5",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
