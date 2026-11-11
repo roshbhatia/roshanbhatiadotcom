@@ -1,0 +1,14 @@
+src/App.tsx
+  h_9ee7ffa72fd255 50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "462b5777bdd2c943f91f80b3521647e96efafeaf",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
