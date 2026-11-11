@@ -1,0 +1,20 @@
+cypress/e2e/blog.cy.js
+  h_9ee7ffa72fd255 313-333
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 326,409
+src/components/srcl/modals/BlogPostModal.tsx
+  h_9ee7ffa72fd255 15
+src/pages/HomePage.tsx
+  h_9ee7ffa72fd255 106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5c2ed99792916f7f8cd07f57d558ff1f889e5680",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
