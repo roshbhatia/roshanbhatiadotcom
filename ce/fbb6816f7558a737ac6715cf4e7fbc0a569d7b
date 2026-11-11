@@ -1,0 +1,16 @@
+index.html
+  h_9ee7ffa72fd255 254-264
+service-worker.js
+  h_9ee7ffa72fd255 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cefbb6816f7558a737ac6715cf4e7fbc0a569d7b",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
