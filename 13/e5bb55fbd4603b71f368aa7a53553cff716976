@@ -1,0 +1,24 @@
+cypress/e2e/design-system.cy.js
+  h_9ee7ffa72fd255 18-20,22-23
+cypress/e2e/navigation.cy.js
+  h_9ee7ffa72fd255 18-20,22-23
+src/App.tsx
+  h_9ee7ffa72fd255 4,42-43,47-54,56,63-64
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 5,410-411
+src/components/srcl/modals/BlogPostModal.tsx
+  h_9ee7ffa72fd255 13,16,123-124
+src/styles/globals.css
+  h_9ee7ffa72fd255 855-956
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "13e5bb55fbd4603b71f368aa7a53553cff716976",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
