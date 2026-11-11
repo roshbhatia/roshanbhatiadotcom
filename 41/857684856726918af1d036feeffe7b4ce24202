@@ -1,0 +1,14 @@
+container2wasm
+  h_9ee7ffa72fd255 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "41857684856726918af1d036feeffe7b4ce24202",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
