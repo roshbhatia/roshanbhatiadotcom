@@ -1,0 +1,16 @@
+public/assets/css/style.css
+  h_9ee7ffa72fd255 62-64,528
+public/index.html
+  h_9ee7ffa72fd255 66-67,71-83,112-116,121-125,149-153,155,158-168,172-177,184-198,204-209
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5d516a3cdd4a728ffc5078aaf50548c924996db6",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
