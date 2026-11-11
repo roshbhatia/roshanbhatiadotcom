@@ -1,0 +1,14 @@
+cypress/e2e/blog.cy.js
+  h_9ee7ffa72fd255 1-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ce90ec3c7ca52d93114a5a7e8d36e81143a013dc",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
