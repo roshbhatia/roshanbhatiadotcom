@@ -1,0 +1,14 @@
+src/styles/globals.css
+  h_9ee7ffa72fd255 24-29,31-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4974cc9551cb965fedb2a837a39e9508ef3541d8",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
