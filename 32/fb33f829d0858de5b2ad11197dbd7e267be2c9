@@ -1,0 +1,22 @@
+public/assets/index-3ab40547.css
+  h_9ee7ffa72fd255 1
+public/assets/index-5c5adfd6.js
+  h_9ee7ffa72fd255 1-40
+public/index.html
+  h_9ee7ffa72fd255 30-31
+src/App.tsx
+  h_9ee7ffa72fd255 14-17,20,24,26-29,32,34-44,46-52,57-66,68-69
+src/styles/globals.css
+  h_9ee7ffa72fd255 1,3-7,9-13,15-17,19-26,28-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "32fb33f829d0858de5b2ad11197dbd7e267be2c9",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
