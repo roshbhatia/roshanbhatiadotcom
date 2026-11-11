@@ -1,0 +1,22 @@
+src/App.tsx
+  h_9ee7ffa72fd255 23
+src/pages/HomePage.tsx
+  h_9ee7ffa72fd255 126-135,137-146,148-149
+src/styles/globals.css
+  h_9ee7ffa72fd255 40-43,139,146-163,202-220,222-226,229,232
+src/writings.generated.ts
+  h_9ee7ffa72fd255 17-18
+"writing/000/Keyboard designing for fools, by an idiot.md"
+  h_9ee7ffa72fd255 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "303c29fc1234585bd8b66abf51f2dec5fb32c020",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
