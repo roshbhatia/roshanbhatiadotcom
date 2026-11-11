@@ -1,0 +1,23 @@
+scripts/generate-writings.js
+  s_a43a0238d530f5::t_61136b9cff5689 125-155
+src/WritingSection.tsx
+  s_a43a0238d530f5::t_42ae17b44818a7 73-95
+src/version.ts
+  s_a43a0238d530f5::t_0d75982d51bb8b 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a2442accddd3466dc9fcc206c3f2f86c473decf4",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
