@@ -1,0 +1,34 @@
+.github/workflows/deploy.yml
+  h_9ee7ffa72fd255 1-34
+README.md
+  h_9ee7ffa72fd255 1,3-98
+build.js
+  h_9ee7ffa72fd255 1-208
+data/articles/hello-world.md
+  h_9ee7ffa72fd255 1-32
+package-lock.json
+  h_9ee7ffa72fd255 1-1139
+package.json
+  h_9ee7ffa72fd255 1-28
+public/assets/css/style.css
+  h_9ee7ffa72fd255 1-138
+public/index.html
+  h_9ee7ffa72fd255 2,4-10,12-40,42,45-58,60,62
+public/projects/index.html
+  h_9ee7ffa72fd255 2-10,12-15,17-93,95-114,116-118,120
+public/writing/hello-world.html
+  h_9ee7ffa72fd255 1-95
+public/writing/index.html
+  h_9ee7ffa72fd255 2-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c9bfd1c36b7347e1f5d8fb8c5c69f7c3d73f697d",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
