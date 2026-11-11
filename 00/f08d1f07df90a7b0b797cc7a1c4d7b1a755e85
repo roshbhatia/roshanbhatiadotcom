@@ -1,0 +1,25 @@
+scripts/generate-writings.test.js
+  s_a43a0238d530f5::t_a641e17e5d6b0d 181
+src/WritingSection.tsx
+  s_a43a0238d530f5::t_3429709986c6e7 337-359,363,371-379,406,414,463
+src/version.ts
+  s_a43a0238d530f5::t_7717e89bda6ba3 2
+src/writings.generated.ts
+  s_a43a0238d530f5::t_3be413512d1eff 14,18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "00f08d1f07df90a7b0b797cc7a1c4d7b1a755e85",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
