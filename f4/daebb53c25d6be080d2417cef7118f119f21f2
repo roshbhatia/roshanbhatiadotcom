@@ -1,0 +1,14 @@
+service-worker.js
+  h_9ee7ffa72fd255 32-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f4daebb53c25d6be080d2417cef7118f119f21f2",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
