@@ -1,0 +1,20 @@
+public/assets/index-36fdfbc3.js
+  h_9ee7ffa72fd255 1-40
+public/assets/index-a9b33ce8.css
+  h_9ee7ffa72fd255 1
+public/index.html
+  h_9ee7ffa72fd255 30-31
+src/App.tsx
+  h_9ee7ffa72fd255 46-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "824409920e82371b571d5e43de77b80b51186c41",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
