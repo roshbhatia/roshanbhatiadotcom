@@ -1,0 +1,53 @@
+src/components/srcl/Badge.module.scss
+  s_a43a0238d530f5::t_af12f7e3c350b4 1-15
+src/components/srcl/Badge.tsx
+  s_a43a0238d530f5::t_2fe9b238a8f0a9 1-19
+src/components/srcl/Block.module.scss
+  s_a43a0238d530f5::t_188ac692a982f8 1-8
+src/components/srcl/Block.tsx
+  s_a43a0238d530f5::t_9469793dad8ceb 1-17
+src/components/srcl/Card.module.scss
+  s_a43a0238d530f5::t_e6ebbfeaf9aaea 1-76
+src/components/srcl/Card.tsx
+  s_a43a0238d530f5::t_7d7410f3c5c51d 1-48
+src/components/srcl/Dialog.module.scss
+  s_a43a0238d530f5::t_131642a6d85217 1-35
+src/components/srcl/Dialog.tsx
+  s_a43a0238d530f5::t_1082d29bf25a61 1-42
+src/components/srcl/Divider.module.scss
+  s_a43a0238d530f5::t_eddc2c4fbfea7b 1-25
+src/components/srcl/Divider.tsx
+  s_a43a0238d530f5::t_0106d6e1bbe4c6 1-32
+src/components/srcl/Input.module.scss
+  s_a43a0238d530f5::t_b87dc6ddceef60 1-79
+src/components/srcl/Input.tsx
+  s_a43a0238d530f5::t_6df92f572501b4 1-111
+src/components/srcl/ModalStack.module.scss
+  s_a43a0238d530f5::t_9243806c5e8794 1-20
+src/components/srcl/ModalStack.tsx
+  s_a43a0238d530f5::t_10216839d6d541 1-48
+src/components/srcl/ModalTrigger.tsx
+  s_a43a0238d530f5::t_a45a71a7396c21 1-23
+src/components/srcl/Tooltip.module.scss
+  s_a43a0238d530f5::t_04280b5939b01c 1-7
+src/components/srcl/Tooltip.tsx
+  s_a43a0238d530f5::t_1803228037d169 1-15
+src/components/srcl/page/ModalContext.tsx
+  s_a43a0238d530f5::t_c2b17823436179 1-81
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "891a368cc64083d2b50211d5711007f7665de690",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
