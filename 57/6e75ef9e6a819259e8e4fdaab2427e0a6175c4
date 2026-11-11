@@ -1,0 +1,27 @@
+src/WritingSection.tsx
+  s_a43a0238d530f5::t_3d68d7d99b9151 189,193
+src/components/srcl/modals/BlogPostModal.tsx
+  s_a43a0238d530f5::t_dba26eea31a123 94
+src/contexts/ThemeContext.tsx
+  s_a43a0238d530f5::t_f9d485a3ea5a92 18,33
+src/pages/HomePage.tsx
+  s_a43a0238d530f5::t_ccb019f2193a08 86,89,93-95,99-101,105,109-111,115-117
+src/styles/globals.css
+  s_a43a0238d530f5::t_12dba7a0c26ec1 322,855-899
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "576e75ef9e6a819259e8e4fdaab2427e0a6175c4",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
