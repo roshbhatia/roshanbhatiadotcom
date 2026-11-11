@@ -1,0 +1,14 @@
+"writing/000/Keyboard designing for fools, by an idiot.md"
+  h_9ee7ffa72fd255 3,18-19,27,31,47,54,60,62,64,66,68,70,74,93,99,102,109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1a9c31d87fb9028514681ea516db3ec16c90cc66",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
