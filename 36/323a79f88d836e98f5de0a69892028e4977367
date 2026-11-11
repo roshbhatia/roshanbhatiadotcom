@@ -1,0 +1,28 @@
+cypress/e2e/blog.cy.js
+  h_9ee7ffa72fd255 42-67,69-70,72-90,92-96,98-105,107-113,115-130,153-165,174-188
+cypress/e2e/design-system.cy.js
+  h_9ee7ffa72fd255 1-50
+cypress/e2e/navigation.cy.js
+  h_9ee7ffa72fd255 1-53
+src/App.tsx
+  h_9ee7ffa72fd255 25,43,49
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 171-174,177-178,195
+src/pages/HomePage.tsx
+  h_9ee7ffa72fd255 102,104,107,115,118
+src/version.ts
+  h_9ee7ffa72fd255 2
+"writing/000/Keyboard designing for fools, by an idiot.md"
+  h_9ee7ffa72fd255 1,14-15,19,23,29,68,72,84-86,92,98,106-108,114,147,149,151,163,165,167
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "36323a79f88d836e98f5de0a69892028e4977367",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
