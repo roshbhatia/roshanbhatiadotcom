@@ -1,0 +1,18 @@
+"public/writing/000/Keyboard designing for fools, by an idiot.md"
+  h_9ee7ffa72fd255 1-171
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 263-267,272-279
+vite.config.ts
+  h_9ee7ffa72fd255 15-25,27-28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3c0c4f3d73b3abae1280f5fd5db8fa95d0717391",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
