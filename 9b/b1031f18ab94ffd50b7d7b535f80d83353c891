@@ -1,0 +1,24 @@
+public/assets/index-8742553a.js
+  h_9ee7ffa72fd255 1-40
+public/assets/index-ad70bfc9.css
+  h_9ee7ffa72fd255 1
+public/index.html
+  h_9ee7ffa72fd255 30-31
+src/App.tsx
+  h_9ee7ffa72fd255 30-42
+src/styles/globals.css
+  h_9ee7ffa72fd255 1,29,34
+tailwind.config.js
+  h_9ee7ffa72fd255 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9bb1031f18ab94ffd50b7d7b535f80d83353c891",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
