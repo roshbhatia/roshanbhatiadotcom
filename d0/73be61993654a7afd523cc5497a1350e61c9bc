@@ -1,0 +1,21 @@
+src/App.tsx
+  s_a43a0238d530f5::t_b230d566b7a529 23,35-41,52,57
+src/pages/HomePage.tsx
+  s_a43a0238d530f5::t_b2e993dbd10311 102-106,120-124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d073be61993654a7afd523cc5497a1350e61c9bc",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
