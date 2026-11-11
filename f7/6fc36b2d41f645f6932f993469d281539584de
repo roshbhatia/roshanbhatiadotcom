@@ -1,0 +1,24 @@
+public/assets/css/style.css
+  h_9ee7ffa72fd255 2-9,158,166,414-418,496-500,527,536-538,572-574
+public/attributions/index.html
+  h_9ee7ffa72fd255 10-12,46,70,73,76-79,84-89
+public/index.html
+  h_9ee7ffa72fd255 10-12,47,68
+public/projects/index.html
+  h_9ee7ffa72fd255 10-12,45
+public/writing/hello-world.html
+  h_9ee7ffa72fd255 10-12,30-32,39-41,103
+public/writing/index.html
+  h_9ee7ffa72fd255 10-12,45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f76fc36b2d41f645f6932f993469d281539584de",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
