@@ -1,0 +1,18 @@
+scripts/generate-writings.js
+  h_9ee7ffa72fd255 4-37,56-57,61,63-64,66-76,86,90,96
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 444-445,447,451,460,468-478
+"writing/000/Keyboard designing for fools, by an idiot.md"
+  h_9ee7ffa72fd255 64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "26610bf6851a724418532f697243831635395bdc",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
