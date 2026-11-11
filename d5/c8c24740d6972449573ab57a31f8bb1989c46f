@@ -1,0 +1,22 @@
+src/App.tsx
+  h_9ee7ffa72fd255 16-17
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 78,308,320
+src/pages/HomePage.tsx
+  h_9ee7ffa72fd255 8
+src/styles/globals.css
+  h_9ee7ffa72fd255 19-28,40-49,138-139,143,147,151,155,218,273-274,277,281-284,373,377-380,396
+tsconfig.tsbuildinfo
+  h_9ee7ffa72fd255 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d5c8c24740d6972449573ab57a31f8bb1989c46f",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
