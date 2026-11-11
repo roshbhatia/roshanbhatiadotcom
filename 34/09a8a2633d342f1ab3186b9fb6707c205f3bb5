@@ -1,0 +1,26 @@
+package-lock.json
+  h_9ee7ffa72fd255 1-1018
+public/assets/css/style.css
+  h_9ee7ffa72fd255 50-85,226-228,234-250,355-392,802-828,831-835,1006-1102
+"public/assets/img/Pelican Bay Tennis Groups.html"
+  h_9ee7ffa72fd255 1-121
+"public/assets/img/Pelican Bay Tennis Groups_files/livereload.js"
+  h_9ee7ffa72fd255 1-7
+"public/assets/img/Pelican Bay Tennis Groups_files/style.css"
+  h_9ee7ffa72fd255 1-535
+public/index.html
+  h_9ee7ffa72fd255 80,83,88,91,142-151,370-376,394-400,471-474,685,689,705-714,717-784
+yarn.lock
+  h_9ee7ffa72fd255 7,12,20,30,37,42,47,54,59,64,69,74,88,96,101,106,113,121,124-128,131,136,145,152,157,164,177,182,187,196,203,208,213,218,223,238,243,248,253,258,263,268,273,278,283,290,295,300,305,310,313-316,320,325-331,334,339,346,351,356,361,368,373,380,385,390,395,400,405,415,423,430,435,438-442,445,458,475,482,487,492,501,510,517,524,529,534,541,546,554,561,566,573,580
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3409a8a2633d342f1ab3186b9fb6707c205f3bb5",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
