@@ -1,0 +1,18 @@
+cypress/e2e/design-system.cy.js
+  h_9ee7ffa72fd255 9-10,17-18,23-25
+cypress/e2e/navigation.cy.js
+  h_9ee7ffa72fd255 9-10,17-18,23-25
+src/pages/HomePage.tsx
+  h_9ee7ffa72fd255 102,106,111-116,121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e80358015915e9133a869d2e5368c3b80fcd4a66",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
