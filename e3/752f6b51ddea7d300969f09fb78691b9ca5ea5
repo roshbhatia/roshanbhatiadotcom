@@ -1,0 +1,21 @@
+src/WritingSection.tsx
+  s_a43a0238d530f5::t_019c57600dce00 306-311,313-316,320,324-329,332-333,336-337,347-348,351,441-490,492-529
+src/pages/HomePage.tsx
+  s_a43a0238d530f5::t_e553eaa1b679f0 74-76,78-89
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e3752f6b51ddea7d300969f09fb78691b9ca5ea5",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
