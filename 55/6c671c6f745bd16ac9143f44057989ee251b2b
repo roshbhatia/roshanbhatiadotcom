@@ -1,0 +1,18 @@
+src/App.tsx
+  h_9ee7ffa72fd255 32
+src/WritingSection.tsx
+  h_9ee7ffa72fd255 94-95,106-108,158,261-267
+src/styles/globals.css
+  h_9ee7ffa72fd255 1,37,45,137
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "556c671c6f745bd16ac9143f44057989ee251b2b",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
