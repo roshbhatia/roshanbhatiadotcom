@@ -1,0 +1,18 @@
+ATTRIBUTIONS.md
+  h_9ee7ffa72fd255 1-10
+public/assets/css/style.css
+  h_9ee7ffa72fd255 459,632
+public/index.html
+  h_9ee7ffa72fd255 21-70,100-113,141-143,376,381-404,483,496-497
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "02fee677f37561f1e2dba0fa803e1248c5066481",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
