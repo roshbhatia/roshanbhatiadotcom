@@ -1,0 +1,14 @@
+index.html
+  h_9ee7ffa72fd255 5,166-167,183,189-193,196,217-249,251-252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7fba6cd6dd66aaf727d5473a5ffe10362c093d5f",
+  "prompts": {},
+  "humans": {
+    "h_9ee7ffa72fd255": {
+      "author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
