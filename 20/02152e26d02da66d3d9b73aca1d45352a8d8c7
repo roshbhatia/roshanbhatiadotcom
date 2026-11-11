@@ -1,0 +1,31 @@
+ANALYSIS_INDEX.md
+  s_a43a0238d530f5::t_8a88a20f192454 1-300
+ARCHITECTURE_DIAGRAM.md
+  s_a43a0238d530f5::t_3ca32c84e46210 1-511
+CODEBASE_ANALYSIS.md
+  s_a43a0238d530f5::t_c222a423a28717 1-372
+COMPONENT_USAGE_MAP.md
+  s_a43a0238d530f5::t_5dba7557637e22 1-354
+QUICK_REFERENCE.md
+  s_a43a0238d530f5::t_fe14e91b8e993a 1-288
+src/components/ImageZoom.tsx
+  s_a43a0238d530f5::t_cfe2c699a1a1a5 15-25,28-29,35-42,49
+src/styles/globals.css
+  s_a43a0238d530f5::t_b13a5e60c8e0c5 835,839
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2002152e26d02da66d3d9b73aca1d45352a8d8c7",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
