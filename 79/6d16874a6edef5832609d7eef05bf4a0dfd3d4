@@ -1,0 +1,27 @@
+prototypes/desk.js
+  s_a43a0238d530f5::t_7f2432d650e76d 19,179,262-263,358,369-370,433-437,520,822,835
+  s_a43a0238d530f5::t_120333988d2e1a 9,424,491,646-651,655-696,699-701,704-707,711-730
+prototypes/desk/coffee.js
+  s_a43a0238d530f5::t_03b485ac1ae519 1-335
+prototypes/desk/computer-model.js
+  s_a43a0238d530f5::t_0d8d2109df35af 3
+prototypes/desk/cubicle.js
+  s_a43a0238d530f5::t_d19c334557c2d2 379-380,387-388,398
+  s_a43a0238d530f5::t_0d8d2109df35af 377-378,381-386,389-393,532,554
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "796d16874a6edef5832609d7eef05bf4a0dfd3d4",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
