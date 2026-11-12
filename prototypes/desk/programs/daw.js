@@ -1,5 +1,6 @@
 import { STYLE } from '../tty/widgets.js';
 import { getSequencerEngine, noteName, PARAMS, PATTERN_COUNT, STEPS, TRACKS } from '../sequencer-engine.js';
+import { downloadBlob, exportAudio, exportMidi } from '../sequencer-export.js';
 import { runFullScreen } from './full-screen.js';
 
 const PAD_KEYS = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
@@ -7,6 +8,12 @@ const NOTE_KEYS = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
 // Shifted digits on a US layout copy the current pattern into slots 1-8.
 const SHIFTED_DIGITS = ['!', '@', '#', '$', '%', '^', '&', '*'];
 const DRUM_SHADES = ['', '▒▒▒', '▓▓▓', '███'];
+const EXPORT_FORMATS = [
+  { label: 'MIDI', extension: 'mid' },
+  { label: 'MP3', extension: 'mp3' },
+  { label: 'WAV', extension: 'wav' },
+];
+const MAX_EXPORT_BARS = 128;
 
 const NAME_WIDTH = 9;
 const CELL_WIDTH = 4;
@@ -21,6 +28,8 @@ export function createDaw(io) {
   let selectedParam = 0;
   let showHelp = false;
   let paintValue = null;
+  // The export dialog: null when closed.
+  let exportDialog = null;
 
   // Track name, then [M] [S], then the step grid, inside the panel border.
   const gridLeft = PANEL_LEFT + 1 + 2 + NAME_WIDTH + 8;
@@ -72,6 +81,75 @@ export function createDaw(io) {
       const label = used ? `${index + 1}•` : `${index + 1} `;
       patternX += ui.button(patternX, 2, label, { active: index === state.patternIndex || queued, onPress: () => engine.selectPattern(index) }) + 1;
     }
+    ui.button(patternX + 1, 2, 'EXPORT', { active: exportDialog !== null, onPress: openExport });
+  }
+
+  function openExport() {
+    exportDialog ??= { format: 0, bars: 4, status: '', busy: false };
+  }
+
+  function changeExportBars(amount) {
+    exportDialog.bars = Math.min(MAX_EXPORT_BARS, Math.max(1, exportDialog.bars + amount));
+  }
+
+  async function runExport() {
+    if (exportDialog.busy) return;
+    const dialog = exportDialog;
+    const format = EXPORT_FORMATS[dialog.format];
+    const fileName = `seq16-pattern${engine.state.patternIndex + 1}-${dialog.bars}bars-${engine.state.bpm}bpm.${format.extension}`;
+    dialog.busy = true;
+    dialog.status = format.extension === 'mid' ? 'writing midi...' : 'rendering audio...';
+    program.invalidate();
+    try {
+      const blob = format.extension === 'mid' ? exportMidi(engine, dialog.bars) : await exportAudio(engine, dialog.bars, format.extension);
+      downloadBlob(blob, fileName);
+      dialog.status = `saved ${fileName} (${(blob.size / 1024).toFixed(0)} KB)`;
+    } catch (error) {
+      dialog.status = `export failed: ${error.message}`;
+    } finally {
+      dialog.busy = false;
+      program.invalidate();
+    }
+  }
+
+  function drawExport(ui) {
+    const { screen } = ui;
+    const dialog = exportDialog;
+    const { state } = engine;
+    const width = 60;
+    const height = 11;
+    const x = Math.floor((io.columns - width) / 2);
+    const y = Math.max(1, Math.floor((io.rows - height) / 2));
+    screen.fill({ x, y, width, height }, ' ');
+    ui.region({ x: 0, y: 0, width: io.columns, height: io.rows }, { down: () => {}, wheel: () => {} });
+    const inner = screen.box({ x, y, width, height }, { title: 'EXPORT', titleStyle: STYLE.bright, border: 'double' });
+    const left = inner.x + 2;
+    screen.text(left, inner.y + 1, 'FORMAT', STYLE.dim);
+    let formatX = left + 9;
+    EXPORT_FORMATS.forEach((format, index) => {
+      formatX += ui.button(formatX, inner.y + 1, format.label, { active: index === dialog.format, onPress: () => (dialog.format = index) }) + 1;
+    });
+    screen.text(left, inner.y + 3, 'BARS', STYLE.dim);
+    let barsX = left + 9;
+    barsX += ui.button(barsX, inner.y + 3, '-', { onPress: () => changeExportBars(-1) });
+    barsX += screen.text(barsX, inner.y + 3, String(dialog.bars).padStart(4).padEnd(5), STYLE.bright);
+    ui.button(barsX, inner.y + 3, '+', { onPress: () => changeExportBars(1) });
+    const seconds = (dialog.bars * STEPS * 60) / state.bpm / 4;
+    const source = state.chain ? 'chained patterns' : `pattern ${state.patternIndex + 1}`;
+    screen.text(left, inner.y + 5, `${source}, ${state.bpm} bpm, ${seconds.toFixed(1)} s`, STYLE.normal, inner.width - 4);
+    let actionX = left;
+    actionX += ui.button(actionX, inner.y + 7, dialog.busy ? 'WORKING' : 'EXPORT', { active: true, onPress: runExport }) + 1;
+    ui.button(actionX, inner.y + 7, 'CLOSE', { onPress: () => (exportDialog = null) });
+    screen.text(left, inner.y + 8, dialog.status, STYLE.bright, inner.width - 4);
+  }
+
+  function onExportKey({ key }) {
+    if (key === 'Escape' || key === 'q') exportDialog = null;
+    else if (key === 'ArrowLeft') exportDialog.format = (exportDialog.format + EXPORT_FORMATS.length - 1) % EXPORT_FORMATS.length;
+    else if (key === 'ArrowRight' || key === 'Tab') exportDialog.format = (exportDialog.format + 1) % EXPORT_FORMATS.length;
+    else if (key === 'ArrowUp' || key === '+' || key === '=') changeExportBars(1);
+    else if (key === 'ArrowDown' || key === '-' || key === '_') changeExportBars(-1);
+    else if (key === 'Enter') runExport();
   }
 
   function drawTracks(ui) {
@@ -224,6 +302,7 @@ export function createDaw(io) {
       ['- = _ +', 'tempo'],
       ["; '", 'swing'],
       ['mouse', 'click buttons, paint steps, drag sliders, wheel notes'],
+      ['E', 'export midi, mp3 or wav'],
       ['? / esc', 'close help / quit'],
     ];
     const width = 74;
@@ -240,6 +319,10 @@ export function createDaw(io) {
   }
 
   function onKey({ key, ctrl, shift }) {
+    if (exportDialog) {
+      onExportKey({ key });
+      return;
+    }
     if (showHelp) {
       if (key === '?' || key === 'Escape' || key === 'q') showHelp = false;
       return;
@@ -249,6 +332,7 @@ export function createDaw(io) {
     const copySlot = SHIFTED_DIGITS.indexOf(key);
     if (key === 'Escape' || (ctrl && key === 'c')) program.quit();
     else if (key === '?') showHelp = true;
+    else if (key === 'E') openExport();
     else if (key === ' ') engine.togglePlayback();
     else if (key === 'Enter') engine.toggleStep(cursor.track, cursor.step);
     else if (key === '/') engine.cycleVelocity(cursor.track, cursor.step);
@@ -279,6 +363,8 @@ export function createDaw(io) {
     else if (key === 'n') engine.toggleRecording();
   }
 
+  engine.loadSamples();
+
   const program = runFullScreen(io, {
     animate: true,
     draw(ui, seconds) {
@@ -302,10 +388,12 @@ export function createDaw(io) {
         ['[ ]', 'adjust'],
         ['1-8', 'pattern'],
         ['n', 'rec'],
+        ['E', 'export'],
         ['?', 'all keys'],
         ['esc', 'quit'],
       ], 2);
       if (showHelp) drawHelp(ui);
+      if (exportDialog) drawExport(ui);
     },
     onKey,
   });
