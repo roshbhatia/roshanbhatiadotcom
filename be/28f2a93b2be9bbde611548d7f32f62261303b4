@@ -1,0 +1,55 @@
+prototypes/desk/tty/device.js
+  s_a43a0238d530f5::t_90fdc2df139d07 1-35,38-60,62-100
+  s_a43a0238d530f5::t_1f0e3ef7b84a04 36-37,61
+prototypes/desk/tty/input.js
+  s_a43a0238d530f5::t_6dd1c57ad38e6a 1-70
+prototypes/desk/programs/full-screen.js
+  s_a43a0238d530f5::t_abfb681a7b584d 1-49
+prototypes/desk/filesystem.js
+  s_a43a0238d530f5::t_cac5812e6b6143 46-47
+prototypes/desk/sequencer.js
+  s_a43a0238d530f5::t_2297f6cac0ca74 1,3-6,8-12
+prototypes/desk/programs/vi.js
+  s_a43a0238d530f5::t_c7d507e1fa9037 25,294,303,309,321
+  s_a43a0238d530f5::t_1853be226e8307 1-24,26-293,295-302,304-308,310-320,322-350
+prototypes/desk/tty/widgets.js
+  s_a43a0238d530f5::t_51454382a96043 1-122,126-167
+  s_a43a0238d530f5::t_61796fc92ddc84 123-125
+prototypes/desk/tty/screen.js
+  s_a43a0238d530f5::t_354b9ae7cff07c 1-120
+prototypes/desk/programs/document.js
+  s_a43a0238d530f5::t_0b4256fd925e79 1-137
+prototypes/desk/programs/daw.js
+  s_a43a0238d530f5::t_e6b6dfa365ab0a 25-26,32-33,73,189-203,293-294
+  s_a43a0238d530f5::t_c7d507e1fa9037 234
+  s_a43a0238d530f5::t_6f7e946d33fae2 1-24,27-31,34-72,74-188,204-233,235-292,295-313
+prototypes/desk/programs/shell.js
+  s_a43a0238d530f5::t_1a80be483dcab4 145
+  s_a43a0238d530f5::t_179e3119dcf6f4 4,167
+  s_a43a0238d530f5::t_cba6998e7481aa 1-3,5-144,146-166,168-389
+prototypes/desk/tty/ansi.js
+  s_a43a0238d530f5::t_b0e04bd7deb991 1-67
+prototypes/desk/terminal.js
+  s_a43a0238d530f5::t_054b14956e80b6 2-5,7,11-12,14-16,18-22,24,26-48,51-56,60-67,72,74,76,79-98,102-104,107-112,115-116
+  s_a43a0238d530f5::t_1f0e3ef7b84a04 8-9,59
+prototypes/desk/programs/less.js
+  s_a43a0238d530f5::t_06a3ea97f4ee76 1-89
+prototypes/desk/sequencer-engine.js
+  s_a43a0238d530f5::t_16d1cc2411a1d8 1-395
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "be28f2a93b2be9bbde611548d7f32f62261303b4",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
