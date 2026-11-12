@@ -61,3 +61,6 @@ pnpm-debug.log*
 
 # Static site assembled by scripts/build-site.sh
 _site/
+
+# Ripped game models for local preview only; never commit or deploy (third-party copyright)
+prototypes/assets/ps2/

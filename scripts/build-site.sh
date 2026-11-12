@@ -12,6 +12,8 @@ mkdir -p "$output_dir"
 
 cp "$source_dir/desk.js" "$output_dir/"
 cp -R "$source_dir/desk" "$source_dir/shared" "$source_dir/assets" "$source_dir/writing" "$output_dir/"
+# Local-only preview assets (ripped game models) must never be published.
+rm -rf "$output_dir/assets/ps2"
 for file in favicon.svg favicon.ico apple-touch-icon.png icon-192.png icon-512.png robots.txt sitemap.xml site.webmanifest 404.html og-image.png; do
   if [[ -f "$meta_dir/$file" ]]; then cp "$meta_dir/$file" "$output_dir/"; else echo "build-site: skipping missing $file" >&2; fi
 done
