@@ -43,6 +43,8 @@ const CREDITS = `credits and licenses
 
 three.js            MIT          https://threejs.org
 cannon-es           MIT          https://github.com/pmndrs/cannon-es
+ghostty-web         MIT          https://github.com/coder/ghostty-web
+Ghostty (libghostty-vt) MIT     https://ghostty.org
 VT323, Michroma     OFL-1.1      https://fonts.google.com
 xkcd 1168 and 378   CC BY-NC 2.5 https://xkcd.com (Randall Munroe)
 `;
