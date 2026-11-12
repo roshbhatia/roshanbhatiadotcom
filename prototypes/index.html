@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Website demos</title>
+    <link rel="stylesheet" href="shared/base.css" />
+    <style>
+      body {
+        overflow: auto;
+        background: linear-gradient(180deg, #9fd6ff 0%, #dff2ff 55%, #ffffff 100%) fixed;
+      }
+      main {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 64px 16px;
+      }
+      h1 {
+        font-family: Michroma, sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin: 0 0 8px;
+      }
+      .intro {
+        margin: 0 0 32px;
+        opacity: 0.75;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+      .grid a {
+        display: block;
+        padding: 20px;
+        color: var(--ink);
+        text-decoration: none;
+        transition: transform 0.25s cubic-bezier(0.2, 1.6, 0.4, 1);
+      }
+      .grid a:hover {
+        transform: translateY(-4px) scale(1.02);
+      }
+      .grid h2 {
+        font-family: Michroma, sans-serif;
+        font-weight: 400;
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        margin: 0 0 8px;
+        color: var(--accent);
+      }
+      .grid p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>website demos</h1>
+      <p class="intro">candidate centerpieces. sound starts after your first click or key press.</p>
+      <div class="grid">
+        <a class="glass" href="desk.html">
+          <h2>05 desk</h2>
+          <p>beige pc on a desk. full-size buckling-spring keyboard, crt terminal, and a step sequencer: type daw, press enter.</p>
+        </a>
+        <a class="glass" href="keyboard.html">
+          <h2>01 keyboard</h2>
+          <p>translucent ice-blue keyboard. every key clicks, thocks and plays a pentatonic chime.</p>
+        </a>
+        <a class="glass" href="blob.html">
+          <h2>02 jelly</h2>
+          <p>iridescent soft body you stretch and squish, with floating bubbles to pop.</p>
+        </a>
+        <a class="glass" href="grotto.html">
+          <h2>03 grotto</h2>
+          <p>the dungeon idea in soft club colors: crystal-lit room, glass objects to knock over, a box holding the links.</p>
+        </a>
+        <a class="glass" href="pile.html">
+          <h2>04 pile</h2>
+          <p>jelly letter keycaps fall into a glass tray. drag, fling, stack, type to add more.</p>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>

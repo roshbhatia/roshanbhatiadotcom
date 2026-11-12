@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Michroma&display=swap');
+
+:root {
+  --glass: rgba(255, 255, 255, 0.55);
+  --glass-edge: rgba(255, 255, 255, 0.95);
+  --ink: #2a4a6b;
+  --accent: #1d7fe0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #e8f6ff;
+  color: var(--ink);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+canvas {
+  display: block;
+  touch-action: none;
+}
+
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: 18px;
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  box-shadow:
+    0 10px 30px rgba(60, 140, 220, 0.18),
+    inset 0 1px 0 #fff;
+}
+
+.hud {
+  position: fixed;
+  left: 16px;
+  top: 16px;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  max-width: min(320px, calc(100vw - 32px));
+  user-select: none;
+}
+
+.hud h1 {
+  font-family: Michroma, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  font-weight: 400;
+  margin: 0 0 6px;
+  color: var(--accent);
+}
+
+.hud p {
+  margin: 0;
+  opacity: 0.8;
+}
+
+.back {
+  position: fixed;
+  right: 16px;
+  top: 16px;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 999px;
+}
+
+.links {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translate(-50%, 20px);
+  padding: 14px 22px;
+  display: flex;
+  gap: 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.2, 1.4, 0.4, 1);
+  font-family: Michroma, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+.links.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.links a {
+  color: var(--accent);
+  text-decoration: none;
+}

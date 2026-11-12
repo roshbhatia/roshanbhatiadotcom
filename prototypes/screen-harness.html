@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Screen harness</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap" />
+    <style>
+      body { margin: 0; background: #111; display: grid; place-items: center; min-height: 100vh; }
+      canvas { width: min(100vw, 1024px); image-rendering: auto; }
+    </style>
+    <script type="importmap">
+      { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/", "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js" } }
+    </script>
+  </head>
+  <body>
+    <canvas id="screen" width="1024" height="768"></canvas>
+    <script type="module">
+      import { createTerminal } from './desk/terminal.js';
+      import { createSequencer } from './desk/sequencer.js';
+      import './shared/audio.js';
+
+      // Draws the screen apps flat in 2D, without the 3D scene, for testing the apps in isolation.
+      const canvas = document.getElementById('screen');
+      const context = canvas.getContext('2d');
+      const apps = {};
+      let active;
+      const launch = (name) => { active = apps[name]; active.open?.(); };
+      apps.terminal = createTerminal({ launch });
+      apps.daw = createSequencer({ exit: () => launch('terminal') });
+      active = apps.terminal;
+      window.harness = { apps, get active() { return active; } };
+
+      const toCanvas = (event) => {
+        const rect = canvas.getBoundingClientRect();
+        return [((event.clientX - rect.left) / rect.width) * 1024, ((event.clientY - rect.top) / rect.height) * 768];
+      };
+      window.addEventListener('keydown', (event) => {
+        if (event.metaKey) return;
+        event.preventDefault();
+        active.handleKey({ key: event.key, code: event.code, shift: event.shiftKey, ctrl: event.ctrlKey, alt: event.altKey });
+      });
+      let dragging = false;
+      canvas.addEventListener('pointerdown', (event) => { dragging = true; active.handlePointer('down', ...toCanvas(event), { shift: event.shiftKey }); });
+      window.addEventListener('pointermove', (event) => dragging && active.handlePointer('move', ...toCanvas(event), { shift: event.shiftKey }));
+      window.addEventListener('pointerup', () => { dragging = false; active.handlePointer('up'); });
+      canvas.addEventListener('wheel', (event) => { event.preventDefault(); active.handleWheel?.(...toCanvas(event), event.deltaY); }, { passive: false });
+      const frame = (time) => { active.draw(context, time / 1000); requestAnimationFrame(frame); };
+      document.fonts.load('32px VT323').finally(() => requestAnimationFrame(frame));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "roshan bhatia",
+  "short_name": "roshan",
+  "start_url": "/",
+  "display": "fullscreen",
+  "background_color": "#e8f6ff",
+  "theme_color": "#d9cfb6",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

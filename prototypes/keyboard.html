@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Keyboard demo</title>
+    <link rel="stylesheet" href="shared/base.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+          "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div class="hud glass">
+      <h1>roshan bhatia</h1>
+      <p>type on your keyboard or click the keys. type <b>github</b> or <b>linkedin</b> to open a link.</p>
+    </div>
+    <a class="back glass" href="./">all demos</a>
+    <nav class="links glass" id="links">
+      <a href="https://github.com/roshbhatia" target="_blank" rel="noopener">github</a>
+      <a href="https://www.linkedin.com/in/roshan-bhatia-2b1970a7/" target="_blank" rel="noopener">linkedin</a>
+    </nav>
+    <script type="module" src="keyboard.js"></script>
+  </body>
+</html>
