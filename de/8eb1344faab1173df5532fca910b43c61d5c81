@@ -1,0 +1,21 @@
+prototypes/desk/sequencer-export.js
+  s_a43a0238d530f5::t_f8833b9b74eab6 1-197
+prototypes/desk/programs/daw.js
+  s_a43a0238d530f5::t_d285598fd369fd 3,11-16,31-32,84-152,305,322-325,335,366-367,391,396
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "de8eb1344faab1173df5532fca910b43c61d5c81",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
