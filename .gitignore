@@ -58,3 +58,6 @@ pnpm-debug.log*
 
 # Exception: Track .specify/ directory for this project
 !.specify/
+
+# Static site assembled by scripts/build-site.sh
+_site/
