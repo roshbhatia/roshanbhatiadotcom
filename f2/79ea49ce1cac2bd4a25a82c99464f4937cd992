@@ -1,0 +1,143 @@
+prototypes/desk/interaction.js
+  s_a43a0238d530f5::t_b417fa5c08890b 25,72,179-180
+  s_a43a0238d530f5::t_21cc76df3fb1aa 151-152
+  s_a43a0238d530f5::t_5f6af566018ae8 1-24,26-71,73-150,153-178,181-257
+prototypes/desk/desk-drawing.js
+  s_a43a0238d530f5::t_339e280522fb58 1-87
+prototypes/desk/computer-model.js
+  s_a43a0238d530f5::t_31af710f3b55f5 369,393-396
+  s_a43a0238d530f5::t_21cc76df3fb1aa 1-368,370-392,397-481
+prototypes/desk.js
+  s_a43a0238d530f5::t_5f6af566018ae8 1-472,474-529,532,534-536,538-557,559-736,739-791
+  s_a43a0238d530f5::t_21cc76df3fb1aa 473,530-531,533,537,558,737-738
+prototypes/desk/cubicle.js
+  s_a43a0238d530f5::t_21cc76df3fb1aa 1-544
+prototypes/blob.html
+  s_a43a0238d530f5::t_1a4d6db41d4b52 1-30
+prototypes/blob.js
+  s_a43a0238d530f5::t_cfb5f05932acbd 1-238
+prototypes/desk.html
+  s_a43a0238d530f5::t_8895990867f29b 1-22
+prototypes/desk/cables.js
+  s_a43a0238d530f5::t_ff587e4a99c3a5 1-304
+prototypes/desk/filesystem.js
+  s_a43a0238d530f5::t_b1f3ceeee63275 1-199
+prototypes/desk/floppies.js
+  s_a43a0238d530f5::t_ac786d3068be85 1-202
+prototypes/desk/geometry.js
+  s_823df142a94f27::t_3f898ff0a2b911 1-101
+prototypes/desk/impact-audio.js
+  s_a43a0238d530f5::t_9d5a7272cb687b 1-100
+prototypes/desk/keyboard-model.js
+  s_a43a0238d530f5::t_a0fd20a6719d6c 1-291
+prototypes/desk/mug.js
+  s_a43a0238d530f5::t_664be399c54143 1-287
+prototypes/desk/pager.js
+  s_a43a0238d530f5::t_be8dd625e1d868 1-224
+prototypes/desk/pencil-cup.js
+  s_a43a0238d530f5::t_89c29e18a93796 1-110
+prototypes/desk/photo-frame.js
+  s_a43a0238d530f5::t_eb36fff945b8cf 1-183
+prototypes/desk/physics.js
+  s_a43a0238d530f5::t_5a80468fe5e22b 1-671
+prototypes/desk/props.js
+  s_a43a0238d530f5::t_b0364fd835c640 1-214
+prototypes/desk/sequencer.js
+  s_a43a0238d530f5::t_070a0ef535d221 1-688
+prototypes/desk/stress-ball.js
+  s_a43a0238d530f5::t_67a11c9d42089b 1-189
+prototypes/desk/terminal.js
+  s_a43a0238d530f5::t_c93c2a18c40351 1-331
+prototypes/desk/vi.js
+  s_a43a0238d530f5::t_59557d58694be0 1-395
+prototypes/grotto.html
+  s_a43a0238d530f5::t_4f3aba8aadeb07 1-30
+prototypes/grotto.js
+  s_a43a0238d530f5::t_60dedb91fdb6af 1-277
+prototypes/index.html
+  s_a43a0238d530f5::t_4a17703d33a250 1-88
+prototypes/keyboard.html
+  s_a43a0238d530f5::t_40f2c5e89147c0 1-30
+prototypes/keyboard.js
+  s_a43a0238d530f5::t_76c0042ad8c056 1-241
+prototypes/pile.html
+  s_a43a0238d530f5::t_7583c33ec039d0 1-30
+prototypes/pile.js
+  s_a43a0238d530f5::t_fe026c6921e9fe 1-200
+prototypes/screen-harness.html
+  s_a43a0238d530f5::t_a762b30d745952 1-51
+prototypes/serve.py
+  s_823df142a94f27::t_ff823085e3b64b 1-33
+prototypes/shared/audio.js
+  s_a43a0238d530f5::t_e03dee60f15b85 1-239
+prototypes/shared/stage.js
+  s_a43a0238d530f5::t_f195f2c54cecc5 1-135
+prototypes/site-meta/404.html
+  s_a43a0238d530f5::t_b26d236eca2ca4 1-36
+prototypes/site-meta/body.html
+  s_a43a0238d530f5::t_8d7bbfe0ae9c4d 1-12
+prototypes/site-meta/favicon.svg
+  s_a43a0238d530f5::t_fe99b43db03c01 1-9
+prototypes/site-meta/head.html
+  s_a43a0238d530f5::t_7483e1bee1193c 1-16
+prototypes/site-meta/robots.txt
+  s_a43a0238d530f5::t_2c6d5b39c09932 1-4
+prototypes/site-meta/site.webmanifest
+  s_a43a0238d530f5::t_54f1bfde072b76 1-12
+prototypes/site-meta/sitemap.xml
+  s_a43a0238d530f5::t_8cc06c9df46ef9 1-6
+prototypes/writing/000/post.md
+  s_a43a0238d530f5::t_e3e59173c3d90b 1-171
+prototypes/writing/index.json
+  s_a43a0238d530f5::t_6e525be2a2db9f 1-3
+prototypes/desk/ball-boundary.js
+  s_a9f4209e4ec49b::t_7bf67d08292940 1-86
+prototypes/desk/instruments.js
+  s_a43a0238d530f5::t_d92c705795fcf0 1-112
+prototypes/desk/paper-airplane.js
+  s_a9f4209e4ec49b::t_9e45f414d28b54 1-81
+prototypes/desk/phosphor.js
+  s_a43a0238d530f5::t_ac64d3c4687111 1-16
+prototypes/desk/power.js
+  s_a9f4209e4ec49b::t_43a867d088eece 1-61
+prototypes/desk/respawn-fade.js
+  s_a9f4209e4ec49b::t_e3388f371fe90c 1-46
+prototypes/desk/screen-output.js
+  s_a9f4209e4ec49b::t_55f9f2943a3729 1-122
+prototypes/desk/stapler-action.js
+  s_a9f4209e4ec49b::t_43743eb6c74227 1-92
+prototypes/shared/base.css
+  s_a43a0238d530f5::t_9720adfd29e4d1 1-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f279ea49ce1cac2bd4a25a82c99464f4937cd992",
+  "prompts": {},
+  "sessions": {
+    "s_823df142a94f27": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e37c8c01-c1a2-4d87-94a7-b84ec196ba06",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    },
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    },
+    "s_a9f4209e4ec49b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-adesk-physics-8934a0cf975dc4ba",
+        "model": "unknown"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
