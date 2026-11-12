@@ -1,0 +1,23 @@
+scripts/build-site.sh
+  s_a43a0238d530f5::t_0269162e2677d0 1-39
+.gitignore
+  s_a43a0238d530f5::t_0269162e2677d0 61-63
+.github/workflows/deploy.yml
+  s_a43a0238d530f5::t_0269162e2677d0 26-27,33,36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1185fd6e922426f25fda91b55e03e98b4ca66257",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
