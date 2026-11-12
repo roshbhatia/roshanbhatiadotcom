@@ -1,0 +1,39 @@
+prototypes/desk/sequencer-engine.js
+  s_a43a0238d530f5::t_3eb38f8af0bf07 3,10-11,14-23,53-54,203-242,245-247
+  s_a43a0238d530f5::t_a11012c7aa0079 29
+  s_a43a0238d530f5::t_12d27c84ff607a 138
+prototypes/assets/samples/tr808/COPYING
+  s_a43a0238d530f5::t_6ccc345e72c6d7 1-340
+prototypes/desk/instruments.js
+  s_a43a0238d530f5::t_927b2c34f70f61 4-5,11,16,21,26,33,36,39,42,47,53,56,63,68,74,87,92,97,103,109
+  s_a43a0238d530f5::t_e8d8b5c027cfd9 2,9,61,113-123
+prototypes/desk/sample-library.js
+  s_a43a0238d530f5::t_deaddb6f5065fd 43,47-49,108-109
+  s_a43a0238d530f5::t_87ecb39a285411 1-42,44-46,50-107,110-120
+prototypes/desk/filesystem.js
+  s_a43a0238d530f5::t_3df8cfb0a45fe1 49-51
+prototypes/assets/samples/tr808/SOURCE.txt
+  s_a43a0238d530f5::t_6ccc345e72c6d7 1-4
+prototypes/assets/samples/vcsl/SOURCE.txt
+  s_a43a0238d530f5::t_6ccc345e72c6d7 1-4
+scripts/fetch-sequencer-samples.sh
+  s_a43a0238d530f5::t_b789268a07808b 1-86
+prototypes/shared/audio.js
+  s_a43a0238d530f5::t_1b720395e0f7cd 39,65-68,72,75,101-104,106,110,137-140,142,144-145,150,155,158,161,164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fe582ca3b49d67c62bd49fdff9e473406d545f25",
+  "prompts": {},
+  "sessions": {
+    "s_a43a0238d530f5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "31c713be-8b6b-4ca7-ba13-10c15e5d710e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Roshan Bhatia <rshnbhatia@gmail.com>"
+    }
+  }
+}
