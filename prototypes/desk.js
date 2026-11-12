@@ -6,7 +6,7 @@ import { createComputer, createCrtOverlay } from './desk/computer-model.js';
 import { createTerminal } from './desk/terminal.js';
 import { createSequencer } from './desk/sequencer.js';
 import { createPhysics } from './desk/physics.js';
-import { createCubicle } from './desk/cubicle.js';
+import { createCubicle, WALL_SWITCH_HALF_SIZE, WALL_SWITCH_POSITION } from './desk/cubicle.js';
 import { createMug, createMugShards } from './desk/mug.js';
 import { createLamp, createPhone, createPowerStrip, createNotepad, createStapler } from './desk/props.js';
 import { createFloppies, createFloppyDrives } from './desk/floppies.js';
@@ -16,6 +16,7 @@ import { createRespawnFade } from './desk/respawn-fade.js';
 import { createDeskDrawing } from './desk/desk-drawing.js';
 import { createStaplerAction, PAPER_REACH } from './desk/stapler-action.js';
 import { createBallBoundary } from './desk/ball-boundary.js';
+import { createCoffee } from './desk/coffee.js';
 import { createPhotoFrame, createGlassShards } from './desk/photo-frame.js';
 import { createPencilCup, PENCIL_LENGTH } from './desk/pencil-cup.js';
 import { createStressBall } from './desk/stress-ball.js';
@@ -175,6 +176,7 @@ function getObstacles() {
 }
 
 const cables = createCableSystem({ scene, getObstacles });
+const coffee = createCoffee({ scene, physics, mug: assemblies.mug, getObstacles });
 const point = (x, y, z) => new THREE.Vector3(x, y, z);
 const outlets = powerStrip.anchors.outlets;
 cables.add({
@@ -257,6 +259,8 @@ physics.onImpact(({ body, other, speed, point: contact, owner, otherOwner }) => 
     if (!candidate || candidate.debris) continue;
     if (candidate.assembly === assemblies.mug && speed >= SHATTER_SPEED) {
       physics.defer(() => {
+        if (assemblies.mug.state === 'shattered') return;
+        coffee.dump();
         if (physics.shatterAssembly(assemblies.mug, createMugShards)) playShatter(contact.x);
       });
     }
@@ -351,6 +355,7 @@ const floppyDrives = createFloppyDrives({
 });
 physics.onReset((assembly) => {
   floppyDrives.forget(assembly);
+  if (assembly === assemblies.mug) coffee.refill();
   cables.reconnect();
 });
 
@@ -361,6 +366,8 @@ function resetScene() {
   power.setAll(SWITCH_DEFAULTS);
   deskDrawing.clear();
   staplerAction.clear();
+  coffee.refill();
+  coffee.clearStains();
 }
 
 // Pulling the surge protector's plug from the wall: everything loses power, the view fades to black, the desk
@@ -414,6 +421,7 @@ const plugFixtures = [
   };
   return plug;
 });
+cubicle.wallSwitch.fixture.userData.interactive = () => power.toggle('overhead');
 // xkcd prints open their pages (CC BY-NC 2.5, credited on the print); the other print just gets a paper tap.
 for (const print of cubicle.prints) {
   print.object.userData.interactive = () => {
@@ -422,7 +430,11 @@ for (const print of cubicle.prints) {
   };
 }
 const deskDrawing = createDeskDrawing(scene);
-cubicle.desk.userData.interactive = ({ shift }) => shift && deskDrawing.clear();
+cubicle.desk.userData.interactive = ({ shift }) => {
+  if (!shift) return;
+  deskDrawing.clear();
+  coffee.clearStains();
+};
 
 const staplerAction = createStaplerAction({
   physics,
@@ -470,13 +482,13 @@ const switchParts = {
   computer: [assemblies.systemUnit, partNamed(assemblies.systemUnit, 'power switch'), (object, on) => object.rotation.set(on ? -0.28 : 0.28, 0, 0)],
   monitor: [assemblies.monitor, partNamed(assemblies.monitor, 'monitor power button'), (object, on, part) => (object.position.z = part.localPosition.z - (on ? 0.12 : 0))],
   lamp: [assemblies.lamp, partNamed(assemblies.lamp, 'lamp switch'), (object, on, part) => (object.position.y = part.localPosition.y - (on ? 0.1 : 0))],
-  overhead: [assemblies.monitor, partNamed(assemblies.monitor, 'room light switch'), (object, on) => object.rotation.set(on ? -0.28 : 0.28, 0, 0)],
 };
 function updateIndicators() {
   const { state, switches } = power;
   for (const [name, [assembly, part, pose]] of Object.entries(switchParts)) {
     if (assembly.state === 'intact') pose(part.object, switches[name], part);
   }
+  cubicle.wallSwitch.toggle.rotation.x = switches.overhead ? -0.3 : 0.3;
   powerStrip.rockerMaterial.emissiveIntensity = state.strip ? 1.3 : 0;
   computer.controls.computerLight.emissiveIntensity = state.computer ? LED_GLOW : 0;
   computer.controls.monitorLight.emissiveIntensity = state.monitor ? LED_GLOW : 0;
@@ -505,6 +517,7 @@ function onSingleClick(entry) {
     else floppyDrives.eject(drive);
     return;
   }
+  if (assembly === assemblies.mug && coffee.sip()) return;
   if (assembly === assemblies.stapler && assembly.state === 'intact') {
     staplerAction.staple();
     return;
@@ -630,20 +643,91 @@ window.addEventListener('resize', () => (deskPose = fitDeskPose()));
 camera.position.copy(deskPose.position);
 camera.lookAt(deskPose.target);
 
-// The DAW view sits head-on in front of the screen wherever the monitor ends up.
+// The zoomed view sits head-on in front of the screen wherever the monitor ends up. Within that, it may shift
+// sideways (keeping the same viewing direction) and back off a little so the wall light switch is in frame too.
+// The pose is searched only when the monitor or the viewport changes; if the switch cannot be framed without
+// losing the screen (the monitor was knocked away), the screen-only pose wins.
+const ZOOM_SEARCH = { maxBackOff: 1.35, distanceSteps: 10, maxShift: 6, shiftStep: 0.5, maxRise: 3, riseStep: 0.75 };
+const ZOOM_LIMITS = { screen: 0.95, switch: 0.72, minFill: 0.6 };
 const screenPosition = new THREE.Vector3();
 const screenQuaternion = new THREE.Quaternion();
 const screenNormal = new THREE.Vector3();
-const dawPose = { position: new THREE.Vector3(), target: new THREE.Vector3() };
+const screenRight = new THREE.Vector3();
+const screenUp = new THREE.Vector3();
+const dawPose = { position: new THREE.Vector3(), target: new THREE.Vector3(), switchFramed: false };
+const zoomCamera = new THREE.PerspectiveCamera(DAW_FIELD_OF_VIEW, 1, 0.1, 400);
+const zoomProbe = new THREE.Vector3();
+let zoomCacheKey = '';
+// Screen glass corners and bezel corners in the screen's local frame (the bezel is centred 0.4 lower than the glass).
+const SCREEN_CORNERS = [-1, 1].flatMap((sx) => [-1, 1].map((sy) => new THREE.Vector3((sx * SCREEN_SIZE.width) / 2, (sy * SCREEN_SIZE.height) / 2, 0.5)));
+const BEZEL_CORNERS = [-1, 1].flatMap((sx) => [-1, 1].map((sy) => new THREE.Vector3(sx * 9, -0.4 + sy * 7.75, -0.05)));
+const SWITCH_CORNERS = [-1, 1].flatMap((sx) => [-1, 1].map((sy) => new THREE.Vector3(sx * WALL_SWITCH_HALF_SIZE.width, sy * WALL_SWITCH_HALF_SIZE.height, 0).add(WALL_SWITCH_POSITION)));
+
+function projectedBounds(points, toWorld) {
+  const bounds = { minX: Infinity, maxX: -Infinity, minY: Infinity, maxY: -Infinity, behind: false };
+  for (const point of points) {
+    zoomProbe.copy(point);
+    if (toWorld) zoomProbe.applyMatrix4(computer.screen.matrixWorld);
+    zoomProbe.project(zoomCamera);
+    bounds.behind ||= zoomProbe.z > 1;
+    bounds.minX = Math.min(bounds.minX, zoomProbe.x);
+    bounds.maxX = Math.max(bounds.maxX, zoomProbe.x);
+    bounds.minY = Math.min(bounds.minY, zoomProbe.y);
+    bounds.maxY = Math.max(bounds.maxY, zoomProbe.y);
+  }
+  return bounds;
+}
+
+function evaluateZoom(distance, shift, rise) {
+  const target = screenPosition.clone().addScaledVector(screenRight, shift).addScaledVector(screenUp, rise);
+  zoomCamera.position.copy(target).addScaledVector(screenNormal, distance);
+  zoomCamera.lookAt(target);
+  zoomCamera.updateMatrixWorld();
+  const glass = projectedBounds(SCREEN_CORNERS, true);
+  const screenFits = !glass.behind && glass.minX >= -ZOOM_LIMITS.screen && glass.maxX <= ZOOM_LIMITS.screen && glass.minY >= -ZOOM_LIMITS.screen && glass.maxY <= ZOOM_LIMITS.screen;
+  const fill = (glass.maxX - glass.minX) / 2;
+  const wallSwitch = projectedBounds(SWITCH_CORNERS, false);
+  const bezel = projectedBounds(BEZEL_CORNERS, true);
+  const hiddenByMonitor = wallSwitch.maxX > bezel.minX && wallSwitch.minX < bezel.maxX && wallSwitch.maxY > bezel.minY && wallSwitch.minY < bezel.maxY;
+  const switchFramed =
+    !wallSwitch.behind && !hiddenByMonitor && Math.max(Math.abs(wallSwitch.minX), Math.abs(wallSwitch.maxX), Math.abs(wallSwitch.minY), Math.abs(wallSwitch.maxY)) <= ZOOM_LIMITS.switch;
+  return { target, position: zoomCamera.position.clone(), screenFits, fill, switchFramed };
+}
+
 function updateDawPose() {
   computer.screen.updateWorldMatrix(true, false);
+  const key = `${camera.aspect.toFixed(3)}|${computer.screen.matrixWorld.elements.map((value) => value.toFixed(2)).join(',')}`;
+  if (key === zoomCacheKey) return dawPose;
+  zoomCacheKey = key;
   computer.screen.matrixWorld.decompose(screenPosition, screenQuaternion, new THREE.Vector3());
   screenNormal.set(0, 0, 1).applyQuaternion(screenQuaternion);
+  screenRight.set(1, 0, 0).applyQuaternion(screenQuaternion);
+  screenUp.set(0, 1, 0).applyQuaternion(screenQuaternion);
+  zoomCamera.aspect = camera.aspect;
+  zoomCamera.updateProjectionMatrix();
   const halfTangent = Math.tan(THREE.MathUtils.degToRad(DAW_FIELD_OF_VIEW / 2));
   const widthFit = SCREEN_SIZE.width / 2 / (DAW_SCREEN_WIDTH_FRACTION * halfTangent * camera.aspect);
   const heightFit = SCREEN_SIZE.height / 2 / (0.92 * halfTangent);
-  dawPose.position.copy(screenPosition).addScaledVector(screenNormal, Math.max(widthFit, heightFit));
-  dawPose.target.copy(screenPosition);
+  const baseDistance = Math.max(widthFit, heightFit);
+  let best = evaluateZoom(baseDistance, 0, 0);
+  let bestCost = Infinity;
+  for (let step = 0; step <= ZOOM_SEARCH.distanceSteps; step += 1) {
+    const distance = baseDistance * (1 + ((ZOOM_SEARCH.maxBackOff - 1) * step) / ZOOM_SEARCH.distanceSteps);
+    for (let shift = -ZOOM_SEARCH.maxShift; shift <= ZOOM_SEARCH.maxShift; shift += ZOOM_SEARCH.shiftStep) {
+      for (let rise = -ZOOM_SEARCH.maxRise; rise <= ZOOM_SEARCH.maxRise; rise += ZOOM_SEARCH.riseStep) {
+        const candidate = evaluateZoom(distance, shift, rise);
+        if (!candidate.screenFits || !candidate.switchFramed) continue;
+        const cost = distance - baseDistance + 0.05 * (shift * shift + rise * rise) + (candidate.fill < ZOOM_LIMITS.minFill ? 40 * (ZOOM_LIMITS.minFill - candidate.fill) : 0);
+        if (cost < bestCost) {
+          bestCost = cost;
+          best = candidate;
+        }
+      }
+    }
+  }
+  dawPose.position.copy(best.position);
+  dawPose.target.copy(best.target);
+  dawPose.switchFramed = best.switchFramed;
   return dawPose;
 }
 
@@ -735,7 +819,7 @@ const stats = { fps: 0, frameMs: 0 };
 let statsFrames = 0;
 let statsStart = performance.now();
 // Debug handle for console inspection and automated checks, only with ?debug in the URL.
-if (new URLSearchParams(window.location.search).has('debug')) window.__desk = { camera, scene, renderer, physics, assemblies, cables, stats, power, floppyDrives, apps, resetScene, deskDrawing, staplerAction, cubicle, blackout, get activeApp() { return activeApp; } };
+if (new URLSearchParams(window.location.search).has('debug')) window.__desk = { camera, scene, renderer, physics, assemblies, cables, stats, power, floppyDrives, apps, resetScene, deskDrawing, staplerAction, cubicle, blackout, coffee, get activeApp() { return activeApp; } };
 
 const tick = createClock();
 const lookTarget = deskPose.target.clone();
@@ -748,6 +832,7 @@ function animate() {
   stressBall.update(delta);
   floppyDrives.update(delta);
   respawnFade.update(delta);
+  coffee.update(delta);
   staplerAction.update(delta);
   ballBoundary.update(delta, placeDeskCamera());
   deskDrawing.update(pencilTip(), delta);

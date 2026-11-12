@@ -53,7 +53,6 @@ export function createMug() {
 
   const body = createPart(root, 'mug body');
   addMesh(body, createBodyGeometry(), glaze);
-  addMesh(body, new THREE.CircleGeometry(1.3, 32), new THREE.MeshStandardMaterial({ color: 0x4a2c1a, roughness: 0.12 }), [0, 2.9, 0], [-Math.PI / 2, 0, 0]);
   const handle = createPart(root, 'mug handle');
   addMesh(handle, new THREE.TubeGeometry(createHandleCurve(), 24, 0.2, 10, false), glaze);
 

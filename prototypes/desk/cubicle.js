@@ -374,11 +374,28 @@ const PRINTS = [
   },
 ];
 
+// The overhead light's rocker switch on a wall plate right of the monitor, above the outlet. The toggle tilts up
+// when the lights are on; an invisible, larger box around it makes it easy to hit.
+export const WALL_SWITCH_POSITION = new THREE.Vector3(18.6, 8.3, WALL_BOUNDS.backZ + 0.12);
+export const WALL_SWITCH_HALF_SIZE = { width: 1.1, height: 1.6 };
+function addWallSwitch(group) {
+  const fixture = new THREE.Group();
+  fixture.name = 'overhead light switch';
+  fixture.position.copy(WALL_SWITCH_POSITION);
+  group.add(fixture);
+  addMesh(fixture, new RoundedBoxGeometry(WALL_SWITCH_HALF_SIZE.width * 2, WALL_SWITCH_HALF_SIZE.height * 2, 0.26, 2, 0.1), plastic(0xefe9da, 0.45));
+  const toggle = addMesh(fixture, new RoundedBoxGeometry(0.95, 1.5, 0.45, 2, 0.15), plastic(0xf7f3ea, 0.4), [0, 0, 0.22]);
+  const hitArea = new THREE.Mesh(new THREE.BoxGeometry(3.6, 4.4, 1.2), new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }));
+  hitArea.position.z = 0.4;
+  fixture.add(hitArea);
+  return { fixture, toggle };
+}
+
 // A duplex receptacle low on the partition behind the power strip; the strip's cord plugs into its upper socket.
 function addWallOutlet(group) {
   const outlet = new THREE.Group();
   outlet.name = 'wall outlet';
-  outlet.position.set(17, 4.5, WALL_BOUNDS.backZ + 0.12);
+  outlet.position.set(17, 3.8, WALL_BOUNDS.backZ + 0.12);
   group.add(outlet);
   addMesh(outlet, new RoundedBoxGeometry(2.6, 4.2, 0.24, 2, 0.08), plastic(0xefe9da, 0.45));
   const faces = [0.9, -0.9].map((y) => place(new RoundedBoxGeometry(1.6, 1.3, 0.2, 2, 0.25), [0, y, 0.18]));
@@ -512,6 +529,7 @@ export function createCubicle(scene, physics) {
   createPinnedPapers(group);
   const prints = PRINTS.map((print) => ({ ...print, object: addPrint(group, print) }));
   const wallOutlet = addWallOutlet(group);
+  const wallSwitch = addWallSwitch(group);
 
   const carpet = createCarpetTexture();
   carpet.repeat.set(40, 40);
@@ -533,6 +551,7 @@ export function createCubicle(scene, physics) {
     grommet,
     phoneJack,
     wallOutlet,
+    wallSwitch,
     prints,
     desk,
     // Everything the overhead switch controls, with each item's full brightness.

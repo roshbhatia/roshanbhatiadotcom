@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { addMerged, addMesh, canvasTexture, createAnchor, createPart, metal, place, plastic } from './geometry.js';
+import { addMerged, addMesh, createAnchor, createPart, metal, place, plastic } from './geometry.js';
 import { box, cylinder } from './physics.js';
 
 export const SCREEN_WIDTH = 1024;
@@ -37,26 +37,6 @@ function taperedBox(width, height, depth, backScale, { openFront = false } = {})
   }
   geometry.computeVertexNormals();
   return geometry;
-}
-
-function createLightGlyphTexture() {
-  return canvasTexture(128, 128, (context) => {
-    context.clearRect(0, 0, 128, 128);
-    context.strokeStyle = '#4a4436';
-    context.fillStyle = '#4a4436';
-    context.lineWidth = 9;
-    context.lineCap = 'round';
-    context.beginPath();
-    context.arc(64, 64, 20, 0, Math.PI * 2);
-    context.fill();
-    for (let ray = 0; ray < 8; ray += 1) {
-      const angle = (ray / 8) * Math.PI * 2;
-      context.beginPath();
-      context.moveTo(64 + Math.cos(angle) * 34, 64 + Math.sin(angle) * 34);
-      context.lineTo(64 + Math.cos(angle) * 52, 64 + Math.sin(angle) * 52);
-      context.stroke();
-    }
-  });
 }
 
 function createCurvedScreenGeometry(width, height, bulge) {
@@ -361,14 +341,6 @@ function createMonitor(materials, screenMaterial) {
   const frontBezel = createPart(root, 'front bezel', [0, 9.2, 4.7]);
   addMesh(frontBezel, createBezelGeometry(), beige);
   addMesh(frontBezel, new THREE.CylinderGeometry(0.12, 0.12, 0.08, 12), powerLight, [2.6, -6.8, 1.82], [Math.PI / 2, 0, 0]);
-  // A small printed lamp glyph marks the bottom-left rocker as the room light, apart from the monitor's own power.
-  const glyph = addMesh(
-    frontBezel,
-    new THREE.PlaneGeometry(0.7, 0.7),
-    new THREE.MeshStandardMaterial({ map: createLightGlyphTexture(), transparent: true, emissive: 0xfff1c4, emissiveIntensity: 0.25, roughness: 0.8 }),
-    [-7.85, -0.45, 1.83],
-  );
-  glyph.castShadow = false;
   addMesh(frontBezel, new RoundedBoxGeometry(2.2, 0.45, 0.05, 2, 0.04), aluminium, [0, -6.8, 1.81]);
   parts.push({
     object: frontBezel,
@@ -390,11 +362,6 @@ function createMonitor(materials, screenMaterial) {
   addMesh(powerButton, new RoundedBoxGeometry(0.9, 0.5, 0.3, 2, 0.08), trim);
   parts.push({ object: powerButton, mass: 0.02 });
 
-  // The overhead light's rocker sits on the bezel's left side, beside the screen's lower corner, so it stays
-  // inside the frame both in the desk view and when the camera zooms in on the screen.
-  const roomLightSwitch = createPart(root, 'room light switch', [-7.85, 7.6, 6.66]);
-  addMesh(roomLightSwitch, new RoundedBoxGeometry(0.8, 1.15, 0.34, 2, 0.1), plastic(0xf4eedd, 0.4));
-  parts.push({ object: roomLightSwitch, mass: 0.02 });
 
   return {
     spec: {
@@ -415,7 +382,6 @@ function createMonitor(materials, screenMaterial) {
     screenGlow,
     powerButton,
     powerLight,
-    roomLightSwitch,
   };
 }
 
