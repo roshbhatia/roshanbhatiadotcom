@@ -1,0 +1,4 @@
+TR808EmulationKit by ArtemioLabs (http://artemiolabs.com), distributed with the Hydrogen drum machine.
+License: GNU General Public License, version 2 (see COPYING in this directory).
+Source: https://github.com/hydrogen-music/hydrogen/tree/a612c74060d68d443d75bd61daf7e5fd46d6f0dc/data/drumkits/TR808EmulationKit
+The files are unmodified copies of 808_<name>.flac, renamed to <name>.flac.

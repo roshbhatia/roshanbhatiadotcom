@@ -1,0 +1,4 @@
+Versilian Community Sample Library (VCSL) by Versilian Studios.
+License: CC0 1.0 Universal (public domain dedication).
+Source: https://github.com/sgossner/VCSL/tree/c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e
+Files were converted to mono 44.1 kHz FLAC and trimmed with a short fade-out by scripts/fetch-sequencer-samples.sh.

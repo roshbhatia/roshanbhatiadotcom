@@ -1,30 +1,32 @@
 import { audioTime, createChannel, onAudioUnlock, midiToFrequency } from '../shared/audio.js';
 import { DRUM_VOICES, NOTE_VOICES, DRUM_VOICE_NAMES, NOTE_VOICE_NAMES } from './instruments.js';
+import { loadSamples } from './sample-library.js';
 
 export const STEPS = 16;
 export const PATTERN_COUNT = 8;
 const LOOKAHEAD_SECONDS = 0.12;
 const SCHEDULER_INTERVAL_MS = 25;
 const STORAGE_KEY = 'desk-sequencer-v1';
-const STATE_VERSION = 1;
+// Version 2 switched the default voices to the open-source sample kits.
+const STATE_VERSION = 2;
 
 export const TRACKS = [
-  { name: 'KICK', voice: 'KICK' },
-  { name: 'SNARE', voice: 'SNARE' },
-  { name: 'CLAP', voice: 'CLAP' },
-  { name: 'HAT', voice: 'HAT' },
-  { name: 'OPEN HAT', voice: 'OPEN HAT' },
-  { name: 'TOM', voice: 'TOM' },
-  { name: 'PERC', voice: 'RIM' },
-  { name: 'BASS', voice: 'BASS', melodic: true, baseNote: 36 },
-  { name: 'LEAD', voice: 'PLUCK', melodic: true, baseNote: 60 },
-  { name: 'KEYS', voice: 'BELL', melodic: true, baseNote: 72 },
+  { name: 'KICK', voice: '808 KICK' },
+  { name: 'SNARE', voice: '808 SNARE' },
+  { name: 'CLAP', voice: '808 CLAP' },
+  { name: 'HAT', voice: '808 HAT' },
+  { name: 'OPEN HAT', voice: '808 OPEN HAT' },
+  { name: 'TOM', voice: '808 TOM MID' },
+  { name: 'PERC', voice: '808 CLAVE' },
+  { name: 'BASS', voice: 'SYNTH BASS', melodic: true, baseNote: 36 },
+  { name: 'LEAD', voice: 'CLAVI', melodic: true, baseNote: 60 },
+  { name: 'KEYS', voice: 'VIBES', melodic: true, baseNote: 72 },
 ];
 const VELOCITY_GAIN = [0, 0.45, 0.8, 1];
 export const SCALE_OFFSETS = [0, 2, 4, 7, 9, 12, 14, 16, 19];
 const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 export const noteName = (midi) => `${NOTE_NAMES[midi % 12]}${Math.floor(midi / 12) - 1}`;
-const cutoffFor = (tone) => 200 * 90 ** tone;
+export const cutoffFor = (tone) => 200 * 90 ** tone;
 
 export const PARAMS = [
   { key: 'volume', label: 'VOL', min: 0, max: 1, step: 0.05, format: (value) => `${Math.round(value * 100)}` },
@@ -48,15 +50,8 @@ function createStarterPattern() {
       pattern.tracks[track].steps[step] = { velocity, note: note ?? TRACKS[track].baseNote ?? 60 };
     }
   };
-  place(0, [[0, 3], [4, 2], [8, 3], [10, 1], [12, 2]]);
-  place(1, [[4, 3], [12, 3], [15, 1]]);
-  place(2, [[12, 2]]);
-  place(3, [[2, 2], [6, 2], [10, 2], [14, 2], [1, 1], [5, 1], [9, 1], [13, 1]]);
-  place(4, [[15, 2]]);
-  place(6, [[7, 1], [11, 2]]);
-  place(7, [[0, 3, 36], [3, 2, 36], [6, 2, 43], [8, 3, 36], [11, 2, 39], [14, 2, 41]]);
-  place(8, [[0, 2, 72], [3, 2, 76], [6, 2, 79], [10, 2, 76], [12, 3, 81], [14, 1, 74]]);
-  place(9, [[0, 2, 64], [8, 2, 67]]);
+  // Four on the floor: a kick on every beat.
+  place(0, [[0, 3], [4, 3], [8, 3], [12, 3]]);
   return pattern;
 }
 
@@ -140,14 +135,7 @@ function createSequencerEngine() {
   function triggerTrack(track, time, velocity = 2, note) {
     const channel = ensureChannel(track);
     if (!channel) return;
-    const settings = state.tracks[track];
-    const gain = VELOCITY_GAIN[velocity];
-    if (TRACKS[track].melodic) {
-      const frequency = midiToFrequency((note ?? TRACKS[track].baseNote) + settings.pitch);
-      NOTE_VOICES[settings.voice](time, { frequency, decay: settings.decay, gain, destination: channel.input });
-    } else {
-      DRUM_VOICES[settings.voice](time, { ratio: 2 ** (settings.pitch / 12), decay: settings.decay, gain, destination: channel.input });
-    }
+    renderTrack(track, time, velocity, note, channel.input);
     flashUntil[track] = time + 0.12;
   }
 
@@ -212,8 +200,51 @@ function createSequencerEngine() {
     return elapsedSteps > 0.5 ? lastPlayed.tick + 1 : lastPlayed.tick;
   }
 
+  // Lays out every note of `bars` bars from the current pattern (following chain mode), with swing,
+  // mutes and solos applied. Times are in seconds from the start. Used by the MIDI and audio export.
+  function arrange(bars) {
+    const events = [];
+    const duration = stepDuration();
+    const anySolo = state.tracks.some((track) => track.solo);
+    let patternIndex = state.patternIndex;
+    for (let step = 0; step < bars * STEPS; step += 1) {
+      if (step > 0 && step % STEPS === 0 && state.chain) {
+        for (let offset = 1; offset < PATTERN_COUNT; offset += 1) {
+          const candidate = (patternIndex + offset) % PATTERN_COUNT;
+          if (patternHasSteps(state.patterns[candidate])) {
+            patternIndex = candidate;
+            break;
+          }
+        }
+      }
+      const time = step * duration + (step % 2 === 1 ? state.swing * duration : 0);
+      state.patterns[patternIndex].tracks.forEach((lane, track) => {
+        const entry = lane.steps[step % lane.length];
+        const settings = state.tracks[track];
+        if (!entry || settings.mute || (anySolo && !settings.solo)) return;
+        events.push({ time, step, track, velocity: entry.velocity, note: entry.note });
+      });
+    }
+    return { events, stepSeconds: duration, totalSeconds: bars * STEPS * duration };
+  }
+
+  // Plays one track's voice into any destination (the live mixer or an offline export mixer).
+  function renderTrack(track, time, velocity, note, destination) {
+    const settings = state.tracks[track];
+    const gain = VELOCITY_GAIN[velocity];
+    if (TRACKS[track].melodic) {
+      const frequency = midiToFrequency((note ?? TRACKS[track].baseNote) + settings.pitch);
+      NOTE_VOICES[settings.voice](time, { frequency, decay: settings.decay, gain, destination });
+    } else {
+      DRUM_VOICES[settings.voice](time, { ratio: 2 ** (settings.pitch / 12), decay: settings.decay, gain, destination });
+    }
+  }
+
   const engine = {
     state,
+    arrange,
+    renderTrack,
+    loadSamples,
     laneFor,
     lastNoteOn,
     paramRange,

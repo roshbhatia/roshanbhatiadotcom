@@ -36,7 +36,7 @@ function connectWithPan(node, pan, destination = output) {
     node.connect(destination);
     return;
   }
-  const panner = context.createStereoPanner();
+  const panner = node.context.createStereoPanner();
   panner.pan.value = Math.max(-1, Math.min(1, pan));
   node.connect(panner);
   panner.connect(destination);
@@ -62,16 +62,17 @@ export function tone({
   pan = 0,
   destination,
 }) {
-  if (!context) return;
-  const start = context.currentTime + delay;
-  const oscillator = context.createOscillator();
+  const audio = destination?.context ?? context;
+  if (!audio) return;
+  const start = audio.currentTime + delay;
+  const oscillator = audio.createOscillator();
   oscillator.type = type;
   oscillator.frequency.setValueAtTime(frequency, start);
   oscillator.frequency.exponentialRampToValueAtTime(Math.max(endFrequency, 1), start + duration);
-  const envelope = context.createGain();
+  const envelope = audio.createGain();
   shapeEnvelope(envelope, start, gain, attack, duration);
   if (filterFrequency) {
-    const filter = context.createBiquadFilter();
+    const filter = audio.createBiquadFilter();
     filter.type = 'lowpass';
     filter.Q.value = filterQ;
     filter.frequency.setValueAtTime(filterFrequency, start);
@@ -97,15 +98,16 @@ export function noise({
   pan = 0,
   destination,
 }) {
-  if (!context) return;
-  const start = context.currentTime + delay;
-  const source = context.createBufferSource();
+  const audio = destination?.context ?? context;
+  if (!audio || !noiseBuffer) return;
+  const start = audio.currentTime + delay;
+  const source = audio.createBufferSource();
   source.buffer = noiseBuffer;
-  const filter = context.createBiquadFilter();
+  const filter = audio.createBiquadFilter();
   filter.type = type;
   filter.frequency.value = frequency;
   filter.Q.value = q;
-  const envelope = context.createGain();
+  const envelope = audio.createGain();
   shapeEnvelope(envelope, start, gain, attack, duration);
   source.connect(filter);
   filter.connect(envelope);
@@ -132,34 +134,34 @@ function createDriveCurve(amount) {
 }
 
 // A mixer channel: drive (waveshaper) -> tone (lowpass) -> volume -> pan -> master.
-export function createChannel() {
-  if (!context) return null;
-  const input = context.createGain();
-  const shaper = context.createWaveShaper();
+export function createChannel(audio = context, destination = output) {
+  if (!audio) return null;
+  const input = audio.createGain();
+  const shaper = audio.createWaveShaper();
   shaper.oversample = '4x';
-  const toneFilter = context.createBiquadFilter();
+  const toneFilter = audio.createBiquadFilter();
   toneFilter.type = 'lowpass';
-  const volume = context.createGain();
-  const panner = context.createStereoPanner();
+  const volume = audio.createGain();
+  const panner = audio.createStereoPanner();
   input.connect(shaper);
   shaper.connect(toneFilter);
   toneFilter.connect(volume);
   volume.connect(panner);
-  panner.connect(output);
+  panner.connect(destination);
   return {
     input,
     setDrive(amount) {
       shaper.curve = amount > 0 ? createDriveCurve(amount) : null;
-      input.gain.setTargetAtTime(1 + amount * 2, context.currentTime, 0.01);
+      input.gain.setTargetAtTime(1 + amount * 2, audio.currentTime, 0.01);
     },
     setTone(cutoff) {
-      toneFilter.frequency.setTargetAtTime(cutoff, context.currentTime, 0.01);
+      toneFilter.frequency.setTargetAtTime(cutoff, audio.currentTime, 0.01);
     },
     setVolume(level) {
-      volume.gain.setTargetAtTime(level, context.currentTime, 0.01);
+      volume.gain.setTargetAtTime(level, audio.currentTime, 0.01);
     },
     setPan(position) {
-      panner.pan.setTargetAtTime(position, context.currentTime, 0.01);
+      panner.pan.setTargetAtTime(position, audio.currentTime, 0.01);
     },
   };
 }

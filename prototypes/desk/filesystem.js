@@ -46,6 +46,9 @@ cannon-es           MIT          https://github.com/pmndrs/cannon-es
 ghostty-web         MIT          https://github.com/coder/ghostty-web
 Ghostty (libghostty-vt) MIT     https://ghostty.org
 VT323, Michroma     OFL-1.1      https://fonts.google.com
+TR808EmulationKit   GPL-2.0      ArtemioLabs, via Hydrogen: https://github.com/hydrogen-music/hydrogen
+VCSL samples        CC0-1.0      Versilian Studios: https://github.com/sgossner/VCSL
+lamejs (mp3 export) LGPL-3.0     https://github.com/zhuker/lamejs
 xkcd 1168 and 378   CC BY-NC 2.5 https://xkcd.com (Randall Munroe)
 `;
 
